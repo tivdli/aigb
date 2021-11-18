@@ -14,7 +14,7 @@
     .slidecontainer {
       width: 100%;
     }
-    
+
     .slider {
       -webkit-appearance: none;
       width: 100%;
@@ -25,11 +25,11 @@
       -webkit-transition: .2s;
       transition: opacity .2s;
     }
-    
+
     .slider:hover {
       opacity: 1;
     }
-    
+
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
@@ -38,7 +38,7 @@
       background: #28A745;
       cursor: pointer;
     }
-    
+
     .slider::-moz-range-thumb {
       width: 25px;
       height: 25px;
@@ -53,7 +53,7 @@
     <div class="container">
       <div class="row justify-content-md-center">
         <div class="col-md-6 text-center">
-          <h1><i class="fas fa-leaf"></i>  AIGB Control Panel v0</h1>
+          <h1><i class="fas fa-leaf"></i> AIGB Control Panel v0</h1>
         </div>
       </div>
     </div>
@@ -62,68 +62,161 @@
   <section class="py-5 bg-white">
     <div class="container">
       <h2 class="deck-title">Quick controls</h2>
-      <div class="row">
-        
-                    <!-- Pumpblock -->
-        <div class="col">
-          <div class="card bg-light m-2" style="min-height: 15rem;">
 
 
-            <div class="card-header">Pump controls</div>
-            <div class="card-body">
-              <h5 class="card-title">Pump power: <em id="wpp_plc">0</em>%</h5>
-              <div class="slidecontainer">
-                <input type="range" min="0" max="100" value="0" class="slider" id="wpp_out">
-              </div>
-              <div style="padding-top:40px;" class="d-flex justify-content-center"><button id="wpb_btn"><i id="wpb_out" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+      <!-- Quick controls -->
+      <div class="card-deck">
+        <!-- Pumpblock -->
+        <div class="card bg-light m-2 text-center" style="min-height: 15rem;">
+
+
+          <div class="card-header">Pump controls</div>
+          <div class="card-body">
+            <h5 class="card-title">Pump power: <em id="wpp_plc">0</em>%</h5>
+            <div class="slidecontainer">
+              <input type="range" min="0" max="100" value="0" class="slider" id="wpp_out">
             </div>
           </div>
+          <div class="d-flex justify-content-center card-footer"><button id="wpb_btn"><i id="wpb_out"
+                class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
-                    <!-- Lightblock -->
-        <div class="col">
-          <div class="card bg-light m-2" style="min-height: 15rem;">
-            <div class="card-header">Light controls</div>
-            <div class="card-body">
-              <h5 class="card-title">Light power: <em id="lcp_plc">0</em>%</h5>
-              <div class="slidecontainer">
-                <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
-              </div>
-              <div class="card-text">
-                <h6 class="card-title">Sensor readouts</h6>
-                <div class="text-left">Top: <em id="lcs_tout">0</em> lm</div> <div class="text-center">Mid: <em id="lcs_mout">0</em> lm</div> <div class="text-right">Bottom: <em id="lcs_bout">0</em> lm</div>
-              </div>
-              <h5 class="card-title d-flex justify-content-center"><i class="fas fa-lightbulb" id="lcc_in"></i>RGB</h5>
-              <div class="slidecontainer">
-                <input style="background:#000000;"type="range" min="0" max="255" value="0" class="slider" id="lcc_rout">
-                <input style="background:#000000;"type="range" min="0" max="255" value="0" class="slider" id="lcc_gout">
-                <input style="background:#000000;"type="range" min="0" max="255" value="0" class="slider" id="lcc_bout">
-              </div>
-              <div style="padding-top:40px;" class="d-flex justify-content-center"><button id="lcb_btn"><i id="lcb_out" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+        <!-- Lightblock -->
+        <div class="card bg-light m-2" style="min-height: 15rem;">
+          <div class="card-header">Light controls</div>
+          <div class="card-body">
+            <h5 class="card-title">Light power: <em id="lcp_plc">0</em>%</h5>
+            <div class="slidecontainer">
+              <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
+            </div>
+            <div class="card-text">
+              <h6 class="card-title">Sensor readouts</h6>
+              <table style="width:100%;">
+                <tr>
+                  <td>Top:</td>
+                  <td id="lcs_tout">0</td>
+                  <td>lm</td>
+                </tr>
+                <tr>
+                  <td>Mid:</td>
+                  <td id="lcs_mout">0</td>
+                  <td>lm</td>
+                </tr>
+                <tr>
+                  <td>Bottom:</td>
+                  <td id="lcs_bout">0</td>
+                  <td>lm</td>
+                </tr>
+              </table>
+            </div>
+            <h5 class="card-title d-flex justify-content-center"><i class="fas fa-lightbulb" id="lcc_in"></i>RGB</h5>
+            <div class="slidecontainer">
+              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_rout">
+              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_gout">
+              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_bout">
             </div>
           </div>
+          <div class="d-flex justify-content-center card-footer"><button id="lcb_btn"><i id="lcb_out"
+                class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
-        <div class="col">
-          <div class="card bg-light m-2" style="min-height: 15rem;">
-            <div class="card-header">Profile selection</div>
+        <!-- Profileblock -->
+        <div class="card bg-light m-2" style="min-height: 15rem;">
+          <div class="card-header">Profile selection</div>
             <div class="card-body">
-              <h5 class="card-title">Light power: <em id="lcp_plc">0</em>%</h5>
-              <div class="slidecontainer">
-                <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
-              </div>
-              <div class="card-text">
-                <h6 class="card-title">Sensor readouts</h6>
-                <div class="text-left">Top: <em id="lcs_tout">0</em> lm</div> <div class="text-center">Mid: <em id="lcs_mout">0</em> lm</div> <div class="text-right">Bottom: <em id="lcs_bout">0</em> lm</div>
-              </div>
-              <h5 class="card-title d-flex justify-content-center"><i class="fas fa-lightbulb" id="lcc_in"></i>RGB</h5>
-              <div class="slidecontainer">
-                <input style="background:#000000;"type="range" min="0" max="255" value="0" class="slider" id="lcc_rout">
-                <input style="background:#000000;"type="range" min="0" max="255" value="0" class="slider" id="lcc_gout">
-                <input style="background:#000000;"type="range" min="0" max="255" value="0" class="slider" id="lcc_bout">
-              </div>
+              <select id="pss_sct" class="form-control card-text">
+                <option disabled selected>Change profile here</option>
+                <option value="1">Leafy green grow-phase</option>
+                <option value="2">Leafy green flower phase</option>
+                <option value="3">Fruit grow-phase</option>
+                <option value="4">Fruit flower phase</option>
+              </select>
+              <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
+                <p class="card-text">Light color: <em id="pss_col">0</em></p>
+                <p class="card-text">Light timing: <em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></p>
+                <p class="card-text">Feed interval: <em id="pss_fin">0</em> days</p>
+                <p class="card-text">Feed quantity: <em id="pss_fqy">0</em> ml</p>
             </div>
           </div>
         </div>
       </div>
+    </div>
+    <div class="container">
+      <h2 class="deck-title">Manual controls</h2>
+
+
+      <!-- Feedblock -->
+      <div class="card-deck">
+        <div class="card bg-light m-2 text-center" style="min-height: 15rem;">
+
+
+          <div class="card-header">Feed controls</div>
+            <div class="card-body">
+              <h5 class="card-title">deposition volume:</h5>
+              <input type="number" min="0" max="5" value="0" class="card-text" id="fpd_out"  step="0.5" value="0">
+              <h5 class="card-title">Feed interval</h5>
+              <input type="number" min="0" max="30" value="0" class="card-text" id="fpi_out"  step="1" value="0">
+            </div>
+            <div class="d-flex justify-content-center card-footer"><button id="fpb_btn"><i id="fpb_out"
+                  class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+        </div>
+        <!-- Airblock -->
+        <div class="card bg-light m-2" style="min-height: 15rem;">
+          <div class="card-header">Climate controls</div>
+          <div class="card-body">
+            <h5 class="card-title">Circulation power: <em id="acp_plc">0</em>%</h5>
+            <div class="slidecontainer">
+              <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
+            </div>
+            <div class="card-text">
+              <h6 class="card-title">Sensor readouts</h6>
+              <table style="width:100%">
+                <tr>
+                  <td>CO<sub>2</sub></td>
+                  <td id="acv_co2">0</td>
+                  <td>ppm</td>
+                </tr>
+                <tr>
+                  <td>Temperature</td>
+                  <td id="acv_tm1">0</td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Rel. humidit</td>
+                  <td id="acv_hum">0</td>
+                  <td>%</td>
+                </tr>
+              </table>
+            </div>
+            <h5 class="card-title d-flex justify-content-center"><i class="fas fa-lightbulb" id="lcc_in"></i>RGB</h5>
+            <div class="slidecontainer">
+              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_rout">
+              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_gout">
+              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_bout">
+            </div>
+          </div>
+          <div class="d-flex justify-content-center card-footer"><button id="lcb_btn"><i id="lcb_out"
+                class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+        </div>
+        <!-- Intervals -->
+        <div class="card bg-light m-2" style="min-height: 15rem;">
+          <div class="card-header">Profile selection</div>
+          <div class="card-body">
+            <select id="pss_sct" class="form-control card-text">
+              <option disabled selected>Change profile here</option>
+              <option value="1">Leafy green grow-phase</option>
+              <option value="2">Leafy green flower phase</option>
+              <option value="3">Fruit grow-phase</option>
+              <option value="4">Fruit flower phase</option>
+            </select>
+            <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
+              <p class="card-text">Light color: <em id="pss_col">0</em></p>
+              <p class="card-text">Light timing: <em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></p>
+              <p class="card-text">Feed interval: <em id="pss_fin">0</em> days</p>
+              <p class="card-text">Feed quantity: <em id="pss_fqy">0</em> ml</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
     </div>
   </section>
 </body>
@@ -192,13 +285,13 @@
   // Pump cntrol script
   var wpp_el = document.getElementById("wpp_out");
   var wpp_val = document.getElementById("wpp_plc");
-  wpp_el.oninput = function(){
+  wpp_el.oninput = function () {
     wpp_val.innerHTML = this.value;
   }
 
   var wpb_el = document.getElementById("wpb_btn");
   var wpb_val = 0;
-  wpb_el.onclick = function(){
+  wpb_el.onclick = function () {
     if (wpb_val == 1) {
       document.getElementById("wpb_out").style.color = "red";
       wpb_val = 0;
@@ -211,7 +304,7 @@
   //Light control script
   var lcp_el = document.getElementById("lcp_out");
   var lcp_val = document.getElementById("lcp_plc");
-  lcp_el.oninput = function(){
+  lcp_el.oninput = function () {
     lcp_val.innerHTML = this.value;
   }
   var lcc_rel = document.getElementById("lcc_rout");
@@ -220,46 +313,46 @@
   var lcc_r = 0
   var lcc_g = 0
   var lcc_b = 0
-  setCol = function() {
-    v = "#" + (lcc_r.toString(16).length==1 ? "0" + lcc_r.toString(16) : lcc_r.toString(16)) + 
-    (lcc_g.toString(16).length==1 ? "0" + lcc_g.toString(16) : lcc_g.toString(16)) + 
-    (lcc_b.toString(16).length==1 ? "0" + lcc_b.toString(16) : lcc_b.toString(16))
+  setCol = function () {
+    v = "#" + (lcc_r.toString(16).length == 1 ? "0" + lcc_r.toString(16) : lcc_r.toString(16)) +
+      (lcc_g.toString(16).length == 1 ? "0" + lcc_g.toString(16) : lcc_g.toString(16)) +
+      (lcc_b.toString(16).length == 1 ? "0" + lcc_b.toString(16) : lcc_b.toString(16))
 
     document.getElementById("lcc_in").style.color = v
   }
-  lcc_rel.oninput = function() {
+  lcc_rel.oninput = function () {
     lcc_r = parseInt(this.value);
     v = lcc_r.toString(16);
-    if (v.length == 1){
+    if (v.length == 1) {
       v = "0" + v;
     }
-    v = "#"+v+"0000";
+    v = "#" + v + "0000";
     this.style.background = v;
     setCol();
   }
-  lcc_gel.oninput = function() {
+  lcc_gel.oninput = function () {
     lcc_g = parseInt(this.value);
     v = lcc_g.toString(16);
-    if (v.length == 1){
+    if (v.length == 1) {
       v = "0" + v;
     }
-    v = "#00"+v+"00";
+    v = "#00" + v + "00";
     this.style.background = v;
     setCol();
   }
-  lcc_bel.oninput = function() {
+  lcc_bel.oninput = function () {
     lcc_b = parseInt(this.value);
     v = lcc_b.toString(16);
-    if (v.length == 1){
+    if (v.length == 1) {
       v = "0" + v;
     }
-    v = "#0000"+v;
+    v = "#0000" + v;
     this.style.background = v;
     setCol();
   }
   var lcb_el = document.getElementById("lcb_btn");
   var lcb_val = 0;
-  lcb_el.onclick = function(){
+  lcb_el.onclick = function () {
     if (lcb_val == 1) {
       document.getElementById("lcb_out").style.color = "red";
       lcb_val = 0;
@@ -269,6 +362,9 @@
     }
   }
 
-  
+  //Feed control script
+
+
 </script>
+
 </html>
