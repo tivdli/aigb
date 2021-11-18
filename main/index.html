@@ -211,32 +211,32 @@
           <div class="card-body">
             <h5>Name:</h5>
             <select id="pcs_nm1" class="form-control card-text">
-              <option disabled selected>Type</option>
-              <option value="1">Common</option>
-              <option value="2">Leaf</option>
-              <option value="3">Fruit</option>
-              <option value="4">Flower</option>
-            </select>
-            <select id="pcs_nm1" class="form-control card-text">
               <option disabled selected>Climate</option>
-              <option value="1">Tropical</option>
-              <option value="2">Dry</option>
-              <option value="3">Temperate</option>
-              <option value="4">Continental</option>
+              <option value="1" name="prof_opt_1">0</option>
+              <option value="2" name="prof_opt_1">0</option>
+              <option value="3" name="prof_opt_1">0</option>
+              <option value="4" name="prof_opt_1">0</option>
             </select>
             <select id="pcs_nm1" class="form-control card-text">
               <option disabled selected>Stage</option>
-              <option value="1">Seedling</option>
-              <option value="2">Vegetative</option>
-              <option value="3">Budding</option>
-              <option value="4">Ripening</option>
+              <option value="1" name="prof_opt_2">0</option>
+              <option value="2" name="prof_opt_2">0</option>
+              <option value="3" name="prof_opt_2">0</option>
+              <option value="4" name="prof_opt_2">0</option>
+            </select>
+            <select id="pcs_nm1" class="form-control card-text">
+              <option disabled selected>Type</option>
+              <option value="1" name="prof_opt_3">0</option>
+              <option value="2" name="prof_opt_3">0</option>
+              <option value="3" name="prof_opt_3">0</option>
+              <option value="4" name="prof_opt_3">0</option>
             </select>
             <select id="pcs_nm4" class="form-control card-text">
               <option disabled selected>Mode</option>
-              <option value="1">Phase</option>
-              <option value="2">Stable</option>
-              <option value="3">Custom</option>
-              <option value="4">Stress</option>
+              <option value="1" name="prof_opt_4">0</option>
+              <option value="2" name="prof_opt_4">0</option>
+              <option value="3" name="prof_opt_4">0</option>
+              <option value="4" name="prof_opt_4">0</option>
             </select>
 
             <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
@@ -259,12 +259,9 @@
                 <td>ml</td>
               </tr>
               </table>
-              <p class="card-text">Light color: <em id="pss_col">0</em></p>
-              <p class="card-text">Light timing: <em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></p>
-              <p class="card-text">Feed interval: <em id="pss_fin">0</em> days</p>
-              <p class="card-text">Feed quantity: <em id="pss_fqy">0</em> ml</p>
           </div>
-
+          <div class="d-flex justify-content-center card-footer"><button id="pcs_sav"><i id="lcb_out"
+            class="fas fa-save fa-2x" style="color:black;"></i></button></div>
         </div>
       </div>
     </div>
@@ -273,7 +270,6 @@
 </body>
 <script type="text/javascript">
   var ws;
-
   window.addEventListener('beforeunload', (event) => {
     ws.close();
     // Cancel the event as stated by the standard.
@@ -415,7 +411,42 @@
       document.getElementById("lcb_out").style.color = "green";
     }
   }
-
+  //Profile script
+  profile_name_climate = ["Tropical", "Dry", "Temperate", "Continental"];
+  profile_name_stage = ["Seedling", "Vegetative", "Budding", "Ripening"];
+  profile_name_type = ["Common", "Leaf", "Fruit", "Flower"];
+  profile_name_mode = ["Phase", "Stable", "Custom", "Stress"];
+  function conc_name(n1,n2,n3,n4)
+  {
+    return profile_name_climate[n1]+" "+profile_name_stage[n2]+" "+profile_name_type[n3]+" "+profile_name_mode[n4];
+  }
+  window.onload=function() {
+    document.getElementById("test").innerText = conc_name(1,0,3,2);
+    for (var i = 1; i < 5; i++){
+      switch (i) {
+        case 1:
+          prof_array = profile_name_climate;
+          break;
+        case 2:
+          prof_array = profile_name_stage;
+          break;
+        case 3:
+          prof_array = profile_name_type;
+          break;
+        case 4: 
+          prof_array = profile_name_mode;
+          break;
+      }
+      console.log("prof_opt_" + String(i));
+      opt_array = document.getElementsByName("prof_opt_" + String(i));
+      console.log(opt_array);
+      for (var y = 0; y<4; y++)
+      {
+        opt_array[y].innerText = prof_array[y];
+      }
+    }
+  }
+  //
   //Feed control script
 
 
