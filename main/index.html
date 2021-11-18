@@ -161,38 +161,36 @@
         <!-- Airblock -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
           <div class="card-header">Climate controls</div>
-          <div class="card-body">
-            <h5 class="card-title">Circulation power: <em id="acp_plc">0</em>%</h5>
-            <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
+            <div class="card-body">
+              <h5 class="card-title">Circulation power: <em id="acp_plc">0</em>%</h5>
+              <div class="slidecontainer">
+                <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
+              </div>
+              <div class="card-text">
+                <h6 class="card-title">Sensor readouts</h6>
+                <table style="width:100%">
+                  <tr>
+                    <td>CO<sub>2</sub></td>
+                    <td id="acv_co2">0</td>
+                    <td>ppm</td>
+                  </tr>
+                  <tr>
+                    <td>Temperature</td>
+                    <td id="acv_tm1">0</td>
+                    <td>°C</td>
+                  </tr>
+                  <tr>
+                    <td>Rel. humidity</td>
+                    <td id="acv_hum">0</td>
+                    <td>%</td>
+                  </tr>
+                </table>
+              </div>
+              <h5 class="card-title d-flex justify-content-center">Settings</h5>
+              <div class="card-text">
+                <input type="number" min="0" max="100" id="aco_"
+              </div>
             </div>
-            <div class="card-text">
-              <h6 class="card-title">Sensor readouts</h6>
-              <table style="width:100%">
-                <tr>
-                  <td>CO<sub>2</sub></td>
-                  <td id="acv_co2">0</td>
-                  <td>ppm</td>
-                </tr>
-                <tr>
-                  <td>Temperature</td>
-                  <td id="acv_tm1">0</td>
-                  <td>°C</td>
-                </tr>
-                <tr>
-                  <td>Rel. humidit</td>
-                  <td id="acv_hum">0</td>
-                  <td>%</td>
-                </tr>
-              </table>
-            </div>
-            <h5 class="card-title d-flex justify-content-center"><i class="fas fa-lightbulb" id="lcc_in"></i>RGB</h5>
-            <div class="slidecontainer">
-              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_rout">
-              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_gout">
-              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_bout">
-            </div>
-          </div>
           <div class="d-flex justify-content-center card-footer"><button id="lcb_btn"><i id="lcb_out"
                 class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
