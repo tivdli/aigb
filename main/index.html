@@ -188,24 +188,77 @@
               </div>
               <h5 class="card-title d-flex justify-content-center">Settings</h5>
               <div class="card-text">
-                <input type="number" min="0" max="100" id="aco_"
+                <table style="width:100%">
+                  <tr>
+                    <td>Temperature</td>
+                    <td><input type="number" min="15" max="30" id="aco_tem"></td>
+                    <td>°C</td>
+                  </tr>
+                  <tr>
+                    <td>Rel. humidity</td>
+                    <td><input type="number" min="60" max="100" id="aco_hum"></td>
+                    <td>%</td>
+                  </tr>
+                </table>
               </div>
             </div>
           <div class="d-flex justify-content-center card-footer"><button id="lcb_btn"><i id="lcb_out"
                 class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
-        <!-- Intervals -->
+        <!-- Make profile -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
-          <div class="card-header">Profile selection</div>
+          <div class="card-header">Profile creation</div>
           <div class="card-body">
-            <select id="pss_sct" class="form-control card-text">
-              <option disabled selected>Change profile here</option>
-              <option value="1">Leafy green grow-phase</option>
-              <option value="2">Leafy green flower phase</option>
-              <option value="3">Fruit grow-phase</option>
-              <option value="4">Fruit flower phase</option>
+            <h5>Name:</h5>
+            <select id="pcs_nm1" class="form-control card-text">
+              <option disabled selected>Type</option>
+              <option value="1">Common</option>
+              <option value="2">Leaf</option>
+              <option value="3">Fruit</option>
+              <option value="4">Flower</option>
             </select>
+            <select id="pcs_nm1" class="form-control card-text">
+              <option disabled selected>Climate</option>
+              <option value="1">Tropical</option>
+              <option value="2">Dry</option>
+              <option value="3">Temperate</option>
+              <option value="4">Continental</option>
+            </select>
+            <select id="pcs_nm1" class="form-control card-text">
+              <option disabled selected>Stage</option>
+              <option value="1">Seedling</option>
+              <option value="2">Vegetative</option>
+              <option value="3">Budding</option>
+              <option value="4">Ripening</option>
+            </select>
+            <select id="pcs_nm4" class="form-control card-text">
+              <option disabled selected>Mode</option>
+              <option value="1">Phase</option>
+              <option value="2">Stable</option>
+              <option value="3">Custom</option>
+              <option value="4">Stress</option>
+            </select>
+
             <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
+              <table style="width:100%">
+              <tr>
+                <td>Light color:</td>
+                <td><input type="color" id="pcs_lcs"></td>
+              </tr>
+              <tr>
+                <td>Light timing</td>
+                <td><input type="time" id="pcs_lt1">/<input type="time" id="pcs_lt2"></td>
+              </tr>
+              <tr>
+                <td>Feed interval</td>
+                <td><input type="number" id="pcs_fpi" min="0" max="30" step="1"></td>
+              </tr>
+              <tr>
+                <td>Feed volume</td>
+                <td><input type="number" id="pcs_fpv" min="0" max="5" step="0.5"></td>
+                <td>ml</td>
+              </tr>
+              </table>
               <p class="card-text">Light color: <em id="pss_col">0</em></p>
               <p class="card-text">Light timing: <em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></p>
               <p class="card-text">Feed interval: <em id="pss_fin">0</em> days</p>
@@ -229,6 +282,9 @@
     event.returnValue = '';
   });
 
+  function writeToDoc(v_name, val){
+    cor = document.getElementsByName(v_name).value = val;
+  }
   function WebSocketBegin() {
     if ("WebSocket" in window) {
       // Let us open a web socket
