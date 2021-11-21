@@ -3,13 +3,16 @@
 
 // Libraries
 #include <WiFi.h>
+#include "SPIFFS.h"
+
+//Local libraries
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
 //local files
 #include <aigb.h>
 #include <gbint.h>
-#include <site.txt>
+
 
 //setup
 #define PORT 80
@@ -18,13 +21,13 @@
 
 //variables
 AsyncWebServer server(PORT);
-AsyncWebSocket websocket('/ws');
+AsyncWebSocket websocket("/ws");
 
 
 void setup(){
     Serial.begin(115200);
     //start wifi and reset ESP on failure to connect within 10 seconds
-    wifi = WiFi.begin(SSID, PASS);
+    WiFi.begin(SSID, PASS);
     for (int i = 0; (WiFi.status() != WL_CONNECTED); i++) {
         if (i == 20)
         {
@@ -33,7 +36,19 @@ void setup(){
         }
         delay(500);
     }
-    //start websocket
+    Serial.println("Connected to wifi with IP: " + WiFi.localIP());
+    //init file loader for website
+    if (!SPIFFS.begin(true)){
+        Serial.println("Error while mounting SPIFFS, restarting ESP");
+        ESP.restart();
+    }
+    //start server
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/index.html", "text/html");
+    });
+    
+    server.serveStatic("/", SPIFFS, "/");
+    server.begin();
 
 }
 
