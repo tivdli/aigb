@@ -6,6 +6,7 @@
 #include <ESPAsyncWebServer.h>
 class GBINT{
     public:
-        
+        GBINT();
+        int getNumber();
 };
 #endif

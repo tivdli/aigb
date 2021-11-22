@@ -3,3 +3,6 @@
 #include <ASyncTCP.h>
 #include <ESPAsyncWebServer.h>
 
+    int GBINT::getNumber(){
+        return 5;
+    }
