@@ -57,10 +57,6 @@ void setup(){
 
 }
 
-void webLoop(void * empty){
-
-}
-
 void loop(){
 
 }
