@@ -1,18 +1,27 @@
 import htmlmin
 import os
-from slimit import minify
+from jsmin import jsmin
+from math import ceil
 dir = os.path.dirname(os.path.realpath(__file__))
-readfile = os.path.join(dir, "index.html")
-writefile = os.path.join(dir, "data", "index.html")
-htmlfile= open(readfile, "r")
+readfileHTML = os.path.join(dir, "index.html")
+writefileHTML = os.path.join(dir, "data", "index.html")
+htmlfile= open(readfileHTML, "r")
 text = htmlfile.read()
 htmlfile.close()
-print(len(text)//1024)
-#out = minify(text, mangle=True)
 out = (htmlmin.minify(text, remove_comments=True, remove_optional_attribute_quotes=True, reduce_boolean_attributes=True, remove_empty_space=True))
-print(len(out)//1024)
-writefile = open(writefile, "w")
-writefile.write(out)
-writefile.close()
+print("compressed HTML from " + str(ceil(len(text)/1024)) + "B to " + str(ceil(len(out)/1024))+"B")
+writefileHTML = open(writefileHTML, "w")
+writefileHTML.write(out)
+writefileHTML.close()
 
+readfileJS = os.path.join(dir, "script.js")
+writefileJS = os.path.join(dir, "data", "script.js")
+JSfile= open(readfileJS, "r")
+text = JSfile.read()
+JSfile.close()
+out = jsmin(text)
+print("compressed JS from " + str(ceil(len(text)/1024)) + "B to " + str(ceil(len(out)/1024))+"B")
+writefileJS = open(writefileJS, "w")
+writefileJS.write(out)
+writefileJS.close()
 

@@ -6,7 +6,14 @@
 #include <ESPAsyncWebServer.h>
 class GBINT{
     public:
-        GBINT();
-        int getNumber();
+        GBINT(AsyncWebServer server, AsyncWebSocket ws, AsyncEventSource events);
+        bool wifiStart();
+    private:
+        AsyncWebSocket ws;
+        AsyncWebServer server;
+        AsyncEventSource events;
+
+        String respond();
+
 };
 #endif
