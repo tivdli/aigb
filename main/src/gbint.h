@@ -5,5 +5,7 @@
 #include <ASyncTCP.h>
 #include <ESPAsyncWebServer.h>
 class GBINT{
+    public:
+        
 };
 #endif

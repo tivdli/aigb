@@ -28,15 +28,20 @@ void setup(){
     Serial.begin(115200);
     //start wifi and reset ESP on failure to connect within 10 seconds
     WiFi.begin(SSID, PASS);
-    for (int i = 0; (WiFi.status() != WL_CONNECTED); i++) {
+    Serial.println("Connectin to wifi");
+    int i =0;
+    while (WiFi.status() != WL_CONNECTED) {
+        i++;
+        Serial.print(".");
         if (i == 20)
         {
-            Serial.println("Connection failed, resetting AIGB");
+            Serial.println("\nConnection failed, resetting AIGB");
             ESP.restart();    
         }
         delay(500);
     }
-    Serial.println("Connected to wifi with IP: " + WiFi.localIP());
+    Serial.print("\nConnected to wifi with IP: ");
+    Serial.println(WiFi.localIP());
     //init file loader for website
     if (!SPIFFS.begin(true)){
         Serial.println("Error while mounting SPIFFS, restarting ESP");
