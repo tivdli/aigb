@@ -8,6 +8,8 @@
 //Local libraries
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <MHZ19.h>
+#include <ESP32Servo.h>
 
 //local files
 #include <aigb.h>
