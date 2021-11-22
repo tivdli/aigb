@@ -24,13 +24,15 @@
 //variables
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
-
+AsyncEventSource events("/events");
+GBINT gbint(server, websocket, events);
+AIGB aigb();
 
 void setup(){
     Serial.begin(115200);
     //start wifi and reset ESP on failure to connect within 10 seconds
     WiFi.begin(SSID, PASS);
-    Serial.println("Connectin to wifi");
+    Serial.println("Connecting to wifi");
     int i =0;
     while (WiFi.status() != WL_CONNECTED) {
         i++;
@@ -55,6 +57,11 @@ void setup(){
     });
     
     server.serveStatic("/", SPIFFS, "/");
+
+    server.on("/comm", HTTP_GET, [](AsyncWebServerRequest * request){
+        String json = gbint.respond();
+
+    });
     server.begin();
 
 }

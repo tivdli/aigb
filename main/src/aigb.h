@@ -4,6 +4,8 @@
 #include <Arduino.h>
 #include <ESP32Servo.h>
 #include <MHZ19.h>
+#include <AsyncTCP.h>
+#include <ESPAsyncWebServer.h>
 
 class AIGB{
     public:
