@@ -12,7 +12,7 @@
 #include <ESP32Servo.h>
 
 //local files
-#include <aigb.h>
+//#include <aigb.h>
 #include <gbint.h>
 
 //setup
@@ -24,8 +24,8 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-GBINT gbint(server, websocket, events);
-AIGB aigb();
+GBINT gbint(&server, &websocket, &events);
+//AIGB aigb();
 
 void initWifi()
 {
@@ -52,23 +52,7 @@ void setup()
     initWifi();
     Serial.print("\nConnected to wifi with IP: ");
     Serial.println(WiFi.localIP());
-    //init file loader for website
-    if (!SPIFFS.begin(true))
-    {
-        Serial.println("Error while mounting SPIFFS, restarting ESP");
-        ESP.restart();
-    }
-    //start server
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-              { request->send(SPIFFS, "/index.html", "text/html"); });
-
-    server.serveStatic("/", SPIFFS, "/");
-
-    server.on("/comm", HTTP_GET, [](AsyncWebServerRequest *request)
-              {
-                  String json = gbint.respond();
-              });
-    server.begin();
+    gbint.init();
 }
 
 void loop()

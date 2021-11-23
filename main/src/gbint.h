@@ -9,16 +9,16 @@
 class GBINT
 {
 public:
-    GBINT(AsyncWebServer server, AsyncWebSocket ws, AsyncEventSource events);
-    JSONVar respond();
+    GBINT(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events);
     JSONVar getprofile(int number);
     JSONVar listprofiles();
     bool setprofile();
+    bool init();
 
 private:
-    AsyncWebSocket ws;
-    AsyncWebServer server;
-    AsyncEventSource events;
+    AsyncWebSocket *ws;
+    AsyncWebServer *server;
+    AsyncEventSource *events;
 
     //Profile settings
     const int erSize = 512;
@@ -38,6 +38,6 @@ private:
     //profile vars
     int profileNum;
     void resetmemory();
-    String respond();
+    void respond();
 };
 #endif
