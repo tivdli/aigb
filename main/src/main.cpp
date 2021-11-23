@@ -15,7 +15,6 @@
 #include <aigb.h>
 #include <gbint.h>
 
-
 //setup
 #define PORT 80
 #define SSID "VGV75195AFCBD"
@@ -28,44 +27,50 @@ AsyncEventSource events("/events");
 GBINT gbint(server, websocket, events);
 AIGB aigb();
 
-void setup(){
-    Serial.begin(115200);
-    //start wifi and reset ESP on failure to connect within 10 seconds
+void initWifi()
+{
     WiFi.begin(SSID, PASS);
-    Serial.println("Connecting to wifi");
-    int i =0;
-    while (WiFi.status() != WL_CONNECTED) {
+    int i = 0;
+    while (WiFi.status() != WL_CONNECTED)
+    {
         i++;
         Serial.print(".");
         if (i == 20)
         {
             Serial.println("\nConnection failed, resetting AIGB");
-            ESP.restart();    
+            ESP.restart();
         }
         delay(500);
     }
+}
+void setup()
+{
+    Serial.begin(115200);
+    //start wifi and reset ESP on failure to connect within 10 seconds
+    WiFi.begin(SSID, PASS);
+    Serial.println("Connecting to wifi");
+    initWifi();
     Serial.print("\nConnected to wifi with IP: ");
     Serial.println(WiFi.localIP());
     //init file loader for website
-    if (!SPIFFS.begin(true)){
+    if (!SPIFFS.begin(true))
+    {
         Serial.println("Error while mounting SPIFFS, restarting ESP");
         ESP.restart();
     }
     //start server
-    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/index.html", "text/html");
-    });
-    
+    server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
+              { request->send(SPIFFS, "/index.html", "text/html"); });
+
     server.serveStatic("/", SPIFFS, "/");
 
-    server.on("/comm", HTTP_GET, [](AsyncWebServerRequest * request){
-        String json = gbint.respond();
-
-    });
+    server.on("/comm", HTTP_GET, [](AsyncWebServerRequest *request)
+              {
+                  String json = gbint.respond();
+              });
     server.begin();
-
 }
 
-void loop(){
-
+void loop()
+{
 }
