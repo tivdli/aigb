@@ -68,3 +68,14 @@ JSONVar GBINT::listprofiles()
 bool GBINT::setprofile()
 {
 }
+
+JSONVar GBINT::getprofile(int number)
+{
+    JSONVar returnArray;
+    int startAddress = GBINT::profileStart + number*GBINT::profileLength;
+    for (int a = startAddress; a < startAddress +GBINT::profileLength; a++)
+    {
+        returnArray[a-startAddress] = EEPROM.read(a);
+    }
+    return returnArray;
+}

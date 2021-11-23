@@ -30,11 +30,7 @@ private:
     const int profileIndexLightTime = 4;
     const int profileIndexFeedVol = 8;
     const int profileIndexFeedInter = 9; 
-    const int profileLenName = 1;
-    const int profileLenLightColor = 3;
-    const int profileLenLightTime = 4;
-    const int profileLenFeedVol = 1;
-    const int profileLenFeedInter = 1;
+    //profile makeup = 10B = 1=name 2=rgb 5=h_start 6=m_start 7=h_end 8=m_end 9=feed_volume 10=feed_interval
     //profile vars
     int profileNum;
     void resetmemory();

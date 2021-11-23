@@ -72,21 +72,21 @@
 
           <div class="card-header">Pump controls</div>
           <div class="card-body">
-            <h5 class="card-title">Pump power: <em id="wpp_plc">0</em>%</h5>
+            <h5 class="card-title">Pump power: <em id="s1_v">0</em>%</h5>
             <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="wpp_out">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s1" ondrag="processSlider(this)">
             </div>
           </div>
-          <div class="d-flex justify-content-center card-footer"><button id="wpb_btn"><i id="wpb_out"
-                class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+          <div class="d-flex justify-content-center card-footer"><button id="b1" onclick="processButton(this)"><i
+                id="b1_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
         <!-- Lightblock -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
           <div class="card-header">Light controls</div>
           <div class="card-body">
-            <h5 class="card-title">Light power: <em id="lcp_plc">0</em>%</h5>
+            <h5 class="card-title">Light power: <em id="s2_v">0</em>%</h5>
             <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="lcp_out">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s2" ondrag="processSlider(this)">
             </div>
             <div class="card-text">
               <h6 class="card-title">Sensor readouts</h6>
@@ -108,32 +108,49 @@
                 </tr>
               </table>
             </div>
-            <h5 class="card-title d-flex justify-content-center"><i class="fas fa-lightbulb" id="lcc_in"></i>RGB</h5>
-            <div class="slidecontainer">
-              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_rout">
-              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_gout">
-              <input style="background:#000000;" type="range" min="0" max="255" value="0" class="slider" id="lcc_bout">
-            </div>
+            <h5 class="card-title d-flex justify-content-center">RGB</h5>
+            <input type="color" id="lcc" style="width:100%">
           </div>
-          <div class="d-flex justify-content-center card-footer"><button id="lcb_btn" onclick="processButton(this)"><i id="lcb_out"
-                class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+          <div class="d-flex justify-content-center card-footer"><button id="b2" onclick="processButton(this)"><i
+                id="b2_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
         <!-- Profileblock -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
           <div class="card-header">Profile selection</div>
-            <div class="card-body">
-              <select id="pss_sct" class="form-control card-text">
-                <option disabled selected>Change profile here</option>
-              </select>
-              <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
-                <p class="card-text">Light color: <em id="pss_col">0</em></p>
-                <p class="card-text">Light timing: <em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></p>
-                <p class="card-text">Feed interval: <em id="pss_fin">0</em> days</p>
-                <p class="card-text">Feed quantity: <em id="pss_fqy">0</em> ml</p>
-            </div>
+          <div class="card-body">
+            <select id="pss_sct" class="form-control card-text">
+              <option disabled selected>Change profile here</option>
+
+            </select>
+            <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
+              <table style="width:100%">
+                <tr>
+                  <td>
+                    Light color:
+                  </td>
+                  <td id="pss_col">0</td>
+                </tr>
+                <tr>
+                  <td>Light timing:</td>
+                  <td><em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></td>
+                </tr>
+                <tr>
+                  <td>Feed interval:</td>
+                  <td id="pss_fin">0</td>
+                  <td>days</td>
+                </tr>
+                <tr>
+                  <td>Feed quantity:</td>
+                  <td id="pss_fqy">0</td>
+                  <td>ml</td>
+                </tr>
+              </table>
+
+
           </div>
         </div>
       </div>
+    </div>
     </div>
     <div class="container">
       <h2 class="deck-title">Manual controls</h2>
@@ -145,61 +162,61 @@
 
 
           <div class="card-header">Feed controls</div>
-            <div class="card-body">
-              <h5 class="card-title">deposition volume:</h5>
-              <input type="number" min="0" max="5" value="0" class="card-text" id="fpd_out"  step="0.5" value="0">
-              <h5 class="card-title">Feed interval</h5>
-              <input type="number" min="0" max="30" value="0" class="card-text" id="fpi_out"  step="1" value="0">
-            </div>
-            <div class="d-flex justify-content-center card-footer"><button id="fpb_btn"><i id="fpb_out"
-                  class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+          <div class="card-body">
+            <h5 class="card-title">deposition volume:</h5>
+            <input type="number" min="0" max="5" value="0" class="card-text" id="fpd_out" step="0.5" value="0">
+            <h5 class="card-title">Feed interval</h5>
+            <input type="number" min="0" max="30" value="0" class="card-text" id="fpi_out" step="1" value="0">
+          </div>
+          <div class="d-flex justify-content-center card-footer"><button id="b3" onclick="processButton(this)"><i
+                id="b3_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
         <!-- Airblock -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
           <div class="card-header">Climate controls</div>
-            <div class="card-body">
-              <h5 class="card-title">Circulation power: <em id="acp_plc">0</em>%</h5>
-              <div class="slidecontainer">
-                <input type="range" min="0" max="100" value="0" class="slider" id="acp_out">
-              </div>
-              <div class="card-text">
-                <h6 class="card-title">Sensor readouts</h6>
-                <table style="width:100%">
-                  <tr>
-                    <td>CO<sub>2</sub></td>
-                    <td id="acv_co2">0</td>
-                    <td>ppm</td>
-                  </tr>
-                  <tr>
-                    <td>Temperature</td>
-                    <td id="acv_tm1">0</td>
-                    <td>°C</td>
-                  </tr>
-                  <tr>
-                    <td>Rel. humidity</td>
-                    <td id="acv_hum">0</td>
-                    <td>%</td>
-                  </tr>
-                </table>
-              </div>
-              <h5 class="card-title d-flex justify-content-center">Settings</h5>
-              <div class="card-text">
-                <table style="width:100%">
-                  <tr>
-                    <td>Temperature</td>
-                    <td><input type="number" min="15" max="30" id="aco_tem"></td>
-                    <td>°C</td>
-                  </tr>
-                  <tr>
-                    <td>Rel. humidity</td>
-                    <td><input type="number" min="60" max="100" id="aco_hum"></td>
-                    <td>%</td>
-                  </tr>
-                </table>
-              </div>
+          <div class="card-body">
+            <h5 class="card-title">Circulation power: <em id="s3_v">0</em>%</h5>
+            <div class="slidecontainer">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s3" ondrag="processSlider(this)">
             </div>
-          <div class="d-flex justify-content-center card-footer"><button id="lcb_btn"><i id="lcb_out"
-                class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
+            <div class="card-text">
+              <h6 class="card-title">Sensor readouts</h6>
+              <table style="width:100%">
+                <tr>
+                  <td>CO<sub>2</sub></td>
+                  <td id="acv_co2">0</td>
+                  <td>ppm</td>
+                </tr>
+                <tr>
+                  <td>Temperature</td>
+                  <td id="acv_tm1">0</td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Rel. humidity</td>
+                  <td id="acv_hum">0</td>
+                  <td>%</td>
+                </tr>
+              </table>
+            </div>
+            <h5 class="card-title d-flex justify-content-center">Settings</h5>
+            <div class="card-text">
+              <table style="width:100%">
+                <tr>
+                  <td>Temperature</td>
+                  <td><input type="number" min="15" max="30" id="aco_tem"></td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Rel. humidity</td>
+                  <td><input type="number" min="60" max="100" id="aco_hum"></td>
+                  <td>%</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div class="d-flex justify-content-center card-footer"><button id="b4" onclick="processButton(this)"><i
+                id="b4_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
         </div>
         <!-- Make profile -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
@@ -237,27 +254,27 @@
 
             <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
               <table style="width:100%">
-              <tr>
-                <td>Light color:</td>
-                <td><input type="color" id="pcs_lcs"></td>
-              </tr>
-              <tr>
-                <td>Light timing</td>
-                <td><input type="time" id="pcs_lt1">/<input type="time" id="pcs_lt2"></td>
-              </tr>
-              <tr>
-                <td>Feed interval</td>
-                <td><input type="number" id="pcs_fpi" min="0" max="30" step="1"></td>
-              </tr>
-              <tr>
-                <td>Feed volume</td>
-                <td><input type="number" id="pcs_fpv" min="0" max="5" step="0.5"></td>
-                <td>ml</td>
-              </tr>
+                <tr>
+                  <td>Light color:</td>
+                  <td><input type="color" id="pcs_lcs"></td>
+                </tr>
+                <tr>
+                  <td>Light timing</td>
+                  <td><input type="time" id="pcs_lt1">/<input type="time" id="pcs_lt2"></td>
+                </tr>
+                <tr>
+                  <td>Feed interval</td>
+                  <td><input type="number" id="pcs_fpi" min="0" max="30" step="1"></td>
+                </tr>
+                <tr>
+                  <td>Feed volume</td>
+                  <td><input type="number" id="pcs_fpv" min="0" max="5" step="0.5"></td>
+                  <td>ml</td>
+                </tr>
               </table>
           </div>
-          <div class="d-flex justify-content-center card-footer"><button id="pcs_sav"><i id="lcb_out"
-            class="fas fa-save fa-2x" style="color:black;"></i></button></div>
+          <div class="d-flex justify-content-center card-footer"><button id="b5" onclick="processButton(this)"><i
+                id="b5_c" class="fas fa-save fa-2x" style="color:black;"></i></button></div>
         </div>
       </div>
     </div>
@@ -265,4 +282,5 @@
   </section>
   <script type='text/javascript' language='javascript' src='script.js'></script>
 </body>
+
 </html>
