@@ -74,7 +74,7 @@
           <div class="card-body">
             <h5 class="card-title">Pump power: <em id="s1_v">0</em>%</h5>
             <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="s1" ondrag="processSlider(this)">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s1" oninput="processSlider(this)">
             </div>
           </div>
           <div class="d-flex justify-content-center card-footer"><button id="b1" onclick="processButton(this)"><i
@@ -86,30 +86,30 @@
           <div class="card-body">
             <h5 class="card-title">Light power: <em id="s2_v">0</em>%</h5>
             <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="s2" ondrag="processSlider(this)">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s2" oninput="processSlider(this)">
             </div>
             <div class="card-text">
               <h6 class="card-title">Sensor readouts</h6>
               <table style="width:100%;">
                 <tr>
                   <td>Top:</td>
-                  <td id="lcs_tout">0</td>
+                  <td id="l1">0</td>
                   <td>lm</td>
                 </tr>
                 <tr>
                   <td>Mid:</td>
-                  <td id="lcs_mout">0</td>
+                  <td id="l2">0</td>
                   <td>lm</td>
                 </tr>
                 <tr>
                   <td>Bottom:</td>
-                  <td id="lcs_bout">0</td>
+                  <td id="l3">0</td>
                   <td>lm</td>
                 </tr>
               </table>
             </div>
             <h5 class="card-title d-flex justify-content-center">RGB</h5>
-            <input type="color" id="lcc" style="width:100%">
+            <input type="color" id="c1" style="width:100%">
           </div>
           <div class="d-flex justify-content-center card-footer"><button id="b2" onclick="processButton(this)"><i
                 id="b2_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
@@ -128,20 +128,20 @@
                   <td>
                     Light color:
                   </td>
-                  <td id="pss_col">0</td>
+                  <td id="p1">0</td>
                 </tr>
                 <tr>
                   <td>Light timing:</td>
-                  <td><em id="pss_lon">00:00</em>/<em id="pss_lof">00:00</em></td>
+                  <td><em id="p2">00:00</em>/<em id="p3">00:00</em></td>
                 </tr>
                 <tr>
                   <td>Feed interval:</td>
-                  <td id="pss_fin">0</td>
+                  <td id="p4">0</td>
                   <td>days</td>
                 </tr>
                 <tr>
                   <td>Feed quantity:</td>
-                  <td id="pss_fqy">0</td>
+                  <td id="p5">0</td>
                   <td>ml</td>
                 </tr>
               </table>
@@ -164,9 +164,9 @@
           <div class="card-header">Feed controls</div>
           <div class="card-body">
             <h5 class="card-title">deposition volume:</h5>
-            <input type="number" min="0" max="5" value="0" class="card-text" id="fpd_out" step="0.5" value="0">
+            <input type="number" min="0" max="5" value="0" class="card-text" id="f1" step="0.5" value="0">
             <h5 class="card-title">Feed interval</h5>
-            <input type="number" min="0" max="30" value="0" class="card-text" id="fpi_out" step="1" value="0">
+            <input type="number" min="0" max="30" value="0" class="card-text" id="f2" step="1" value="0">
           </div>
           <div class="d-flex justify-content-center card-footer"><button id="b3" onclick="processButton(this)"><i
                 id="b3_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
@@ -177,24 +177,24 @@
           <div class="card-body">
             <h5 class="card-title">Circulation power: <em id="s3_v">0</em>%</h5>
             <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="s3" ondrag="processSlider(this)">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s3" oninput="processSlider(this)">
             </div>
             <div class="card-text">
               <h6 class="card-title">Sensor readouts</h6>
               <table style="width:100%">
                 <tr>
                   <td>CO<sub>2</sub></td>
-                  <td id="acv_co2">0</td>
+                  <td id="a1">0</td>
                   <td>ppm</td>
                 </tr>
                 <tr>
                   <td>Temperature</td>
-                  <td id="acv_tm1">0</td>
+                  <td id="a2">0</td>
                   <td>°C</td>
                 </tr>
                 <tr>
                   <td>Rel. humidity</td>
-                  <td id="acv_hum">0</td>
+                  <td id="a3">0</td>
                   <td>%</td>
                 </tr>
               </table>
@@ -204,12 +204,12 @@
               <table style="width:100%">
                 <tr>
                   <td>Temperature</td>
-                  <td><input type="number" min="15" max="30" id="aco_tem"></td>
+                  <td><input type="number" min="15" max="30" id="i1"></td>
                   <td>°C</td>
                 </tr>
                 <tr>
                   <td>Rel. humidity</td>
-                  <td><input type="number" min="60" max="100" id="aco_hum"></td>
+                  <td><input type="number" min="60" max="100" id="i2"></td>
                   <td>%</td>
                 </tr>
               </table>

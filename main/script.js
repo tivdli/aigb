@@ -11,8 +11,6 @@ window.addEventListener("beforeunload", (event) => {
 
 window.onload = function () {
     //initWS();
-    profileOptions([132,54,255,0,142,57,26,27,222,195]);
-    fillProfiles();
 };
 
 function initWS(){
@@ -23,16 +21,34 @@ function initWS(){
 }
 
 function onOpen(event){
+  ws.send("start");
 }
 
 function onClose(event){
     setTimeout(initWS, 2000);
 }
 
-//function onMessage(event)
-buttonStates = [0,0,0,0];
-sliderStates = [0,0,0];
+function onMessage(event){
+  msg = JSON.parse(event.data);
+  switch (msg['key']){
+    case "start":
+      fillPage(msg);
+    break;
+  }
+}
+var buttonStates =[0];
+var sliderStates =[0];
+var light_sensor =[0];
+var light_color  =[0];
+var feed_values  =[0];
+var air_sensor   =[0];
+var air_input    =[0];
+
 function processButton(elem) {
+  var first = false;
+  if (typeof elem == "string"){
+    first = true;
+  }
   num = parseInt(elem.id.split("")[1]);
   if (num < (buttonStates.length + 1))
   {
@@ -48,12 +64,21 @@ function processButton(elem) {
     setTimeout(function(){document.getElementById(elem.id + "_c").style.color = "black"},250);
   }
 }
-function fillPage() {
-  return True;
+function fillPage(msg) {
+  buttonStates = msg['btn'];
+  sliderStates = msg['sld'];
+  light_sensor = msg['llm'];
+  light_color  = msg['clr'];
+  feed_values  = msg['fvl'];
+  air_sensor   = msg['ase'];
+  air_input    = msg['ain'];
+  if (msg['prf'] != 0){
+    ws.send(msg['prf']);
+  }
 }
 
+
 function processSlider(elem){
-  console.log(elem.value);
   document.getElementById(elem.id + "_v").innerHTML = elem.value;
 }
 //Profile script
@@ -111,6 +136,20 @@ function fillProfiles() {
       opt_array[y].innerText = prof_array[y];
     }
   }
+}
+
+function updatePage(){
+  buttonStates.forEach((x,i) => processButton(document.getElementById("b" + i+1)));
+  sliderStates.forEach((x,i) => processSlider(document.getElementById("s" + i+1)));
+  light_sensor.forEach((x,i)
+  light_color  = msg['clr'];
+  feed_values  = msg['fvl'];
+  air_sensor   = msg['ase'];
+  air_input    = msg['ain'];
+}
+
+function idConv(id){
+
 }
 //
 //Feed control script
