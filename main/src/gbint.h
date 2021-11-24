@@ -6,13 +6,29 @@
 #include <ESPAsyncWebServer.h>
 #include <Arduino_JSON.h>
 #include <EEPROM.h>
+
+#define EEPROMSIZE 512
+#define PROFILEVERSION 178
+#define PROFILESTART 0x03F
+#define PROFILELENGTH 0x010
+#define PROFILESIZEOFNAME 1
+#define PROFILESIZEOFLIGHTCOLOR 3
+#define PROFILESIZEOFLIGHTTIME 4
+#define PROFILESIZEOFFEEDVOL 1
+#define PROFILESIZEOFFEEDINTER 1
+#define PROFILESIZEOFTEMPDAY 1
+#define PROFILESIZEOFTEMPNIGHT 1
+#define PROFILESIZEOFHUMDAY 1
+#define PROFILESIZEOFHUMNIGHT 1
+//profile makeup = 14B = 1=name 2=rgb 5=h_start 6=m_start 7=h_end 8=m_end 9=feed_volume 10=feed_interval 11=tmp_day 12=tmp_night 13=hum_day 14=hum_night
+
 class GBINT
 {
 public:
     GBINT(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events);
     JSONVar getprofile(int number);
     JSONVar listprofiles();
-    bool setprofile();
+    bool setprofile(JSONVar msg);
     bool init();
 
 private:
@@ -21,16 +37,9 @@ private:
     AsyncEventSource *events;
 
     //Profile settings
-    const int erSize = 512;
-    const int erVersion = 178;
-    const int profileStart = 0x097;
-    const int profileLength = 0x00C;
-    const int profileIndexName = 0;
-    const int profileIndexLightColor = 1;
-    const int profileIndexLightTime = 4;
-    const int profileIndexFeedVol = 8;
-    const int profileIndexFeedInter = 9; 
-    //profile makeup = 10B = 1=name 2=rgb 5=h_start 6=m_start 7=h_end 8=m_end 9=feed_volume 10=feed_interval
+
+    const int profileMakeup[9] = {PROFILESIZEOFNAME, PROFILESIZEOFLIGHTCOLOR, PROFILESIZEOFLIGHTTIME, PROFILESIZEOFFEEDVOL, PROFILESIZEOFFEEDINTER, PROFILESIZEOFTEMPDAY, PROFILESIZEOFTEMPNIGHT, PROFILESIZEOFHUMDAY, PROFILESIZEOFHUMNIGHT};
+
     //profile vars
     int profileNum;
     void resetmemory();

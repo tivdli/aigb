@@ -11,6 +11,18 @@ window.addEventListener("beforeunload", (event) => {
 
 window.onload = function () {
     //initWS();
+    o = JSON.parse('{"key":"start",'+
+    '"btn":[1,1,1,1],'+
+    '"sld":[70,30,40],'+
+    '"llm":[580, 270, 400],'+
+    '"clr":"#A000FF",'+
+    '"fvl":[12,1.5],'+
+    '"ase":[55, 14, 70],'+
+    '"ain":[20, 110]}');
+    p = JSON.parse('{"key":"profl","nam":136,"col":"#A000FF","onh":6,"ofh":22, "onm":0,"ofm":30,"fin":12,"fqy":1.5,"tpd":20,"tpn":12,"hmd":80,"hmn":90}');
+    fillPage(o);
+    updatePage();
+    setProfileRead(p);
 };
 
 function initWS(){
@@ -39,7 +51,7 @@ function onMessage(event){
 var buttonStates =[0];
 var sliderStates =[0];
 var light_sensor =[0];
-var light_color  =[0];
+var light_color  = 0;
 var feed_values  =[0];
 var air_sensor   =[0];
 var air_input    =[0];
@@ -48,16 +60,17 @@ function processButton(elem) {
   var first = false;
   if (typeof elem == "string"){
     first = true;
+    elem = document.getElementById(elem);
   }
   num = parseInt(elem.id.split("")[1]);
   if (num < (buttonStates.length + 1))
   {
     if (buttonStates[num-1] == 1) {
       document.getElementById(elem.id + "_c").style.color = "red";
-      buttonStates[num-1] = 0;
+      if (!first){buttonStates[num-1] = 0};
     } else {
       document.getElementById(elem.id + "_c").style.color = "green";
-      buttonStates[num-1] = 1;
+      if (!first){buttonStates[num-1] = 0};
     }
   } else if (num == (buttonStates.length + 1)){
     document.getElementById(elem.id + "_c").style.color = "green";
@@ -65,6 +78,7 @@ function processButton(elem) {
   }
 }
 function fillPage(msg) {
+  console.log(msg);
   buttonStates = msg['btn'];
   sliderStates = msg['sld'];
   light_sensor = msg['llm'];
@@ -72,7 +86,7 @@ function fillPage(msg) {
   feed_values  = msg['fvl'];
   air_sensor   = msg['ase'];
   air_input    = msg['ain'];
-  if (msg['prf'] != 0){
+  if (typeof msg['prf'] != "undefined"){
     ws.send(msg['prf']);
   }
 }
@@ -112,7 +126,7 @@ function profileOptions(optionlist){
     var option = document.createElement("option");
     option.setAttribute("value", i);
     option.innerHTML = concNameFromByte(optionlist[i]);
-    select.appendChild(option)
+    select.appendChild(option);
   }
 }
 function fillProfiles() {
@@ -139,17 +153,40 @@ function fillProfiles() {
 }
 
 function updatePage(){
-  buttonStates.forEach((x,i) => processButton(document.getElementById("b" + i+1)));
-  sliderStates.forEach((x,i) => processSlider(document.getElementById("s" + i+1)));
-  light_sensor.forEach((x,i)
-  light_color  = msg['clr'];
-  feed_values  = msg['fvl'];
-  air_sensor   = msg['ase'];
-  air_input    = msg['ain'];
+  buttonStates.forEach((x,i) => processButton("b" + (i+1)));
+  sliderStates.forEach((x,i) => processSlider(document.getElementById("s" + (i+1))));
+  light_sensor.forEach((x,i) => document.getElementById("l" + (i+1)).innerText = x);
+  feed_values.forEach((x,i) => document.getElementById("f" + (i+1)).value = x);
+  air_sensor.forEach((x,i) => document.getElementById("a" + (i+1)).innerText = x);
+  air_input.forEach((x,i) => document.getElementById("i" + (i+1)).value = x);
+
+  document.getElementById("c1").value = light_color.toString(16);
 }
 
-function idConv(id){
-
+function setProfileRead(msg){
+  pref = "r";
+  document.getElementById(pref+"p9").innerText = msg['onm'] ? msg['onm'] < 10 : "0" + msg['onm'];
+  document.getElementById(pref+"p7").innerText = msg['onm'] ? msg['onm'] < 10 : "0" + msg['onm'];
+  document.getElementById(pref+"p5").innerText = msg['col'];
+  document.getElementById(pref+"p6").innerText = msg['onh'];
+  document.getElementById(pref+"p8").innerText = msg['ofh'];
+  document.getElementById(pref+"p10").innerText = msg['fin'];
+  document.getElementById(pref+"p11").innerText = msg['fqy'];
+  document.getElementById(pref+"p12").innerText = msg['tpd'];
+  document.getElementById(pref+"p13").innerText = msg['tpn'];
+  document.getElementById(pref+"p14").innerText = msg['hmd'];
+  document.getElementById(pref+"p15").innerText = msg['hmn'];
 }
-//
-//Feed control script
+
+function setProfileWrite(){
+  document.getElementById(pref+"p5").innerText = msg['col'];
+  document.getElementById(pref+"p6").innerText = msg['onh'];
+  document.getElementById(pref+"p8").innerText = msg['ofh'];
+  document.getElementById(pref+"p10").innerText = msg['fin'];
+  document.getElementById(pref+"p11").innerText = msg['fqy'];
+  document.getElementById(pref+"p10").innerText = msg['fin'];
+  document.getElementById(pref+"p11").innerText = msg['fqy'];
+  document.getElementById(pref+"p10").innerText = msg['fin'];
+  document.getElementById(pref+"p11").innerText = msg['fqy'];
+}
+

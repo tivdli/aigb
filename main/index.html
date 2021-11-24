@@ -128,25 +128,43 @@
                   <td>
                     Light color:
                   </td>
-                  <td id="p1">0</td>
+                  <td id="rp5" colspan="2">0</td>
                 </tr>
                 <tr>
-                  <td>Light timing:</td>
-                  <td><em id="p2">00:00</em>/<em id="p3">00:00</em></td>
+                  <td>Day cycle:</td>
+                  <td colspan="2"><em id="rp6">00</em>:<em id="rp7">00</em>&nbsp;/&nbsp;<em id="rp8">00</em>:<em id="rp9">00</em></td>
                 </tr>
                 <tr>
                   <td>Feed interval:</td>
-                  <td id="p4">0</td>
+                  <td id="rp10">0</td>
                   <td>days</td>
                 </tr>
                 <tr>
                   <td>Feed quantity:</td>
-                  <td id="p5">0</td>
+                  <td id="rp11">0</td>
                   <td>ml</td>
                 </tr>
+                <tr>
+                  <td>Daily temperature:</td>
+                  <td id="rp12">0</td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Nightly temperature:</td>
+                  <td id="rp13">0</td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Daily humidity:</td>
+                  <td id="rp14">0</td>
+                  <td>%</td>
+                </tr>
+                <tr>
+                  <td>Nightly humidity:</td>
+                  <td id="rp15">0</td>
+                  <td>%</td>
+                </tr>
               </table>
-
-
           </div>
         </div>
       </div>
@@ -223,28 +241,28 @@
           <div class="card-header">Profile creation</div>
           <div class="card-body">
             <h5>Name:</h5>
-            <select id="pcs_nm1" class="form-control card-text">
+            <select id="wp1" class="form-control card-text">
               <option disabled selected>Climate</option>
               <option value="1" name="prof_opt_1">0</option>
               <option value="2" name="prof_opt_1">0</option>
               <option value="3" name="prof_opt_1">0</option>
               <option value="4" name="prof_opt_1">0</option>
             </select>
-            <select id="pcs_nm1" class="form-control card-text">
+            <select id="wp2" class="form-control card-text">
               <option disabled selected>Stage</option>
               <option value="1" name="prof_opt_2">0</option>
               <option value="2" name="prof_opt_2">0</option>
               <option value="3" name="prof_opt_2">0</option>
               <option value="4" name="prof_opt_2">0</option>
             </select>
-            <select id="pcs_nm1" class="form-control card-text">
+            <select id="wp3" class="form-control card-text">
               <option disabled selected>Type</option>
               <option value="1" name="prof_opt_3">0</option>
               <option value="2" name="prof_opt_3">0</option>
               <option value="3" name="prof_opt_3">0</option>
               <option value="4" name="prof_opt_3">0</option>
             </select>
-            <select id="pcs_nm4" class="form-control card-text">
+            <select id="wp4" class="form-control card-text">
               <option disabled selected>Mode</option>
               <option value="1" name="prof_opt_4">0</option>
               <option value="2" name="prof_opt_4">0</option>
@@ -256,20 +274,41 @@
               <table style="width:100%">
                 <tr>
                   <td>Light color:</td>
-                  <td><input type="color" id="pcs_lcs"></td>
+                  <td colspan="2"><input type="color" id="wp5" oninput="console.log(this.value)"></td>
                 </tr>
                 <tr>
                   <td>Light timing</td>
-                  <td><input type="time" id="pcs_lt1">/<input type="time" id="pcs_lt2"></td>
+                  <td colspan="2"><input type="time" id="prof_time">/<input type="time" id="n7"></td>
                 </tr>
                 <tr>
                   <td>Feed interval</td>
-                  <td><input type="number" id="pcs_fpi" min="0" max="30" step="1"></td>
+                  <td><input type="number" id="wp10" min="0" max="30" step="1"></td>
+                  <td>days</td>
                 </tr>
                 <tr>
                   <td>Feed volume</td>
-                  <td><input type="number" id="pcs_fpv" min="0" max="5" step="0.5"></td>
+                  <td><input type="number" id="wp11" min="0" max="5" step="0.5"></td>
                   <td>ml</td>
+                </tr>
+                <tr>
+                  <td>Daily temperature</td>
+                  <td><input type="number" id="wp12" min="0" max="5" step="0.5"></td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Nightly temperature</td>
+                  <td><input type="number" id="wp13" min="0" max="5" step="0.5"></td>
+                  <td>°C</td>
+                </tr>
+                <tr>
+                  <td>Daily humidity</td>
+                  <td><input type="number" id="wp14" min="0" max="5" step="0.5"></td>
+                  <td>%</td>
+                </tr>
+                <tr>
+                  <td>Nightly humidity</td>
+                  <td><input type="number" id="wp15" min="0" max="5" step="0.5"></td>
+                  <td>%</td>
                 </tr>
               </table>
           </div>
