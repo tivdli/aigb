@@ -1,10 +1,12 @@
 var ws;
-var gW = "ws://"+window.location.hostname+"ws";
+var gW = "ws://"+window.location.hostname+"/ws";
 
 profile_name_climate = ["Tropical", "Dry", "Temperate", "Continental"];
 profile_name_stage = ["Seedling", "Vegetative", "Budding", "Ripening"];
 profile_name_type = ["Common", "Leaf", "Fruit", "Flower"];
 profile_name_mode = ["Phase", "Stable", "Custom", "Stress"];
+
+
 
 window.addEventListener("beforeunload", (event) => {
   ws.close();
@@ -15,7 +17,7 @@ window.addEventListener("beforeunload", (event) => {
 });
 
 window.onload = function () {
-    //initWS();
+    initWS();
     o = JSON.parse('{"key":"start",'+
     '"btn":[1,1,1,1],'+
     '"sld":[70,30,40],'+
@@ -76,7 +78,7 @@ function processButton(elem) {
       if (!first){buttonStates[num-1] = 0};
     } else {
       document.getElementById(elem.id + "_c").style.color = "green";
-      if (!first){buttonStates[num-1] = 0};
+      if (!first){buttonStates[num-1] = 1};
     }
     if(!first){message("button", elem.id, buttonStates[num-1])};
   } else if (num == (buttonStates.length + 1)){
@@ -196,9 +198,9 @@ function setProfileWrite(){
 
 function message(type, id, data){
   comm = {
-    "nam":type,
-    "id":id,
-    "data":data
+    "n":type,
+    "i":id,
+    "d":data
   }
   ws.send(JSON.stringify(comm));
 }

@@ -43,6 +43,11 @@ void initWifi()
         delay(500);
     }
 }
+
+void oE(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len)
+{
+    gbint.onEvent(server, client, type, arg, data, len);
+}
 void setup()
 {
     Serial.begin(115200);
@@ -52,9 +57,12 @@ void setup()
     initWifi();
     Serial.print("\nConnected to wifi with IP: ");
     Serial.println(WiFi.localIP());
+    websocket.onEvent(GBINT::onEvent);
+    server.addHandler(&websocket);
     gbint.init();
 }
 
 void loop()
 {
+    websocket.cleanupClients();
 }

@@ -30,8 +30,8 @@ public:
     JSONVar listprofiles();
     bool setprofile(JSONVar msg);
     void init();
-    void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len);
-    void prnt(char* data);
+    static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
+
 private:
     AsyncWebSocket *ws;
     AsyncWebServer *server;
@@ -43,6 +43,7 @@ private:
 
     //profile vars
     int profileNum;
+    static JSONVar obj;
     void resetmemory();
     void respond();
 };

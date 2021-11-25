@@ -12,7 +12,7 @@ GBINT::GBINT(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *event
     GBINT::events = events;
 }
 
-bool GBINT::init()
+void GBINT::init()
 {
     EEPROM.begin(EEPROMSIZE);
     if (EEPROM.read(0x000) != PROFILEVERSION)
@@ -31,39 +31,53 @@ bool GBINT::init()
     }
     //start server
     GBINT::server->on("/", HTTP_GET, [](AsyncWebServerRequest *request)
-                      { request->send(SPIFFS, "/index.html", "text/html"); });
+                      { request->send(SPIFFS, "/index.html", "text/html", false); });
 
     GBINT::server->serveStatic("/", SPIFFS, "/");
 
     GBINT::server->begin();
 }
 
-void GBINT::onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len)
+void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len)
 {
-    switch (type) {
-        case WS_EVT_CONNECT:
-            Serial.printf("New connection: client #%u at %s\n", client->id(), client->remoteIP().toString().c_str());
-            break;
-        case WS_EVT_DISCONNECT:
-            Serial.printf("Disconnected: client #%u at %s\n", client->id(), client->remoteIP().toString().c_str());
-            break;
-        case WS_EVT_DATA:
-            AwsFrameInfo *info = (AwsFrameInfo*)arg;
-            if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
-            {
-                GBINT::prnt((char*)data);
-            }
-            break;
-        case WS_EVT_PONG:
-            break;
-        case WS_EVT_ERROR:
-            break;
-
+    switch (type)
+    {
+    case WS_EVT_CONNECT:
+    {
+        Serial.printf("New connection: client #%u at %s\n", client->id(), client->remoteIP().toString().c_str());
+        client->ping();
     }
-}
-void GBINT::prnt(char* data)
-{
-    Serial.println(data);
+    break;
+    case WS_EVT_DISCONNECT:
+    {
+        Serial.printf("Disconnected: client #%u \n", client->id());
+    }
+    break;
+    case WS_EVT_DATA:
+    {
+        AwsFrameInfo *info = (AwsFrameInfo *)arg;
+        if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
+        {
+            GBINT::obj = JSON.parse((char *)data);
+            char datvar[10] = GBINT::obj['n']; 
+            if (strcmp(datvar, "button"))
+            {
+                //handle buttons
+            }
+        }
+    }
+    break;
+    case WS_EVT_PONG:
+    {
+        Serial.printf("Pong from client #%u \n", client->id());
+    }
+    break;
+    case WS_EVT_ERROR:
+    {
+        Serial.println("WS event error");
+    }
+    break;
+    }
 }
 void GBINT::resetmemory()
 {
