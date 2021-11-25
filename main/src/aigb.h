@@ -9,6 +9,9 @@
 
 class AIGB{
     public:
+
+    
+    private:
         AIGB();
         void LED();
         void Moisture();
@@ -30,7 +33,7 @@ class AIGB{
         void Pel_two();
         void Control_Fan();
         void Led_Strip();
-    private:
+    
 
 };
 #endif
