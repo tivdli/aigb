@@ -38,6 +38,33 @@ bool GBINT::init()
     GBINT::server->begin();
 }
 
+void GBINT::onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len)
+{
+    switch (type) {
+        case WS_EVT_CONNECT:
+            Serial.printf("New connection: client #%u at %s\n", client->id(), client->remoteIP().toString().c_str());
+            break;
+        case WS_EVT_DISCONNECT:
+            Serial.printf("Disconnected: client #%u at %s\n", client->id(), client->remoteIP().toString().c_str());
+            break;
+        case WS_EVT_DATA:
+            AwsFrameInfo *info = (AwsFrameInfo*)arg;
+            if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
+            {
+                GBINT::prnt((char*)data);
+            }
+            break;
+        case WS_EVT_PONG:
+            break;
+        case WS_EVT_ERROR:
+            break;
+
+    }
+}
+void GBINT::prnt(char* data)
+{
+    Serial.println(data);
+}
 void GBINT::resetmemory()
 {
     for (int i = 1; i < EEPROMSIZE; i++)
@@ -63,15 +90,6 @@ JSONVar GBINT::listprofiles()
         return returnArray;
     }
     return 0;
-}
-
-void handleWSMessage(void *arg, uint8_t *data, size_t len)
-{
-    AwsFrameInfo *info = (AwsFrameInfo*)arg;
-    if(info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
-    {
-        
-    }
 }
 
 bool GBINT::setprofile(JSONVar msg)

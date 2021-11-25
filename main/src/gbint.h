@@ -29,8 +29,9 @@ public:
     JSONVar getprofile(int number);
     JSONVar listprofiles();
     bool setprofile(JSONVar msg);
-    bool init();
-
+    void init();
+    void onEvent(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len);
+    void prnt(char* data);
 private:
     AsyncWebSocket *ws;
     AsyncWebServer *server;

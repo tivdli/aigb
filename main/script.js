@@ -1,5 +1,10 @@
-var gW = `ws://${window.location.hostname}/ws`;
 var ws;
+var gW = "ws://"+window.location.hostname+"ws";
+
+profile_name_climate = ["Tropical", "Dry", "Temperate", "Continental"];
+profile_name_stage = ["Seedling", "Vegetative", "Budding", "Ripening"];
+profile_name_type = ["Common", "Leaf", "Fruit", "Flower"];
+profile_name_mode = ["Phase", "Stable", "Custom", "Stress"];
 
 window.addEventListener("beforeunload", (event) => {
   ws.close();
@@ -23,6 +28,7 @@ window.onload = function () {
     fillPage(o);
     updatePage();
     setProfileRead(p);
+    fillProfiles();
 };
 
 function initWS(){
@@ -72,13 +78,15 @@ function processButton(elem) {
       document.getElementById(elem.id + "_c").style.color = "green";
       if (!first){buttonStates[num-1] = 0};
     }
+    if(!first){message("button", elem.id, buttonStates[num-1])};
   } else if (num == (buttonStates.length + 1)){
     document.getElementById(elem.id + "_c").style.color = "green";
     setTimeout(function(){document.getElementById(elem.id + "_c").style.color = "black"},250);
+    message("button", elem.id, 1);
   }
+  
 }
 function fillPage(msg) {
-  console.log(msg);
   buttonStates = msg['btn'];
   sliderStates = msg['sld'];
   light_sensor = msg['llm'];
@@ -96,10 +104,7 @@ function processSlider(elem){
   document.getElementById(elem.id + "_v").innerHTML = elem.value;
 }
 //Profile script
-profile_name_climate = ["Tropical", "Dry", "Temperate", "Continental"];
-profile_name_stage = ["Seedling", "Vegetative", "Budding", "Ripening"];
-profile_name_type = ["Common", "Leaf", "Fruit", "Flower"];
-profile_name_mode = ["Phase", "Stable", "Custom", "Stress"];
+
 function concName(n1,n2,n3,n4) {
   return (
     profile_name_climate[n1] +
@@ -179,14 +184,22 @@ function setProfileRead(msg){
 }
 
 function setProfileWrite(){
+  pref="w";
   document.getElementById(pref+"p5").innerText = msg['col'];
-  document.getElementById(pref+"p6").innerText = msg['onh'];
-  document.getElementById(pref+"p8").innerText = msg['ofh'];
   document.getElementById(pref+"p10").innerText = msg['fin'];
   document.getElementById(pref+"p11").innerText = msg['fqy'];
-  document.getElementById(pref+"p10").innerText = msg['fin'];
-  document.getElementById(pref+"p11").innerText = msg['fqy'];
-  document.getElementById(pref+"p10").innerText = msg['fin'];
-  document.getElementById(pref+"p11").innerText = msg['fqy'];
+  document.getElementById(pref+"p12").innerText = msg['tpd'];
+  document.getElementById(pref+"p13").innerText = msg['tpn'];
+  document.getElementById(pref+"p14").innerText = msg['hmd'];
+  document.getElementById(pref+"p15").innerText = msg['hmn'];
+}
+
+function message(type, id, data){
+  comm = {
+    "nam":type,
+    "id":id,
+    "data":data
+  }
+  ws.send(JSON.stringify(comm));
 }
 
