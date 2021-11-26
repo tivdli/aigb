@@ -6,7 +6,7 @@
 #define CO2_TX 1
 #define Vernevelaar 2
 #define CO2_RX 3
-#define Led 4
+#define Led_pin 4
 #define Led_B 13
 #define Pomp_Voeding 16
 #define Pomp_Water 17
@@ -23,26 +23,54 @@
 #define LDR_1 34
 #define LDR_2 36
 #define Water_Level 39
-Servo MyServo1;
-Servo MyServo2;
-myservo.setPeriodHertz(50);// Standard 50hz servo
-myservo.attach(Servo_1, 500, 2400);
-MyServo1.setPeriodHertz(50);// Standard 50hz servo
-MyServo2.attach(Servo_2, 500, 2400);
+
+
 AIGB::AIGB(){
-    Servo MyServo1;
-    Servo MyServo2;
+    //now used to define the pin modes and start timers (setup from arduino)
+    //still looking if this is the smartest way can not find a lot of examples with h files and with arduino libaries.    
     int ADS_max=4096;
     ESP32PWM::allocateTimer(0);
     ESP32PWM::allocateTimer(1);
     ESP32PWM::allocateTimer(2);
     ESP32PWM::allocateTimer(3);
+    Servo MyServo1;
+    Servo MyServo2;
+    MyServo1.attach(Servo_1,0,180);
+    MyServo2.attach(Servo_2,0,180);
+    // defined all the outputs
+    pinMode(Led_pin,OUTPUT);
+    pinMode(Vernevelaar,OUTPUT);
+    pinMode(Led_B,OUTPUT);
+    pinMode(Led_G,OUTPUT);
+    pinMode(Led_R,OUTPUT);
+    pinMode(Pomp_Voeding,OUTPUT);
+    pinMode(Pomp_Water,OUTPUT);
+    pinMode(Fan_Control_1,OUTPUT);
+    pinMode(Fan_Control_2,OUTPUT);
+    pinMode(Peltier_1,OUTPUT);
+    pinMode(Peltier_2,OUTPUT);
 
-};
+    // defines the inputs
+    pinMode(Water_Level,INPUT);
+    pinMode(LDR_1,INPUT); 
+    pinMode(LDR_2,INPUT);   
+    init();
+}
+void AIGB::init(){
 
-void AIGB::LED(){
+}
 
-} 
+// function to led a led blink hopfully from there we can built further
+int AIGB::LED(){
+    digitalWrite(Led_pin,HIGH);
+    delay(300);
+    digitalWrite(Led_pin,LOW);
+    delay(300);
+    digitalWrite(Led_pin,HIGH);
+    delay(300);
+    digitalWrite(Led_pin,LOW);
+    
+}
 
 void AIGB::Moisture(){
 
@@ -80,6 +108,7 @@ int AIGB:: Get_LDR_Two(){
 
 }
 
+// lets servo one move
 void AIGB:: Servo_one(){
     MyServo1.write(90);
     delay (200);
@@ -89,6 +118,7 @@ void AIGB:: Servo_one(){
     delay(200); 
 }
 
+// lets servo two move
 void AIGB:: Servo_two(){
     MyServo2.write(90);
     delay (200);
