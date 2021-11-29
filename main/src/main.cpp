@@ -12,7 +12,7 @@
 #include <ESP32Servo.h>
 
 //local files
-//#include <aigb.h>
+#include <aigb.h>
 #include <gbint.h>
 
 //setup
@@ -20,12 +20,15 @@
 #define SSID "VGV75195AFCBD"
 #define PASS "f5EU7TA4pv3G"
 
+
+
 //variables
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
 GBINT gbint(&server, &websocket, &events);
-//AIGB aigb();
+
+
 
 void initWifi()
 {
@@ -59,10 +62,12 @@ void setup()
     Serial.println(WiFi.localIP());
     websocket.onEvent(GBINT::onEvent);
     server.addHandler(&websocket);
+    
     gbint.init();
 }
 
 void loop()
 {
+    AIGB LED();// blinks led hopefully (still have to test it)
     websocket.cleanupClients();
 }

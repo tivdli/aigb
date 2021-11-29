@@ -9,11 +9,11 @@
 
 class AIGB{
     public:
-
-    
-    private:
         AIGB();
-        void LED();
+        void AIGB::init();
+        
+        
+        int LED();
         void Moisture();
         int Get_Co2();
         int Get_Hum_In();
@@ -33,7 +33,12 @@ class AIGB{
         void Pel_two();
         void Control_Fan();
         void Led_Strip();
+        Servo MyServo1;
+        Servo MyServo2;
+    private:
+       
     
 
 };
+
 #endif
