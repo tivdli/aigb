@@ -182,9 +182,9 @@
           <div class="card-header">Feed controls</div>
           <div class="card-body">
             <h5 class="card-title">deposition volume:</h5>
-            <input type="number" min="0" max="5" value="0" class="card-text" id="f1" step="0.5" value="0">
+            <input type="number" min="0" max="5" value="0" class="card-text" id="f1" onchange="message('inp', this.id, this.value)" step="0.5" value="0">
             <h5 class="card-title">Feed interval</h5>
-            <input type="number" min="0" max="30" value="0" class="card-text" id="f2" step="1" value="0">
+            <input type="number" min="0" max="30" value="0" class="card-text" id="f2" onchange="message('inp', this.id, this.value)" step="1" value="0">
           </div>
           <div class="d-flex justify-content-center card-footer"><button id="b3" onclick="processButton(this)"><i
                 id="b3_c" class="fas fa-power-off fa-2x" style="color:red;"></i></button></div>
@@ -195,7 +195,7 @@
           <div class="card-body">
             <h5 class="card-title">Circulation power: <em id="s3_v">0</em>%</h5>
             <div class="slidecontainer">
-              <input type="range" min="0" max="100" value="0" class="slider" id="s3" oninput="processSlider(this)">
+              <input type="range" min="0" max="100" value="0" class="slider" id="s3" onchange="message('inp', this.id, this.value)">
             </div>
             <div class="card-text">
               <h6 class="card-title">Sensor readouts</h6>
@@ -222,12 +222,12 @@
               <table style="width:100%">
                 <tr>
                   <td>Temperature</td>
-                  <td><input type="number" min="15" max="30" id="i1"></td>
+                  <td><input type="number" min="15" max="30" id="i1" onchange="message('inp', this.id, this.value)"></td>
                   <td>°C</td>
                 </tr>
                 <tr>
                   <td>Rel. humidity</td>
-                  <td><input type="number" min="60" max="100" id="i2"></td>
+                  <td><input type="number" min="60" max="100" id="i2" onchange="message('inp', this.id, this.value)"></td>
                   <td>%</td>
                 </tr>
               </table>

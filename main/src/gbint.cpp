@@ -58,13 +58,33 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
         AwsFrameInfo *info = (AwsFrameInfo *)arg;
         if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
         {
+            Serial.println("test");
             GBINT::obj = JSON.parse((char *)data);
-            char datvar[10] = GBINT::obj['n']; 
-            if (strcmp(datvar, "button"))
+            if (strcmp(GBINT::obj["n"], "btn"))
             {
-                //handle buttons
+                Serial.printf("\nChanged button %s to %u", obj["i"], obj["d"]);
             }
-        }
+            else if (strcmp(GBINT::obj["n"], "sld"))
+            {
+                Serial.printf("\nChanged slider  %s to %u", obj["i"], obj["d"]);
+            }
+            else if (strcmp(GBINT::obj["n"], "pfs"))
+            {
+                Serial.printf("\nSelected %s to %u", obj["i"], obj["d"]);
+            }
+            else if (strcmp(GBINT::obj["n"], "pfw"))
+            {
+                Serial.printf("\nWrote profile %s to %u", obj["i"], obj["d"]);
+            }
+            else if (strcmp(GBINT::obj["n"], "inp"))
+            {
+                Serial.printf("\nInput %s to %u", obj["i"], obj["d"]);
+            }
+            // else if (strcmp(obj["n"], ""))
+            // {
+            //     /* code */
+            // }
+                }
     }
     break;
     case WS_EVT_PONG:
