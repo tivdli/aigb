@@ -6,6 +6,29 @@
 #include <MHZ19.h>
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
+#include <SoftwareSerial.h>
+
+#define CO2_TX 1
+#define Vernevelaar 2
+#define CO2_RX 3
+#define Led_pin 4
+#define Led_B 13
+#define Pomp_Voeding 16
+#define Pomp_Water 17
+#define Fan_Control_1 18
+#define Fan_Control_2 19
+#define SDA 21
+#define SCL 22
+#define Peltier_1 23
+#define Peltier_2 25
+#define Led_R 26
+#define Led_G 27
+#define Servo_1 32
+#define Servo_2 33
+#define LDR_1 34
+#define LDR_2 36
+#define Water_Level 39
+
 
 class AIGB{
     public:

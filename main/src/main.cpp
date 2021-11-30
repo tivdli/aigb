@@ -8,8 +8,6 @@
 //Local libraries
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <MHZ19.h>
-#include <ESP32Servo.h>
 
 //local files
 #include <aigb.h>
@@ -17,17 +15,18 @@
 
 //setup
 #define PORT 80
-#define SSID "VGV75195AFCBD"
-#define PASS "f5EU7TA4pv3G"
+//#define SSID "VGV75195AFCBD"
+//#define PASS "f5EU7TA4pv3G"
 
-
+#define SSID "NETGEAR96"
+#define PASS "5tsWWScWn"
 
 //variables
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
 GBINT gbint(&server, &websocket, &events);
-
+AIGB aigb;
 
 
 void initWifi()
@@ -51,9 +50,11 @@ void oE(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType typ
 {
     gbint.onEvent(server, client, type, arg, data, len);
 }
+
 void setup()
 {
     Serial.begin(115200);
+    
     //start wifi and reset ESP on failure to connect within 10 seconds
     WiFi.begin(SSID, PASS);
     Serial.println("Connecting to wifi");
@@ -62,12 +63,19 @@ void setup()
     Serial.println(WiFi.localIP());
     websocket.onEvent(GBINT::onEvent);
     server.addHandler(&websocket);
+
+
     
     gbint.init();
+    aigb.init();
+    //define baud rate for co2 sensor
+    
+  
 }
 
 void loop()
 {
-    AIGB LED();// blinks led hopefully (still have to test it)
+    
+    aigb.LED();
     websocket.cleanupClients();
 }

@@ -3,36 +3,18 @@
 #include <ESP32Servo.h>
 #include <MHZ19.h>
 
-#define CO2_TX 1
-#define Vernevelaar 2
-#define CO2_RX 3
-#define Led_pin 4
-#define Led_B 13
-#define Pomp_Voeding 16
-#define Pomp_Water 17
-#define Fan_Control_1 18
-#define Fan_Control_2 19
-#define SDA 21
-#define SCL 22
-#define Peltier_1 23
-#define Peltier_2 25
-#define Led_R 26
-#define Led_G 27
-#define Servo_1 32
-#define Servo_2 33
-#define LDR_1 34
-#define LDR_2 36
-#define Water_Level 39
-
-
 AIGB::AIGB(){
-    //now used to define the pin modes and start timers (setup from arduino)
-    //still looking if this is the smartest way can not find a lot of examples with h files and with arduino libaries.    
+      
+    init();
+}
+void AIGB::init(){
+    //makes four PWM signals for the servos
     int ADS_max=4096;
     ESP32PWM::allocateTimer(0);
     ESP32PWM::allocateTimer(1);
     ESP32PWM::allocateTimer(2);
     ESP32PWM::allocateTimer(3);
+    //making two servo objects
     Servo MyServo1;
     Servo MyServo2;
     MyServo1.attach(Servo_1,0,180);
@@ -53,22 +35,25 @@ AIGB::AIGB(){
     // defines the inputs
     pinMode(Water_Level,INPUT);
     pinMode(LDR_1,INPUT); 
-    pinMode(LDR_2,INPUT);   
-    init();
-}
-void AIGB::init(){
+    pinMode(LDR_2,INPUT);
 
+    
+    
 }
 
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
-    digitalWrite(Led_pin,HIGH);
+    digitalWrite(Vernevelaar,HIGH);
+    Serial.println("on");
     delay(300);
-    digitalWrite(Led_pin,LOW);
+    digitalWrite(Vernevelaar,LOW);
+    Serial.println("off");
     delay(300);
-    digitalWrite(Led_pin,HIGH);
+    digitalWrite(Vernevelaar,HIGH);
+    Serial.println("on");
     delay(300);
-    digitalWrite(Led_pin,LOW);
+    digitalWrite(Vernevelaar,LOW);
+    Serial.println("off");
     
 }
 
@@ -76,10 +61,46 @@ void AIGB::Moisture(){
 
 } 
 
-
+// has to be tested if it function 
 int AIGB::Get_Co2(){
+    SoftwareSerial co2Serial(CO2_RX, CO2_TX);
+    co2Serial.begin(9600);  
+    byte cmd[9] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
+    byte response[9];
+    co2Serial.write(cmd, 9);
+      // The serial stream can get out of sync. The response starts with 0xff, try to resync.
+    while (co2Serial.available() > 0 && (unsigned char)co2Serial.peek() != 0xFF) {
+        co2Serial.read();
+    }
 
-} 
+    memset(response, 0, 9);
+    co2Serial.readBytes(response, 9);
+
+    if (response[1] != 0x86){
+        Serial.println("Invalid response from co2 sensor!");
+        return -1;
+    }
+
+    byte crc = 0;
+    for (int i = 1; i < 8; i++) {
+        crc += response[i];
+    }
+
+    crc = 255 - crc + 1;
+
+    if (response[8] == crc) {
+        int responseHigh = (int) response[2];
+        int responseLow = (int) response[3];
+        int ppm = (256 * responseHigh) + responseLow;
+        return ppm;
+        } 
+        
+        else {
+        Serial.println("CRC error!");
+        return -1;
+    }
+    }
+    
 
 int AIGB::Get_Hum_In(){
 
