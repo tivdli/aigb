@@ -58,6 +58,11 @@ class AIGB{
         void Led_Strip();
         Servo MyServo1;
         Servo MyServo2;
+        
+        #define CO2_TX 1
+        #define Vernevelaar 2
+        #define CO2_RX 3
+        SoftwareSerial co2Serial;
     private:
        
     

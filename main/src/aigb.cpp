@@ -36,8 +36,8 @@ void AIGB::init(){
     pinMode(Water_Level,INPUT);
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
-
-    
+    SoftwareSerial co2Serial(CO2_RX, CO2_TX);
+    co2Serial.begin(9600); 
     
 }
 
@@ -54,7 +54,7 @@ int AIGB::LED(){
     delay(300);
     digitalWrite(Vernevelaar,LOW);
     Serial.println("off");
-    
+    return 1;
 }
 
 void AIGB::Moisture(){
@@ -63,8 +63,8 @@ void AIGB::Moisture(){
 
 // has to be tested if it function 
 int AIGB::Get_Co2(){
-    SoftwareSerial co2Serial(CO2_RX, CO2_TX);
-    co2Serial.begin(9600);  
+    
+     
     byte cmd[9] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
     byte response[9];
     co2Serial.write(cmd, 9);
@@ -103,18 +103,18 @@ int AIGB::Get_Co2(){
     
 
 int AIGB::Get_Hum_In(){
-
+    return 1;
 } 
 
 int AIGB:: Get_Hum_Out(){
-
+    return 1;
 }
 int AIGB::Get_Temp_Out(){
-
+    return 1;
 }
 
 int AIGB:: Get_Temp_In(){
-
+    return 1;
 }
     
 // int AIGB:: Get_water(){
