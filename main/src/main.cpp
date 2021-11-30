@@ -15,11 +15,8 @@
 
 //setup
 #define PORT 80
-//#define SSID "VGV75195AFCBD"
-//#define PASS "f5EU7TA4pv3G"
-
-#define SSID "NETGEAR96"
-#define PASS "5tsWWScWn"
+#define SSID "VGV75195AFCBD"
+#define PASS "f5EU7TA4pv3G"
 
 //variables
 AsyncWebServer server(PORT);
