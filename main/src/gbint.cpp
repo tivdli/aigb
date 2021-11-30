@@ -59,24 +59,26 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
         if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT)
         {
             Serial.println("test");
-            GBINT::obj = JSON.parse((char *)data);
-            if (strcmp(GBINT::obj["n"], "btn"))
+            JSONVar obj = JSON.parse((char *)data);
+            String name((const char*)obj["n"]);
+            Serial.println(name);
+            if (name == "btn")
             {
-                Serial.printf("\nChanged button %s to %u", obj["i"], obj["d"]);
+                Serial.printf("\nChanged button %s to %u", (const char*)obj["i"], (int)obj["d"]);
             }
-            else if (strcmp(GBINT::obj["n"], "sld"))
+            else if (name =="sld")
             {
                 Serial.printf("\nChanged slider  %s to %u", obj["i"], obj["d"]);
             }
-            else if (strcmp(GBINT::obj["n"], "pfs"))
+            else if (name == "pfs")
             {
                 Serial.printf("\nSelected %s to %u", obj["i"], obj["d"]);
             }
-            else if (strcmp(GBINT::obj["n"], "pfw"))
+            else if (name == "pfw")
             {
                 Serial.printf("\nWrote profile %s to %u", obj["i"], obj["d"]);
             }
-            else if (strcmp(GBINT::obj["n"], "inp"))
+            else if (name == "inp")
             {
                 Serial.printf("\nInput %s to %u", obj["i"], obj["d"]);
             }

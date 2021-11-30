@@ -43,7 +43,7 @@ function initWS() {
 }
 
 function onOpen(event) {
-  ws.send("start");
+  message("stt", 0,0);
 }
 
 function onClose(event) {
@@ -86,7 +86,7 @@ function processButton(elem) {
       }
     }
     if (!first) {
-      message("button", elem.id, buttonStates[num - 1]);
+      message("btn", elem.id, buttonStates[num - 1]);
     }
   } else if (num == buttonStates.length + 1) {
     document.getElementById(elem.id + "_c").style.color = "green";

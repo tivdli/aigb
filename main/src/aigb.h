@@ -10,7 +10,7 @@
 class AIGB{
     public:
         AIGB();
-        void AIGB::init();
+        void init();
         
         
         int LED();

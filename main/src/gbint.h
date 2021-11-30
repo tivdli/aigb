@@ -43,7 +43,7 @@ private:
 
     //profile vars
     int profileNum;
-    static JSONVar obj;
+    JSONVar obj;
     void resetmemory();
     void respond();
 };
