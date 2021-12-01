@@ -4,7 +4,8 @@
 #include <MHZ19.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
-
+#include <Wire.h>
+#include <RTClib.h>
 
 AIGB::AIGB(){
       
@@ -26,6 +27,8 @@ void AIGB::init(){
     // making am2320 sensor object
     
     Adafruit_AM2320 AM2320 = Adafruit_AM2320();
+    // making rtc
+    RTC_DS1307 rtc;
     
     // defined all the outputs
     pinMode(Led_pin,OUTPUT);
@@ -45,11 +48,25 @@ void AIGB::init(){
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
     SoftwareSerial co2Serial(CO2_RX, CO2_TX);
-    SoftwareSerial AM2320(SDA, SCL);
+    
     co2Serial.begin(9600); 
     AM2320.begin(9600);
 }
 
+int AIGB:: Time(){
+    return 1;
+}
+
+int AIGB::Control(){
+    // check time
+    //check settings
+    // check temp
+    // check waterlevel
+    // check humidity
+    // check light
+    
+    return 1;
+}
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
     digitalWrite(Vernevelaar,HIGH);
@@ -66,8 +83,20 @@ int AIGB::LED(){
     return 1;
 }
 
-void AIGB::Moisture(){
+int AIGB::Measurment_In(){
+      // Read the temperature and the humidity:
+    float tempC = AM2320.readTemperature();
+    float humidity = AM2320.readHumidity();
 
+    return tempC,Humidity;
+} 
+
+int AIGB::Measurment_Out(){
+      // Read the temperature and the humidity:
+    float tempC = AM2320.readTemperature();
+    float humidity = AM2320.readHumidity();
+
+    return tempC,Humidity;
 } 
 
 // has to be tested if it function 
@@ -111,21 +140,7 @@ int AIGB::Get_Co2(){
     }
     
 
-int AIGB::Get_Hum_In(){
-    return 1;
-} 
 
-int AIGB:: Get_Hum_Out(){
-    return 1;
-}
-int AIGB::Get_Temp_Out(){
-    return 1;
-}
-
-int AIGB:: Get_Temp_In(){
-    return 1;
-}
-    
 // int AIGB:: Get_water(){
 
 // }
