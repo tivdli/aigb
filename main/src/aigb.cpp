@@ -2,11 +2,15 @@
 #include <aigb.h>
 #include <ESP32Servo.h>
 #include <MHZ19.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_AM2320.h>
+
 
 AIGB::AIGB(){
       
     init();
 }
+
 void AIGB::init(){
     //makes four PWM signals for the servos
     int ADS_max=4096;
@@ -19,6 +23,10 @@ void AIGB::init(){
     Servo MyServo2;
     MyServo1.attach(Servo_1,0,180);
     MyServo2.attach(Servo_2,0,180);
+    // making am2320 sensor object
+    
+    Adafruit_AM2320 AM2320 = Adafruit_AM2320();
+    
     // defined all the outputs
     pinMode(Led_pin,OUTPUT);
     pinMode(Vernevelaar,OUTPUT);
@@ -37,8 +45,9 @@ void AIGB::init(){
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
     SoftwareSerial co2Serial(CO2_RX, CO2_TX);
+    SoftwareSerial AM2320(SDA, SCL);
     co2Serial.begin(9600); 
-    
+    AM2320.begin(9600);
 }
 
 // function to led a led blink hopfully from there we can built further
