@@ -25,6 +25,13 @@ AsyncEventSource events("/events");
 GBINT gbint(&server, &websocket, &events);
 AIGB aigb;
 
+int temp_reading_inside = 0;
+int temp_reading_outside = 0;
+int temp_setting_inside = 0;
+int co2_current_inside = 0;
+int light_
+
+
 
 void initWifi()
 {
