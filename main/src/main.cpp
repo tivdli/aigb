@@ -27,9 +27,20 @@ AIGB aigb;
 
 int temp_reading_inside = 0;
 int temp_reading_outside = 0;
-int temp_setting_inside = 0;
+int temp_setting_inside_day = 0;
+int temp_setting_inside_night = 0;
 int co2_current_inside = 0;
-int light_
+int light_reading_1 = 0;
+int light_reading_2 = 0;
+int water_leavel_reading = 0;
+int pump_power_setting = 0;
+
+int light_power_setting = 0;
+int light_color_setting = 0;
+
+int feed_interval_setting = 0;
+int feed_volume_setting = 0;
+
 
 
 
