@@ -75,12 +75,12 @@ function processButton(elem) {
   num = parseInt(elem.id.split("")[1]);
   if (num < buttonStates.length + 1) {
     if (buttonStates[num - 1] == 1) {
-      document.getElementById(elem.id + "_c").style.color = "red";
+     elem.style.color = "red";
       if (!first) {
         buttonStates[num - 1] = 0;
       }
     } else {
-      document.getElementById(elem.id + "_c").style.color = "green";
+      elem.style.color = "green";
       if (!first) {
         buttonStates[num - 1] = 1;
       }
@@ -89,9 +89,9 @@ function processButton(elem) {
       message("btn", elem.id, buttonStates[num - 1]);
     }
   } else if (num == buttonStates.length + 1) {
-    document.getElementById(elem.id + "_c").style.color = "green";
+    elem.style.color = "green";
     setTimeout(function () {
-      document.getElementById(elem.id + "_c").style.color = "black";
+      elem.style.color = "black";
     }, 250);
     message("btn", elem.id, 1);
   }
