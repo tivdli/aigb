@@ -10,8 +10,8 @@ function onOpen(event){message("stt",0,0);}
 function onClose(event){setTimeout(initWS,2000);}
 function onMessage(event){msg=JSON.parse(event.data);switch(msg["key"]){case"start":fillPage(msg);break;}}
 var buttonStates=[0];var sliderStates=[0];var light_sensor=[0];var light_color=0;var feed_values=[0];var air_sensor=[0];var air_input=[0];function processButton(elem){var first=false;if(typeof elem=="string"){first=true;elem=document.getElementById(elem);}
-num=parseInt(elem.id.split("")[1]);if(num<buttonStates.length+1){if(buttonStates[num-1]==1){document.getElementById(elem.id+"_c").style.color="red";if(!first){buttonStates[num-1]=0;}}else{document.getElementById(elem.id+"_c").style.color="green";if(!first){buttonStates[num-1]=1;}}
-if(!first){message("btn",elem.id,buttonStates[num-1]);}}else if(num==buttonStates.length+1){document.getElementById(elem.id+"_c").style.color="green";setTimeout(function(){document.getElementById(elem.id+"_c").style.color="black";},250);message("btn",elem.id,1);}}
+num=parseInt(elem.id.split("")[1]);if(num<buttonStates.length+1){if(buttonStates[num-1]==1){elem.style.color="red";if(!first){buttonStates[num-1]=0;}}else{elem.style.color="green";if(!first){buttonStates[num-1]=1;}}
+if(!first){message("btn",elem.id,buttonStates[num-1]);}}else if(num==buttonStates.length+1){elem.style.color="green";setTimeout(function(){elem.style.color="black";},250);message("btn",elem.id,1);}}
 function fillPage(msg){buttonStates=msg["btn"];sliderStates=msg["sld"];light_sensor=msg["llm"];light_color=msg["clr"];feed_values=msg["fvl"];air_sensor=msg["ase"];air_input=msg["ain"];if(typeof msg["prf"]!="undefined"){ws.send(msg["prf"]);}}
 function processSlider(elem){document.getElementById(elem.id+"_v").innerHTML=elem.value;}
 function concName(n1,n2,n3,n4){return(profile_name_climate[n1]+
