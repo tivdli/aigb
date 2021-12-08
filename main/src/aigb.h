@@ -34,16 +34,14 @@ class AIGB{
     public:
         AIGB();
         void init();
-        
-        
+        int Calibrate(int *Setting);
+        int Control(int *Settings,bool day);
+        int Time();
         int LED();
         void Moisture();
         int Get_Co2();
-        int Get_Hum_In();
-        int Get_Hum_Out();
-
-        int Get_Temp_Out();
-        int Get_Temp_In();
+        int Measurment_In();
+        int Measurment_Out();
         int Get_water();
         int Get_LDR_One();
         int Get_LDR_Two();
@@ -60,12 +58,11 @@ class AIGB{
         Servo MyServo2;
         
         #define CO2_TX 1
-        #define Vernevelaar 2
         #define CO2_RX 3
         SoftwareSerial co2Serial;
     private:
-       
-    
+        char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};  
+        
 
 };
 

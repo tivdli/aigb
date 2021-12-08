@@ -6,7 +6,7 @@
 #include <Adafruit_AM2320.h>
 #include <Wire.h>
 #include <RTClib.h>
-
+#include <list>
 AIGB::AIGB(){
       
     init();
@@ -50,17 +50,43 @@ void AIGB::init(){
     SoftwareSerial co2Serial(CO2_RX, CO2_TX);
     
     co2Serial.begin(9600); 
-    AM2320.begin(9600);
+    //AM2320.begin(9600);
 }
 
 int AIGB:: Time(){
-    return 1;
+    int t=1;
+    return t;
 }
+int AIGB::Calibrate(int *Settings){
+    int t=Time();
+    bool day;
+    if (20 > t > 7){
+        day=true;
+    }
+    else{
+        day=false;
+    }
+    Control(Settings,day);
+    return day;
+}
+int AIGB::Control(int *Settings,bool day){
+    
+    //settings instellen
+     if (day==true){
+        
 
-int AIGB::Control(){
-    // check time
-    //check settings
-    // check temp
+        int *Setting[7]={&Settings[0],&Settings[2],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
+    }
+    else{
+        
+        int *Setting[7]={&Settings[1],&Settings[3],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
+    }
+    //Setting (0=day temp, 1=night temp, 2= day hum, 3=night hum, 4=pomp power, 5= light power, 6= light color, 7= food interval, 8=food volume)
+    //check settings (looks if the settings are still compatible with the time of day)
+    // int* temp_setting= &temp_setting_inside_day;
+    // temp difference
+    
+
     // check waterlevel
     // check humidity
     // check light
@@ -70,34 +96,34 @@ int AIGB::Control(){
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
     digitalWrite(Vernevelaar,HIGH);
-    Serial.println("on");
+  
     delay(300);
     digitalWrite(Vernevelaar,LOW);
-    Serial.println("off");
+  
     delay(300);
     digitalWrite(Vernevelaar,HIGH);
-    Serial.println("on");
+   
     delay(300);
     digitalWrite(Vernevelaar,LOW);
-    Serial.println("off");
+    
     return 1;
 }
 
-int AIGB::Measurment_In(){
-      // Read the temperature and the humidity:
-    float tempC = AM2320.readTemperature();
-    float humidity = AM2320.readHumidity();
+// int AIGB::Measurment_In(){
+//       // Read the temperature and the humidity:
+//     float tempCIn = AM2320.readTemperature();
+//     float humidityIn = AM2320.readHumidity();
 
-    return tempC,Humidity;
-} 
+//     return tempCIn,humidityIn;
+// } 
 
-int AIGB::Measurment_Out(){
-      // Read the temperature and the humidity:
-    float tempC = AM2320.readTemperature();
-    float humidity = AM2320.readHumidity();
+// int AIGB::Measurment_Out(){
+//       // Read the temperature and the humidity:
+//     float tempC = AM2320.readTemperature();
+//     float humidity = AM2320.readHumidity();
 
-    return tempC,Humidity;
-} 
+//     return tempC,humidity;
+// } 
 
 // has to be tested if it function 
 int AIGB::Get_Co2(){

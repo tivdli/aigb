@@ -36,7 +36,7 @@ int Hum_setting_inside_night = 0;
 int co2_current_inside = 0;
 int light_reading_1 = 0;
 int light_reading_2 = 0;
-int water_leavel_reading = 0;
+int water_level_reading = 0;
 int pump_power_setting = 0;
 
 int light_power_setting = 0;
@@ -45,6 +45,8 @@ int light_color_setting = 0;
 int feed_interval_setting = 0;
 int feed_volume_setting = 0;
 
+int Settings[9]={temp_setting_inside_day , temp_setting_inside_night , Hum_setting_inside_day ,Hum_setting_inside_night,pump_power_setting,light_power_setting,light_color_setting,feed_interval_setting,feed_volume_setting};
+int *Set=Settings;
 
 
 
@@ -94,8 +96,10 @@ void setup()
 
 void loop()
 {
+    //first the variable settings have to be set (or we need a default setting)
     
-    aigb.LED();
+    
+    aigb.Calibrate(Set);
     temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     websocket.cleanupClients();
 }
