@@ -8,15 +8,18 @@
 //Local libraries
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-
+#include <MHZ19.h>
+#include <ESP32Servo.h>
+#include <Adafruit_Sensor.h>
+#include <SPI.h> 
 //local files
 #include <aigb.h>
 #include <gbint.h>
 
 //setup
 #define PORT 80
-#define SSID "VGV75195AFCBD"
-#define PASS "f5EU7TA4pv3G"
+#define SSID "Daerkspot"
+#define PASS "twee0168"
 
 //variables
 // AsyncWebServer server(PORT);
@@ -25,14 +28,18 @@
 //GBINT gbint(&server, &websocket, &events);
 AIGB aigb;
 
-int temp_reading_inside = 0;
-int temp_reading_outside = 0;
-int temp_setting_inside_day = 0;
-int temp_setting_inside_night = 0;
+int temp_reading_inside = 4;
+int temp_reading_outside = 6;
+int temp_setting_inside_day = 7;
+int temp_setting_inside_night = 7;
+int Hum_reading_inside = 0;
+int Hum_reading_outside = 0;
+int Hum_setting_inside_day = 0;
+int Hum_setting_inside_night = 0;
 int co2_current_inside = 0;
 int light_reading_1 = 0;
 int light_reading_2 = 0;
-int water_leavel_reading = 0;
+int water_level_reading = 0;
 int pump_power_setting = 0;
 
 int light_power_setting = 0;
@@ -71,22 +78,36 @@ void setup()
     Serial.begin(115200);
     
     //start wifi and reset ESP on failure to connect within 10 seconds
+<<<<<<< Updated upstream
     // WiFi.begin(SSID, PASS);
+=======
+    //WiFi.begin(SSID, PASS);
+>>>>>>> Stashed changes
     // Serial.println("Connecting to wifi");
     // initWifi();
     // Serial.print("\nConnected to wifi with IP: ");
     // Serial.println(WiFi.localIP());
     // websocket.onEvent(GBINT::onEvent);
     // server.addHandler(&websocket);
+<<<<<<< Updated upstream
 
 
     
     //gbint.init();
     aigb.init();
     //define baud rate for co2 sensor
+=======
+}
+    
+void loop(){
+    // gbint.init();
+    //first the variable settings have to be set (or we need a default setting)
+>>>>>>> Stashed changes
     
   
+    aigb.Calibrate();
 }
+<<<<<<< Updated upstream
 
 void loop()
 {
@@ -103,3 +124,5 @@ void loop()
     //websocket.cleanupClients();
 >>>>>>> Stashed changes
 }
+=======
+>>>>>>> Stashed changes
