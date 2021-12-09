@@ -78,51 +78,27 @@ void setup()
     Serial.begin(115200);
     
     //start wifi and reset ESP on failure to connect within 10 seconds
-<<<<<<< Updated upstream
     // WiFi.begin(SSID, PASS);
-=======
     //WiFi.begin(SSID, PASS);
->>>>>>> Stashed changes
     // Serial.println("Connecting to wifi");
     // initWifi();
     // Serial.print("\nConnected to wifi with IP: ");
     // Serial.println(WiFi.localIP());
     // websocket.onEvent(GBINT::onEvent);
     // server.addHandler(&websocket);
-<<<<<<< Updated upstream
 
 
     
     //gbint.init();
     aigb.init();
     //define baud rate for co2 sensor
-=======
 }
     
 void loop(){
-    // gbint.init();
-    //first the variable settings have to be set (or we need a default setting)
->>>>>>> Stashed changes
-    
-  
-    aigb.Calibrate();
-}
-<<<<<<< Updated upstream
-
-void loop()
-{
-<<<<<<< Updated upstream
-    
-    aigb.LED();
-    websocket.cleanupClients();
-=======
-    //first the variable settings have to be set (or we need a default setting)
+ //first the variable settings have to be set (or we need a default setting)
     
      printf("%d" ,temp_reading_inside);
-    aigb.Calibrate(Set);
+    //aigb.Calibrate( Hum_setting_inside_day,Hum_setting_inside_night,pump_power_setting,light_power_setting,light_color_setting,feed_interval_setting,feed_volume_setting);
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     //websocket.cleanupClients();
->>>>>>> Stashed changes
 }
-=======
->>>>>>> Stashed changes

@@ -45,13 +45,11 @@ void AIGB::init(){
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
     SoftwareSerial co2Serial(CO2_RX, CO2_TX);
-    SoftwareSerial AM2320(SDA, SCL);
+    //SoftwareSerial AM2320(SDA, SCL);
     co2Serial.begin(9600); 
-    AM2320.begin(9600);
+    //AM2320.begin(9600);
 }
-<<<<<<< Updated upstream
 
-=======
 int AIGB:: Time(){
     int t=1;
     return t;
@@ -94,7 +92,6 @@ int AIGB::Control(int *Settings){
     
     return 1;
 }
->>>>>>> Stashed changes
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
     digitalWrite(Vernevelaar,HIGH);
@@ -167,12 +164,9 @@ int AIGB::Get_Temp_Out(){
     return 1;
 }
 
-<<<<<<< Updated upstream
 int AIGB:: Get_Temp_In(){
     return 1;
 }
-=======
->>>>>>> Stashed changes
     
 // int AIGB:: Get_water(){
 

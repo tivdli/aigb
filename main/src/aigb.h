@@ -34,8 +34,8 @@ class AIGB{
     public:
         AIGB();
         void init();
-        
-        
+        int Calibrate(int *Settings);
+        int Control(int *Settings);
         int LED();
         void Moisture();
         int Get_Co2();
@@ -56,6 +56,7 @@ class AIGB{
         void Pel_two();
         void Control_Fan();
         void Led_Strip();
+        int Time();
         Servo MyServo1;
         Servo MyServo2;
         
@@ -63,6 +64,8 @@ class AIGB{
         #define Vernevelaar 2
         #define CO2_RX 3
         SoftwareSerial co2Serial;
+        bool day;
+        int *Setting[7];
     private:
        
     
