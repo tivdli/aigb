@@ -74,7 +74,7 @@ int AIGB::Control(int *Settings,bool day){
     //settings instellen
      if (day==true){
         
-
+        //point ik nu naar een pointer?
         int *Setting[7]={&Settings[0],&Settings[2],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
     }
     else{
