@@ -49,7 +49,52 @@ void AIGB::init(){
     co2Serial.begin(9600); 
     AM2320.begin(9600);
 }
+<<<<<<< Updated upstream
 
+=======
+int AIGB:: Time(){
+    int t=1;
+    return t;
+}
+int AIGB::Calibrate(int *Settings){
+    int t=Time();
+    bool day;
+    if (20 > t > 7){
+        day=true;
+    }
+
+    else{
+        day=false;
+    }
+    Control(Settings);
+    return day;
+}
+int AIGB::Control(int *Settings){
+    
+    //settings instellen
+     if (day==true){
+        
+        //point ik nu naar een pointer?
+        int *Setting[7]={&Settings[0],&Settings[2],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
+    }
+    else{
+        
+        int *Setting[7]={&Settings[1],&Settings[3],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
+    }
+    //Setting (0=day temp, 1=night temp, 2= day hum, 3=night hum, 4=pomp power, 5= light power, 6= light color, 7= food interval, 8=food volume)
+    //check settings (looks if the settings are still compatible with the time of day)
+    // int* temp_setting= &temp_setting_inside_day;
+    
+    // temp difference
+    printf("%d" ,*Setting[0]);
+    delay(500);
+    // check waterlevel
+    // check humidity
+    // check light
+    
+    return 1;
+}
+>>>>>>> Stashed changes
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
     digitalWrite(Vernevelaar,HIGH);
@@ -122,9 +167,12 @@ int AIGB::Get_Temp_Out(){
     return 1;
 }
 
+<<<<<<< Updated upstream
 int AIGB:: Get_Temp_In(){
     return 1;
 }
+=======
+>>>>>>> Stashed changes
     
 // int AIGB:: Get_water(){
 
