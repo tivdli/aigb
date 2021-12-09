@@ -97,8 +97,8 @@ void setup()
 void loop(){
  //first the variable settings have to be set (or we need a default setting)
     
-     printf("%d" ,temp_reading_inside);
-    //aigb.Calibrate( Hum_setting_inside_day,Hum_setting_inside_night,pump_power_setting,light_power_setting,light_color_setting,feed_interval_setting,feed_volume_setting);
+    printf("%d" ,&temp_reading_inside);
+    aigb.Calibrate(&temp_setting_inside_day, &temp_setting_inside_night, &Hum_setting_inside_day,&Hum_setting_inside_night,&pump_power_setting,&light_power_setting,&light_color_setting,&feed_interval_setting,&feed_volume_setting);
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     //websocket.cleanupClients();
 }

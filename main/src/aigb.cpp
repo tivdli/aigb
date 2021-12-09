@@ -54,37 +54,37 @@ int AIGB:: Time(){
     int t=1;
     return t;
 }
-int AIGB::Calibrate(int *Settings){
-    int t=Time();
-    bool day;
-    if (20 > t > 7){
-        day=true;
-    }
+int AIGB::Calibrate(int* temp_day, int* temp_night ,int* Hum_day, int* Hum_night,int* pump_power, int* light_power,int* light_color,int* feed_interval,int* feed_volume){
+    // int t=Time();
+    // bool day;
+    // if (20 > t > 7){
+    //     day=true;
+    // }
 
-    else{
-        day=false;
-    }
-    Control(Settings);
-    return day;
+    // else{
+    //     day=false;
+    // }
+    Control();
+    return 1;
 }
-int AIGB::Control(int *Settings){
+int AIGB::Control(){
     
     //settings instellen
      if (day==true){
         
         //point ik nu naar een pointer?
-        int *Setting[7]={&Settings[0],&Settings[2],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
+        
     }
     else{
         
-        int *Setting[7]={&Settings[1],&Settings[3],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
+        
     }
     //Setting (0=day temp, 1=night temp, 2= day hum, 3=night hum, 4=pomp power, 5= light power, 6= light color, 7= food interval, 8=food volume)
     //check settings (looks if the settings are still compatible with the time of day)
     // int* temp_setting= &temp_setting_inside_day;
     
     // temp difference
-    printf("%d" ,*Setting[0]);
+    printf("%d" ,*temp_day);
     delay(500);
     // check waterlevel
     // check humidity

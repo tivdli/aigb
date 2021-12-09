@@ -34,8 +34,8 @@ class AIGB{
     public:
         AIGB();
         void init();
-        int Calibrate(int *Settings);
-        int Control(int *Settings);
+        int Calibrate(int* temp_day, int* temp_night ,int* Hum_day,int* Hum_night,int* pump_power, int* light_power,int* light_color,int* feed_interval,int* feed_volume);
+        int Control();
         int LED();
         void Moisture();
         int Get_Co2();
@@ -66,6 +66,15 @@ class AIGB{
         SoftwareSerial co2Serial;
         bool day;
         int *Setting[7];
+        int* temp_day;
+        int* temp_night;
+        int* Hum_day;
+        int* Hum_night;
+        int* pump_power;
+        int* light_power;
+        int* light_color;
+        int* feed_interval;
+        int* feed_volume;
     private:
        
     
