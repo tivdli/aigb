@@ -15,9 +15,10 @@
 
 //setup
 #define PORT 80
-#define SSID "VGV75195AFCBD"
-#define PASS "f5EU7TA4pv3G"
-
+//#define SSID "VGV75195AFCBD"
+//#define PASS "f5EU7TA4pv3G"
+#define SSID "Daerkspot"
+#define PASS "twee0168"
 //variables
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");

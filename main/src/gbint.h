@@ -31,8 +31,6 @@ public:
     bool setprofile(JSONVar msg);
     void init();
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
-
-private:
     static AsyncWebSocket *ws;
     static AsyncWebServer *server;
     static AsyncEventSource *events;

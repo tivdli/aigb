@@ -86,12 +86,12 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             {
                 Serial.printf("\nInput %s to %u", obj["i"], obj["d"]);
             }
-            else if (name == "")
+            //else if (name == "")
             // else if (strcmp(obj["n"], ""))
             // {
             //     /* code */
             // }
-                }
+        }
     }
     break;
     case WS_EVT_PONG:
@@ -119,7 +119,7 @@ void GBINT::resetmemory()
 
 static void respond(String jstring)
 {
-    GBINT::ws->send(jstring);
+    GBINT::ws->text(1,"NULL");
 }
 JSONVar GBINT::listprofiles()
 {
