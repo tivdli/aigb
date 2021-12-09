@@ -65,6 +65,10 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             if (name == "btn")
             {
                 Serial.printf("\nChanged button %s to %u", (const char*)obj["i"], (int)obj["d"]);
+                if ((const char*) obj["i"] == "b5")
+                {
+                    GBINT::ws->text(client->id(), JSON.stringify('{"key":"pfw","go":' + char(EEPROM.read(PROFILESTART-2) + '}')));
+                }
             }
             else if (name =="sld")
             {
@@ -78,10 +82,11 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             {
                 Serial.printf("\nWrote profile %s to %u", obj["i"], obj["d"]);
             }
-            else if (name == "inp")
+            else if (name == "prr")
             {
                 Serial.printf("\nInput %s to %u", obj["i"], obj["d"]);
             }
+            else if (name == "")
             // else if (strcmp(obj["n"], ""))
             // {
             //     /* code */
@@ -112,6 +117,10 @@ void GBINT::resetmemory()
     delay(500);
 }
 
+static void respond(String jstring)
+{
+    GBINT::ws->send(jstring);
+}
 JSONVar GBINT::listprofiles()
 {
     if (GBINT::profileNum)

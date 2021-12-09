@@ -33,9 +33,9 @@ public:
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
 
 private:
-    AsyncWebSocket *ws;
-    AsyncWebServer *server;
-    AsyncEventSource *events;
+    static AsyncWebSocket *ws;
+    static AsyncWebServer *server;
+    static AsyncEventSource *events;
 
     //Profile settings
 
@@ -45,6 +45,5 @@ private:
     int profileNum;
     JSONVar obj;
     void resetmemory();
-    void respond();
 };
 #endif

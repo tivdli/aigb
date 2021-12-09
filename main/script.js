@@ -1,10 +1,17 @@
 var ws;
 var gW = "ws://" + window.location.hostname + "/ws";
-
+const PROFVAR = 16;
 profile_name_climate = ["Tropical", "Dry", "Temperate", "Continental"];
 profile_name_stage = ["Seedling", "Vegetative", "Budding", "Ripening"];
 profile_name_type = ["Common", "Leaf", "Fruit", "Flower"];
 profile_name_mode = ["Phase", "Stable", "Custom", "Stress"];
+var buttonStates = [0,0,0,0];
+var sliderStates = [0];
+var light_sensor = [0];
+var light_color = 0;
+var feed_values = [0];
+var air_sensor = [0];
+var air_input = [0];
 
 window.addEventListener("beforeunload", (event) => {
   ws.close();
@@ -29,10 +36,9 @@ window.onload = function () {
   p = JSON.parse(
     '{"key":"profl","nam":136,"col":"#A000FF","onh":6,"ofh":22, "onm":0,"ofm":30,"fin":12,"fqy":1.5,"tpd":20,"tpn":12,"hmd":80,"hmn":90}'
   );
+  fillProfiles();
   fillPage(o);
   updatePage();
-  setProfileRead(p);
-  fillProfiles();
 };
 
 function initWS() {
@@ -53,18 +59,44 @@ function onClose(event) {
 function onMessage(event) {
   msg = JSON.parse(event.data);
   switch (msg["key"]) {
-    case "start":
+    case "stt":
       fillPage(msg);
+      updatePage();
       break;
+    case "pfr":
+      setProfileRead(p);
+    case "pfw":
+      handleProfWrite(msg);
   }
 }
-var buttonStates = [0];
-var sliderStates = [0];
-var light_sensor = [0];
-var light_color = 0;
-var feed_values = [0];
-var air_sensor = [0];
-var air_input = [0];
+
+function handleProfWrite(msg){
+  go = msg["go"] ? msg["go"] : window.confirm("Profile already exists, do you want to overwrite it?");
+  if (){
+    pre="wp";
+    const data = [];
+    for (i = 1; i <= PROFVAR; i++){
+      if (i <6 || i > 9)
+      {
+        if (!["Climate", "Stage", "Type", "Mode", undefined, ""].includes(document.getElementById(pre+i).value)){
+          data.push(document.getElementById(pre+i).value);
+        }
+        else{
+          window.alert("Profile write selection not valid (have you selected all name types?)");
+          return false;
+        }
+      }
+      else if (i%2==0)
+      {
+        clock = document.getElementById(pre+i).value.split(":");
+        if (clock[1] == undefined) { window.alert("Profile write selection not valid: time missing"); return false}
+        data.push(clock[0]);
+        data.push(clock[1]);
+      }
+    }
+    message("pfw", data);
+  }
+}
 
 function processButton(elem) {
   var first = false;
@@ -105,7 +137,7 @@ function fillPage(msg) {
   air_sensor = msg["ase"];
   air_input = msg["ain"];
   if (typeof msg["prf"] != "undefined") {
-    ws.send(msg["prf"]);
+    ws.send(msg["prr"]);
   }
 }
 
@@ -223,5 +255,6 @@ function message(type, id, data) {
     i: id,
     d: data,
   };
+  console.log(JSON.stringify(comm));
   ws.send(JSON.stringify(comm));
 }
