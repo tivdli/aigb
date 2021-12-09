@@ -7,6 +7,8 @@
 #include <Wire.h>
 #include <RTClib.h>
 #include <list>
+#include "SPIFFS.h"
+#include <SPI.h> 
 AIGB::AIGB(){
       
     init();
@@ -66,10 +68,10 @@ int AIGB::Calibrate(int *Settings){
     else{
         day=false;
     }
-    Control(Settings,day);
+    Control(Settings);
     return day;
 }
-int AIGB::Control(int *Settings,bool day){
+int AIGB::Control(int *Settings){
     
     //settings instellen
      if (day==true){
@@ -84,8 +86,9 @@ int AIGB::Control(int *Settings,bool day){
     //Setting (0=day temp, 1=night temp, 2= day hum, 3=night hum, 4=pomp power, 5= light power, 6= light color, 7= food interval, 8=food volume)
     //check settings (looks if the settings are still compatible with the time of day)
     // int* temp_setting= &temp_setting_inside_day;
-    // temp difference
     
+    // temp difference
+    printf("%d" ,*Setting[0]);
 
     // check waterlevel
     // check humidity

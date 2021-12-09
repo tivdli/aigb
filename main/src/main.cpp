@@ -8,15 +8,18 @@
 //Local libraries
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-
+#include <MHZ19.h>
+#include <ESP32Servo.h>
+#include <Adafruit_Sensor.h>
+#include <SPI.h> 
 //local files
 #include <aigb.h>
 #include <gbint.h>
 
 //setup
 #define PORT 80
-#define SSID "VGV75195AFCBD"
-#define PASS "f5EU7TA4pv3G"
+#define SSID "Daerkspot"
+#define PASS "twee0168"
 
 //variables
 AsyncWebServer server(PORT);
@@ -25,10 +28,10 @@ AsyncEventSource events("/events");
 GBINT gbint(&server, &websocket, &events);
 AIGB aigb;
 
-int temp_reading_inside = 0;
-int temp_reading_outside = 0;
-int temp_setting_inside_day = 0;
-int temp_setting_inside_night = 0;
+int temp_reading_inside = 4;
+int temp_reading_outside = 6;
+int temp_setting_inside_day = 7;
+int temp_setting_inside_night = 7;
 int Hum_reading_inside = 0;
 int Hum_reading_outside = 0;
 int Hum_setting_inside_day = 0;
@@ -100,6 +103,6 @@ void loop()
     
     
     aigb.Calibrate(Set);
-    temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
+    //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     websocket.cleanupClients();
 }

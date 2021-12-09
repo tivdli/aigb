@@ -35,7 +35,7 @@ class AIGB{
         AIGB();
         void init();
         int Calibrate(int *Setting);
-        int Control(int *Settings,bool day);
+        int Control(int *Settings);
         int Time();
         int LED();
         void Moisture();
@@ -60,6 +60,9 @@ class AIGB{
         #define CO2_TX 1
         #define CO2_RX 3
         SoftwareSerial co2Serial;
+
+        int *Setting[7];
+        bool day;
     private:
         char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};  
         
