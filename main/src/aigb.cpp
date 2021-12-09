@@ -54,6 +54,10 @@ int AIGB:: Time(){
     int t=1;
     return t;
 }
+int Test(int test){
+    printf("%d", test);
+    return 0;
+}
 int AIGB::Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume){
     // int t=Time();
     // bool day;
@@ -72,8 +76,6 @@ int AIGB::Control(){
     //settings instellen
      if (day==true){
         
-        //point ik nu naar een pointer?
-        
     }
     else{
         
@@ -84,7 +86,7 @@ int AIGB::Control(){
     // int* temp_setting= &temp_setting_inside_day;
     
     // temp difference
-    printf("%d" ,*temp_day);
+   
     delay(500);
     // check waterlevel
     // check humidity

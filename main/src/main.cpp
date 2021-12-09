@@ -12,9 +12,9 @@
 #include <ESP32Servo.h>
 #include <Adafruit_Sensor.h>
 #include <SPI.h> 
-using namespace std;
+//using namespace std;
 
-#include <bits/stdc++.h>
+//#include <bits/stdc++.h>
 //local files
 #include <aigb.h>
 #include <gbint.h>
@@ -99,9 +99,9 @@ void setup()
     
 void loop(){
  //first the variable settings have to be set (or we need a default setting)
+    aigb.Test(temp_setting_inside_day);
     
-    cout << "print iets"<< temp_reading_inside<<"/n";
-    aigb.Calibrate(&temp_setting_inside_day, &temp_setting_inside_night, &Hum_setting_inside_day,&Hum_setting_inside_night,&pump_power_setting,&light_power_setting,&light_color_setting,&feed_interval_setting,&feed_volume_setting);
+    //aigb.Calibrate(&temp_setting_inside_day, &temp_setting_inside_night, &Hum_setting_inside_day,&Hum_setting_inside_night,&pump_power_setting,&light_power_setting,&light_color_setting,&feed_interval_setting,&feed_volume_setting);
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     //websocket.cleanupClients();
 }
