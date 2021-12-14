@@ -4,10 +4,12 @@
 #include <MHZ19.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
-
+#include <SoftwareSerial.h>
+#include <SPI.h> 
 
 AIGB::AIGB(){
-      
+
+    
     init();
 }
 
@@ -44,9 +46,9 @@ void AIGB::init(){
     pinMode(Water_Level,INPUT);
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
-    SoftwareSerial co2Serial(CO2_RX, CO2_TX);
+    //SoftwareSerial co2Serial(CO2_RX, CO2_TX);
     //SoftwareSerial AM2320(SDA, SCL);
-    co2Serial.begin(9600); 
+    //co2Serial.begin(9600); 
     //AM2320.begin(9600);
 }
 
@@ -54,34 +56,39 @@ int AIGB:: Time(){
     int t=1;
     return t;
 }
-int Test(int test){
+int AIGB::Test(){
+    int test=1;
     printf("%d", test);
     return 0;
 }
 int AIGB::Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume){
-    // int t=Time();
-    // bool day;
-    // if (20 > t > 7){
-    //     day=true;
-    // }
+    int t=Time();
+    t=6;
+    bool day;
+    
+    if (20 > t > 7){
+        day=true;
+        int *Temp=temp_day;
+        int *Hum=Hum_day;
+    }
 
-    // else{
-    //     day=false;
-    // }
+    else{
+        day=false;
+        printf("\n eerste pointer: %d", *temp_night);
+        printf(" met adres: %d", temp_night);
+        int *Temp=temp_night;
+        int *Hum=Hum_night;
+        printf("\n tweede toegeschreven: %d", *Temp);
+        printf(" met adres: %d",Temp);
+    }
     Control();
     return 1;
 }
 int AIGB::Control(){
     
     //settings instellen
-     if (day==true){
-        
-    }
-    else{
-        
-        
-    }
-    //Setting (0=day temp, 1=night temp, 2= day hum, 3=night hum, 4=pomp power, 5= light power, 6= light color, 7= food interval, 8=food volume)
+   
+    
     //check settings (looks if the settings are still compatible with the time of day)
     // int* temp_setting= &temp_setting_inside_day;
     
