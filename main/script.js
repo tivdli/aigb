@@ -71,9 +71,15 @@ function onMessage(event) {
 }
 
 function handleProfWrite(msg){
-  go = msg["go"] ? msg["go"] : window.confirm("Profile already exists, do you want to overwrite it?");
-  if (go){
-    pre="wp";
+  if (msg["go"] >= 1){
+    go = msg["go"];
+  }
+  else
+  {
+    go = window.confirm("Profile already exists, do you want to overwrite it?");
+  }
+  if (go >= 1){
+    pre = "wp";
     const data = [];
     for (i = 1; i <= PROFVAR; i++){
       if (i <6 || i > 9)
