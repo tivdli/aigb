@@ -71,7 +71,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 if ((const char*) obj["i"] == "b5")
                 {
                     //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
-                    GBINT::ws->text(client->id(), "{\"key\":\"pfw\",\"go\":" + char(EEPROM.read(PROFILESTART-2) + "}"));
+                    GBINT::ws->text(client->id(), String("{\"key\":\"pfw\",\"go\":" + char(EEPROM.read(PROFILESTART-2) + "}")));
                 }
             }
             else if (name =="sld")
