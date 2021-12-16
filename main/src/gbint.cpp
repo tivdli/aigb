@@ -8,7 +8,10 @@
 // GBINT::GBINT()
 // {
 // }
-
+AsyncWebSocket * GBINT::ws = 0;
+AsyncWebServer * GBINT::server=0;
+AsyncEventSource * GBINT::events=0;
+int GBINT::profileNum=0;
 void GBINT::init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events)
 {
     GBINT::ws = ws;
