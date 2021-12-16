@@ -58,6 +58,7 @@ function onClose(event) {
 
 function onMessage(event) {
   msg = JSON.parse(event.data);
+  console.log(msg);
   switch (msg["key"]) {
     case "stt":
       fillPage(msg);
