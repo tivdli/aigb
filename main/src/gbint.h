@@ -25,7 +25,7 @@
 class GBINT
 {
 public:
-    GBINT();
+    //GBINT();
     JSONVar getprofile(int number);
     JSONVar listprofiles();
     bool setprofile(JSONVar msg);

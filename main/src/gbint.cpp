@@ -5,9 +5,9 @@
 #include <Arduino_JSON.h>
 #include <EEPROM.h>
 #include <SPIFFS.h>
-GBINT::GBINT()
-{
-}
+// GBINT::GBINT()
+// {
+// }
 
 void GBINT::init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events)
 {

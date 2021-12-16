@@ -23,7 +23,7 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-GBINT gbint();
+GBINT gbint;
 // AIGB aigb;
 
 int temp_reading_inside = 0;
