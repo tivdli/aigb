@@ -68,7 +68,6 @@ function onMessage(event) {
     case "pfr":
       setProfileRead(p);
     case "pfw":
-      console.log("!L?");
       handleProfWrite(msg);
   }
 }
@@ -135,8 +134,15 @@ function processButton(elem) {
     setTimeout(function () {
       elem.style.color = "black";
     }, 250);
-    message("btn", elem.id, 1);
+    message("btn", elem.id, getNameNumber());
   }
+}
+
+function getNameNumber(){
+  for (int i = 1; i < 5; i ++){
+    document.getElementById("wp"+i)
+  }
+  
 }
 function fillPage(msg) {
   buttonStates = msg["btn"];

@@ -73,7 +73,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                     //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
                     Serial.println("1");
                     JSONVar msg;
-                    msg["Key"] = "pfw";
+                    msg["key"] = "pfw";
                     msg["go"] = EEPROM.read(PROFILESTART-2);
                     String send = JSON.stringify(msg);
                     Serial.println("2");
