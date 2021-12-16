@@ -72,10 +72,13 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 {
                     //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
                     Serial.println("1");
-                    JSONVar msg = 
-                    char buffer[25] = "{\"key\":\"pfw\",\"go\":" + char(EEPROM.read(PROFILESTART-2)) + char("}");
+                    JSONVar msg;
+                    msg["Key"] = "pfw";
+                    msg["go"] = EEPROM.read(PROFILESTART-2);
+                    String send = JSON.stringify(msg);
                     Serial.println("2");
-                    GBINT::ws->text(client->id(), buffer);
+                    GBINT::ws->text(client->id(), send);
+                    Serial.println("3");
                 }
             }
             else if (name =="sld")
