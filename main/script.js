@@ -67,6 +67,7 @@ function onMessage(event) {
     case "pfr":
       setProfileRead(p);
     case "pfw":
+      console.log("!L?");
       handleProfWrite(msg);
   }
 }
