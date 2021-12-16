@@ -72,7 +72,7 @@ function onMessage(event) {
 
 function handleProfWrite(msg){
   go = msg["go"] ? msg["go"] : window.confirm("Profile already exists, do you want to overwrite it?");
-  if (){
+  if (go){
     pre="wp";
     const data = [];
     for (i = 1; i <= PROFVAR; i++){
@@ -94,6 +94,7 @@ function handleProfWrite(msg){
         data.push(clock[1]);
       }
     }
+    console.log(data);
     message("pfw", data);
   }
 }
