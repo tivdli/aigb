@@ -70,7 +70,8 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 Serial.printf("\nChanged button %s to %u", (const char*)obj["i"], (int)obj["d"]);
                 if ((const char*) obj["i"] == "b5")
                 {
-                    GBINT::ws->text(client->id(), JSON.stringify('{"key":"pfw","go":' + char(EEPROM.read(PROFILESTART-2) + '}')));
+                    //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
+                    GBINT::ws->text(client->id(), "{\"key\":\"pfw\",\"go\":" + char(EEPROM.read(PROFILESTART-2) + "}"));
                 }
             }
             else if (name =="sld")
