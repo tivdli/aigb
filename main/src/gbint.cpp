@@ -71,9 +71,13 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 if (String((const char*) obj["i"]) == "b5")
                 {
                     //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
+                    Serial.println("1");
                     char buffer[25] = "{\"key\":\"pfw\",\"go\":";
+                    Serial.println("2");
                     strcat(buffer, (const char *) EEPROM.read(PROFILESTART-2));
+                    Serial.println("3");
                     strcat(buffer, "}");
+                    Serial.println("4");
 
                     GBINT::ws->text(client->id(), buffer);
                 }
