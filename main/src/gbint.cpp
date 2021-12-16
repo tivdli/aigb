@@ -68,7 +68,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             if (name == "btn")
             {
                 Serial.printf("\nChanged button %s to %u", (const char*)obj["i"], (int)obj["d"]);
-                if ((const char*) obj["i"] == "b5")
+                if (String((const char*) obj["i"]) == "b5")
                 {
                     //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
                     char buffer[25] = "{\"key\":\"pfw\",\"go\":";

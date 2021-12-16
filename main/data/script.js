@@ -8,7 +8,7 @@ var ws;var gW="ws://"+window.location.hostname+"/ws";const PROFVAR=16;profile_na
 '"ain":[20, 110]}');p=JSON.parse('{"key":"profl","nam":136,"col":"#A000FF","onh":6,"ofh":22, "onm":0,"ofm":30,"fin":12,"fqy":1.5,"tpd":20,"tpn":12,"hmd":80,"hmn":90}');fillProfiles();fillPage(o);updatePage();};function initWS(){ws=new WebSocket(gW);ws.onopen=onOpen;ws.onclose=onClose;ws.onmessage=onMessage;}
 function onOpen(event){message("stt",0,0);}
 function onClose(event){setTimeout(initWS,2000);}
-function onMessage(event){msg=JSON.parse(event.data);console.log(msg);switch(msg["key"]){case"stt":fillPage(msg);updatePage();break;case"pfr":setProfileRead(p);case"pfw":console.log("!L?");handleProfWrite(msg);}}
+function onMessage(event){console.log(event.data);msg=JSON.parse(event.data);console.log(msg);switch(msg["key"]){case"stt":fillPage(msg);updatePage();break;case"pfr":setProfileRead(p);case"pfw":console.log("!L?");handleProfWrite(msg);}}
 function handleProfWrite(msg){if(msg["go"]>=1){go=msg["go"];}
 else
 {go=window.confirm("Profile already exists, do you want to overwrite it?");}
