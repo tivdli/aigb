@@ -57,6 +57,7 @@ function onClose(event) {
 }
 
 function onMessage(event) {
+  console.log(event.data);
   msg = JSON.parse(event.data);
   console.log(msg);
   switch (msg["key"]) {
