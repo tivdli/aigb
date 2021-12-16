@@ -23,7 +23,6 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-GBINT gbint;
 // AIGB aigb;
 
 int temp_reading_inside = 0;
@@ -68,7 +67,7 @@ void initWifi()
 
 void oE(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len)
 {
-    gbint.onEvent(server, client, type, arg, data, len);
+    GBINT::onEvent(server, client, type, arg, data, len);
 }
 
 void setup()
@@ -86,7 +85,7 @@ void setup()
 
 
     
-    gbint.init(&server, &websocket, &events);
+    GBINT::init(&server, &websocket, &events);
     // aigb.init();
     //define baud rate for co2 sensor
     

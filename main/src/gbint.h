@@ -25,7 +25,6 @@
 class GBINT
 {
 public:
-    //GBINT();
     JSONVar getprofile(int number);
     JSONVar listprofiles();
     bool setprofile(JSONVar msg);
@@ -36,7 +35,8 @@ public:
     static AsyncEventSource *events;
 
     //Profile settings
-
+private:
+    GBINT();
     const int profileMakeup[9] = {PROFILESIZEOFNAME, PROFILESIZEOFLIGHTCOLOR, PROFILESIZEOFLIGHTTIME, PROFILESIZEOFFEEDVOL, PROFILESIZEOFFEEDINTER, PROFILESIZEOFTEMPDAY, PROFILESIZEOFTEMPNIGHT, PROFILESIZEOFHUMDAY, PROFILESIZEOFHUMNIGHT};
 
     //profile vars
