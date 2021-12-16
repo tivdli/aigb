@@ -5,15 +5,15 @@
 #include <Arduino_JSON.h>
 #include <EEPROM.h>
 #include <SPIFFS.h>
-GBINT::GBINT(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events)
+GBINT::GBINT()
+{
+}
+
+void GBINT::init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events)
 {
     GBINT::ws = ws;
     GBINT::server = server;
     GBINT::events = events;
-}
-
-void GBINT::init()
-{
     EEPROM.begin(EEPROMSIZE);
     if (EEPROM.read(0x000) != PROFILEVERSION)
     {

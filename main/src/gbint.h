@@ -25,11 +25,11 @@
 class GBINT
 {
 public:
-    GBINT(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events);
+    GBINT();
     JSONVar getprofile(int number);
     JSONVar listprofiles();
     bool setprofile(JSONVar msg);
-    void init();
+    static void init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events);
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
     static AsyncWebSocket *ws;
     static AsyncWebServer *server;
@@ -42,6 +42,6 @@ public:
     //profile vars
     int profileNum;
     JSONVar obj;
-    void resetmemory();
+    static void resetmemory();
 };
 #endif

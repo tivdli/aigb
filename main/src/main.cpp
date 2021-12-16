@@ -23,7 +23,7 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-GBINT gbint(&server, &websocket, &events);
+GBINT gbint();
 // AIGB aigb;
 
 int temp_reading_inside = 0;
@@ -86,7 +86,7 @@ void setup()
 
 
     
-    gbint.init();
+    gbint.init(&server, &websocket, &events);
     // aigb.init();
     //define baud rate for co2 sensor
     
