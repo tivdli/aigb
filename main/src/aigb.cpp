@@ -6,6 +6,7 @@
 #include <Adafruit_AM2320.h>
 #include <SoftwareSerial.h>
 #include <SPI.h> 
+#include <Adafruit_NeoPixel.h>
 
 AIGB::AIGB(){
 
@@ -41,6 +42,8 @@ void AIGB::init(){
     pinMode(Fan_Control_2,OUTPUT);
     pinMode(Peltier_1,OUTPUT);
     pinMode(Peltier_2,OUTPUT);
+    pinMode(SDA,OUTPUT);
+    pinMode(SCL,OUTPUT);
 
     // defines the inputs
     pinMode(Water_Level,INPUT);
@@ -62,25 +65,32 @@ int AIGB::Test(){
     return 0;
 }
 int AIGB::Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume){
-    int t=Time();
-    t=6;
+    Time();
+    
     bool day;
     
     if (20 > t > 7){
         day=true;
-        int *Temp=temp_day;
-        int *Hum=Hum_day;
+        int *Temp_Set=temp_day;
+        int *Hum_Set=Hum_day;
     }
 
     else{
         day=false;
-        printf("\n eerste pointer: %d", *temp_night);
-        printf(" met adres: %d", temp_night);
-        int *Temp=temp_night;
-        int *Hum=Hum_night;
-        printf("\n tweede toegeschreven: %d", *Temp);
-        printf(" met adres: %d",Temp);
+        
+        int *Temp_Set=temp_night;
+        int *Hum_Set=Hum_night;
+        
     }
+    
+    // check waterlevel
+    Get_water();
+    
+    // check humidity
+    Get_Hum();
+    // check light
+    Get_LDR();
+    Get_Co2();
     Control();
     return 1;
 }
@@ -88,37 +98,41 @@ int AIGB::Control(){
     
     //settings instellen
    
-    
+     
     //check settings (looks if the settings are still compatible with the time of day)
     // int* temp_setting= &temp_setting_inside_day;
     
     // temp difference
-   
-    delay(500);
-    // check waterlevel
-    // check humidity
-    // check light
+    Temp_Dif = *Temp_Set-Temp_In;
+    Hum_Dif = *Hum_Set-Hum_In;
+    if (-1>Temp_Dif>1){
+        //temp control
+    }
+
+    else{
+        // keep everything as it is
+    }
+
+    if (-1>Hum_Dif>1){
+        //huminity control
+        //Moisture();
+    }
+
+    else{
+        // the huminity is good
+    }
     
+    LED();
+  
     return 1;
 }
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
-    digitalWrite(Vernevelaar,HIGH);
-    Serial.println("on");
-    delay(300);
-    digitalWrite(Vernevelaar,LOW);
-    Serial.println("off");
-    delay(300);
-    digitalWrite(Vernevelaar,HIGH);
-    Serial.println("on");
-    delay(300);
-    digitalWrite(Vernevelaar,LOW);
-    Serial.println("off");
     return 1;
 }
 
 void AIGB::Moisture(){
-
+    digitalWrite(Vernevelaar,HIGH);
 } 
 
 // has to be tested if it function 
@@ -162,32 +176,25 @@ int AIGB::Get_Co2(){
     }
     
 
-int AIGB::Get_Hum_In(){
+int AIGB::Get_Hum(){
     return 1;
 } 
 
-int AIGB:: Get_Hum_Out(){
-    return 1;
-}
-int AIGB::Get_Temp_Out(){
+
+int AIGB::Get_Temp(){
     return 1;
 }
 
-int AIGB:: Get_Temp_In(){
-    return 1;
-}
+
     
-// int AIGB:: Get_water(){
+int AIGB:: Get_water(){
 
-// }
+}
 
-// int AIGB:: Get_LDR_One(){
+int AIGB:: Get_LDR(){
 
-// }
+ }
 
-// int AIGB:: Get_LDR_Two(){
-
-// }
 
 // lets servo one move
 void AIGB:: Servo_one(){
@@ -209,9 +216,9 @@ void AIGB:: Servo_two(){
     delay(200); 
 }
 
-// void AIGB:: Water_Con(){
+void AIGB:: Water_Con(){
 
-// }
+}
 
 // void AIGB:: Food_Con(){
 

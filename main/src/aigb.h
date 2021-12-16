@@ -21,8 +21,8 @@
 #define SCL 22
 #define Peltier_1 23
 #define Peltier_2 25
-#define Led_R 26
-#define Led_G 27
+#define Led_R 26 //are open now?
+#define Led_G 27// is open?
 #define Servo_1 32
 #define Servo_2 33
 #define LDR_1 34
@@ -32,24 +32,23 @@
 
 class AIGB{
     public:
-        int test;
+        
         int Test();
         AIGB();
         void init();
+        //"main" functions
         int Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume);
         int Control();
+        //measurment
         int LED();
         void Moisture();
         int Get_Co2();
-        int Get_Hum_In();
-        int Get_Hum_Out();
-
-        int Get_Temp_Out();
-        int Get_Temp_In();
+        int Get_Hum();
+        int Get_Temp();
         int Get_water();
-        int Get_LDR_One();
-        int Get_LDR_Two();
-
+        int Get_LDR();
+        
+        // control function
         void Servo_one();
         void Servo_two();
         void Water_Con();
@@ -66,9 +65,9 @@ class AIGB{
         #define Vernevelaar 2
         #define CO2_RX 3
         SoftwareSerial co2Serial;
-        
+
         bool day;
-        int *Setting[7];
+        //pointers for settings
         int* temp_day;
         int* temp_night;
         int* Hum_day;
@@ -78,6 +77,26 @@ class AIGB{
         int* light_color;
         int* feed_interval;
         int* feed_volume;
+
+        // Variable pointers for control and given values (temp waterlevel, hum enz.)
+        int* Temp_Set;
+        int* Hum_Set;
+
+        //variables 
+        int Water_level;
+        int Hum_In;
+        int Temp_In;
+        int Hum_Out;
+        int Temp_out;
+
+        int ppm;//variable for co2
+        
+        // difference variables local
+        int Temp_Dif;
+        int Hum_Dif;
+
+       // time variables
+       int t; // the time in hours 
     private:
        
     
