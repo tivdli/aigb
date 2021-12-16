@@ -28,18 +28,18 @@ public:
     JSONVar getprofile(int number);
     JSONVar listprofiles();
     bool setprofile(JSONVar msg);
+    
     static void init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events);
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
-    static AsyncWebSocket *ws;
-    static AsyncWebServer *server;
-    static AsyncEventSource *events;
-
     //Profile settings
 private:
     GBINT();
     const int profileMakeup[9] = {PROFILESIZEOFNAME, PROFILESIZEOFLIGHTCOLOR, PROFILESIZEOFLIGHTTIME, PROFILESIZEOFFEEDVOL, PROFILESIZEOFFEEDINTER, PROFILESIZEOFTEMPDAY, PROFILESIZEOFTEMPNIGHT, PROFILESIZEOFHUMDAY, PROFILESIZEOFHUMNIGHT};
 
     //profile vars
+    static AsyncWebSocket *ws;
+    static AsyncWebServer *server;
+    static AsyncEventSource *events;
     static int profileNum;
     static void resetmemory();
 };
