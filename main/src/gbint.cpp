@@ -68,13 +68,21 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             if (name == "btn")
             {
                 Serial.printf("\nChanged button %s to %u", (const char*)obj["i"], (int)obj["d"]);
+                int btn_val = (int) obj["d"];
                 if (String((const char*) obj["i"]) == "b5")
                 {
                     //"{\"result\":true,\"count\":42,\"foo\":\"bar\"}";
                     Serial.println("1");
                     JSONVar msg;
                     msg["key"] = "pfw";
-                    msg["go"] = EEPROM.read(PROFILESTART-2);
+                    msg["go"] = 1;
+                    for (int i = 0; i < EEPROM.read(PROFILESTART-2); i++)
+                    {
+                        if (EEPROM.read(PROFILESTART + PROFILELENGTH*i) == btn_val){
+                            msg["go"] = 0;
+                            break;
+                        }
+                    }
                     String send = JSON.stringify(msg);
                     Serial.println("2");
                     GBINT::ws->text(client->id(), send);
@@ -91,7 +99,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             }
             else if (name == "pfw")
             {
-                Serial.printf("\nWrote profile %s to %u", obj["i"], obj["d"]);
+                GBINT::setprofile(obj);
             }
             else if (name == "prr")
             {
@@ -148,9 +156,12 @@ JSONVar GBINT::listprofiles()
     return 0;
 }
 
-bool GBINT::setprofile(JSONVar msg)
+void GBINT::setprofile(JSONVar msg)
 {
-    return 1;
+    int profCount = EEPROM.read(PROFILESTART-2)*PROFILELENGTH; 
+    int writeStart = PROFILESTART + profCount;
+    EEPROM.write(PROFILESTART-2, profCount++);
+    for (int i = 0, i < PROFILEENTRIES)
 }
 
 JSONVar GBINT::getprofile(int number)

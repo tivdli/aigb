@@ -8,20 +8,16 @@ var ws;var gW="ws://"+window.location.hostname+"/ws";const PROFVAR=16;profile_na
 '"ain":[20, 110]}');p=JSON.parse('{"key":"profl","nam":136,"col":"#A000FF","onh":6,"ofh":22, "onm":0,"ofm":30,"fin":12,"fqy":1.5,"tpd":20,"tpn":12,"hmd":80,"hmn":90}');fillProfiles();fillPage(o);updatePage();};function initWS(){ws=new WebSocket(gW);ws.onopen=onOpen;ws.onclose=onClose;ws.onmessage=onMessage;}
 function onOpen(event){message("stt",0,0);}
 function onClose(event){setTimeout(initWS,2000);}
-function onMessage(event){console.log(event.data);msg=JSON.parse(event.data);console.log(msg);switch(msg["key"]){case"stt":fillPage(msg);updatePage();break;case"pfr":setProfileRead(p);case"pfw":console.log("!L?");handleProfWrite(msg);}}
-function handleProfWrite(msg){if(msg["go"]>=1){go=msg["go"];}
-else
-{go=window.confirm("Profile already exists, do you want to overwrite it?");}
-if(go>=1){pre="wp";const data=[];for(i=1;i<=PROFVAR;i++){if(i<6||i>9)
-{if(!["Climate","Stage","Type","Mode",undefined,""].includes(document.getElementById(pre+i).value)){data.push(document.getElementById(pre+i).value);}
-else{window.alert("Profile write selection not valid (have you selected all name types?)");return false;}}
-else if(i%2==0)
-{clock=document.getElementById(pre+i).value.split(":");if(clock[1]==undefined){window.alert("Profile write selection not valid: time missing");return false}
+function onMessage(event){console.log(event.data);msg=JSON.parse(event.data);console.log(msg);switch(msg["key"]){case"stt":fillPage(msg);updatePage();break;case"pfr":setProfileRead(p);case"pfw":handleProfWrite(msg);}}
+function handleProfWrite(msg){if(msg["go"]>=1){go=msg["go"];}else{go=window.confirm("Profile already exists, do you want to overwrite it?");}
+if(go>=1){pre="wp";console.log("COLOR:"+document.getElementById("wp5"));const data=[];for(i=1;i<=PROFVAR;i++){console.log(i);if(i<6||i>9){console.log("*");if(!["Climate","Stage","Type","Mode",undefined,""].includes(document.getElementById(pre+i).value)){if(i>4){data.push(document.getElementById(pre+i).value);}else if(i==4){data.push(getNameNumber());}}else{window.alert("Profile write selection not valid (have you selected all name types?)");return false;}}else if(i%2==0){clock=document.getElementById(pre+i).value.split(":");if(clock[1]==undefined){window.alert("Profile write selection not valid: time missing");return false;}
 data.push(clock[0]);data.push(clock[1]);}}
 console.log(data);message("pfw",data);}}
 function processButton(elem){var first=false;if(typeof elem=="string"){first=true;elem=document.getElementById(elem);}
 num=parseInt(elem.id.split("")[1]);if(num<buttonStates.length+1){if(buttonStates[num-1]==1){elem.style.color="red";if(!first){buttonStates[num-1]=0;}}else{elem.style.color="green";if(!first){buttonStates[num-1]=1;}}
-if(!first){message("btn",elem.id,buttonStates[num-1]);}}else if(num==buttonStates.length+1){elem.style.color="green";setTimeout(function(){elem.style.color="black";},250);message("btn",elem.id,1);}}
+if(!first){message("btn",elem.id,buttonStates[num-1]);}}else if(num==buttonStates.length+1){elem.style.color="green";setTimeout(function(){elem.style.color="black";},250);message("btn",elem.id,getNameNumber());}}
+function getNameNumber(){ret=0;for(a=1;a<5;a++){ret+=document.getElementById("wp"+a).value*2**(8-a*2);}
+return ret;}
 function fillPage(msg){buttonStates=msg["btn"];sliderStates=msg["sld"];light_sensor=msg["llm"];light_color=msg["clr"];feed_values=msg["fvl"];air_sensor=msg["ase"];air_input=msg["ain"];if(typeof msg["prf"]!="undefined"){ws.send(msg["prr"]);}}
 function processSlider(elem){document.getElementById(elem.id+"_v").innerHTML=elem.value;}
 function concName(n1,n2,n3,n4){return(profile_name_climate[n1]+

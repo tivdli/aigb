@@ -20,14 +20,14 @@
 #define PROFILESIZEOFTEMPNIGHT 1
 #define PROFILESIZEOFHUMDAY 1
 #define PROFILESIZEOFHUMNIGHT 1
+#define PROFILEENTRIES PROFILESIZEOFNAME + PROFILESIZEOFLIGHTCOLOR + PROFILESIZEOFLIGHTTIME + PROFILESIZEOFFEEDVOL + PROFILESIZEOFFEEDINTER + PROFILESIZEOFTIMPDAY + PROFILESIZEOFTEMPNIGHT + PROFILESIZEHUMDAY + PROFILESIZEOFHUMNIGHT
 //profile makeup = 14B = 1=name 2=rgb 5=h_start 6=m_start 7=h_end 8=m_end 9=feed_volume 10=feed_interval 11=tmp_day 12=tmp_night 13=hum_day 14=hum_night
 
 class GBINT
 {
 public:
-    JSONVar getprofile(int number);
-    JSONVar listprofiles();
-    bool setprofile(JSONVar msg);
+    static JSONVar getprofile(int number);
+    static JSONVar listprofiles();
     
     static void init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events);
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
@@ -38,6 +38,7 @@ public:
     //Profile settings
 private:
     GBINT();
+    static void setprofile(JSONVar msg);
     const int profileMakeup[9] = {PROFILESIZEOFNAME, PROFILESIZEOFLIGHTCOLOR, PROFILESIZEOFLIGHTTIME, PROFILESIZEOFFEEDVOL, PROFILESIZEOFFEEDINTER, PROFILESIZEOFTEMPDAY, PROFILESIZEOFTEMPNIGHT, PROFILESIZEOFHUMDAY, PROFILESIZEOFHUMNIGHT};
 
 

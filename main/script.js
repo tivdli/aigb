@@ -5,7 +5,7 @@ profile_name_climate = ["Tropical", "Dry", "Temperate", "Continental"];
 profile_name_stage = ["Seedling", "Vegetative", "Budding", "Ripening"];
 profile_name_type = ["Common", "Leaf", "Fruit", "Flower"];
 profile_name_mode = ["Phase", "Stable", "Custom", "Stress"];
-var buttonStates = [0,0,0,0];
+var buttonStates = [0, 0, 0, 0];
 var sliderStates = [0];
 var light_sensor = [0];
 var light_color = 0;
@@ -49,7 +49,7 @@ function initWS() {
 }
 
 function onOpen(event) {
-  message("stt", 0,0);
+  message("stt", 0, 0);
 }
 
 function onClose(event) {
@@ -72,32 +72,42 @@ function onMessage(event) {
   }
 }
 
-function handleProfWrite(msg){
-  if (msg["go"] >= 1){
+function handleProfWrite(msg) {
+  if (msg["go"] >= 1) {
     go = msg["go"];
-  }
-  else
-  {
+  } else {
     go = window.confirm("Profile already exists, do you want to overwrite it?");
   }
-  if (go >= 1){
+  if (go >= 1) {
     pre = "wp";
+    console.log("COLOR:" + document.getElementById("wp5"));
     const data = [];
-    for (i = 1; i <= PROFVAR; i++){
-      if (i <6 || i > 9)
-      {
-        if (!["Climate", "Stage", "Type", "Mode", undefined, ""].includes(document.getElementById(pre+i).value)){
-          data.push(document.getElementById(pre+i).value);
-        }
-        else{
-          window.alert("Profile write selection not valid (have you selected all name types?)");
+    for (i = 1; i <= PROFVAR; i++) {
+      console.log(i);
+      if (i < 6 || i > 9) {
+        console.log("*");
+        if (
+          !["Climate", "Stage", "Type", "Mode", undefined, ""].includes(
+            document.getElementById(pre + i).value
+          )
+        ) {
+          if (i > 4) {
+            data.push(document.getElementById(pre + i).value);
+          } else if (i == 4) {
+            data.push(getNameNumber());
+          }
+        } else {
+          window.alert(
+            "Profile write selection not valid (have you selected all name types?)"
+          );
           return false;
         }
-      }
-      else if (i%2==0)
-      {
-        clock = document.getElementById(pre+i).value.split(":");
-        if (clock[1] == undefined) { window.alert("Profile write selection not valid: time missing"); return false}
+      } else if (i % 2 == 0) {
+        clock = document.getElementById(pre + i).value.split(":");
+        if (clock[1] == undefined) {
+          window.alert("Profile write selection not valid: time missing");
+          return false;
+        }
         data.push(clock[0]);
         data.push(clock[1]);
       }
@@ -116,7 +126,7 @@ function processButton(elem) {
   num = parseInt(elem.id.split("")[1]);
   if (num < buttonStates.length + 1) {
     if (buttonStates[num - 1] == 1) {
-     elem.style.color = "red";
+      elem.style.color = "red";
       if (!first) {
         buttonStates[num - 1] = 0;
       }
@@ -138,11 +148,12 @@ function processButton(elem) {
   }
 }
 
-function getNameNumber(){
-  for (int i = 1; i < 5; i ++){
-    document.getElementById("wp"+i)
+function getNameNumber() {
+  ret = 0;
+  for (a = 1; a < 5; a++) {
+    ret += document.getElementById("wp" + a).value * 2 ** (8 - a * 2);
   }
-  
+  return ret;
 }
 function fillPage(msg) {
   buttonStates = msg["btn"];
