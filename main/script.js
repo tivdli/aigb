@@ -85,16 +85,20 @@ function handleProfWrite(msg) {
     for (i = 1; i <= PROFVAR; i++) {
       console.log(i);
       if (i < 6 || i > 9) {
-        console.log("*");
         if (
           !["Climate", "Stage", "Type", "Mode", undefined, ""].includes(
             document.getElementById(pre + i).value
           )
         ) {
-          if (i > 4) {
+          if (i > 5) {
             data.push(document.getElementById(pre + i).value);
           } else if (i == 4) {
             data.push(getNameNumber());
+          } else if (i == 5) {
+            col_str = document.getElementById(pre + i).value.split("#").join("");
+            for (c = 0; c < 3; c++){
+              data.push(parseInt(col_str.substring(c*2, c*2 + 2), 16));
+            }
           }
         } else {
           window.alert(

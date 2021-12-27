@@ -161,7 +161,10 @@ void GBINT::setprofile(JSONVar msg)
     int profCount = EEPROM.read(PROFILESTART-2)*PROFILELENGTH; 
     int writeStart = PROFILESTART + profCount;
     EEPROM.write(PROFILESTART-2, profCount++);
-    for (int i = 0, i < PROFILEENTRIES)
+    for (int i = 0; i < PROFILEENTRIES; i++)
+    {
+
+    }
 }
 
 JSONVar GBINT::getprofile(int number)
@@ -171,9 +174,9 @@ JSONVar GBINT::getprofile(int number)
     int val;
     for (int a = 0; a < PROFILELENGTH; a++)
     {
-        address = address + GBINT::profileMakeup[a];
+        address = address + profileMakeup[a];
         val = 0;
-        for (int c = 0; c < GBINT::profileMakeup[a]; c++)
+        for (int c = 0; c < profileMakeup[a]; c++)
         {
             if (c == 0)
             {
