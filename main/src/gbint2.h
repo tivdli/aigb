@@ -6,7 +6,8 @@
 #include <ESPAsyncWebServer.h>
 #include <Arduino_JSON.h>
 #include <EEPROM.h>
-
+#include <COBL.h>
+#include <data.h>
 #define EEPROMSIZE 512
 #define PROFILEVERSION 178
 #define PROFILESTART 0x03F
@@ -33,9 +34,9 @@ public:
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
 
 private:
-    static AsyncWebSocket *ws;
-    static AsyncWebServer *server;
-    static AsyncEventSource *events;
+    AsyncWebSocket *ws;
+    AsyncWebServer *server;
+    AsyncEventSource *events;
 
     //Profile settings
 

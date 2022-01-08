@@ -15,7 +15,7 @@
 //local files
 #include <aigb.h>
 #include <gbint.h>
-
+#include <gbint2.h>
 //setup
 #define PORT 80
 #define SSID "Daerkspot"
