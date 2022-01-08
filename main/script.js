@@ -24,7 +24,7 @@ window.addEventListener("beforeunload", (event) => {
 window.onload = function () {
   initWS();
   o = JSON.parse(
-    '{"key":"start",' +
+    '{"key":"stt",' +
       '"btn":[1,1,1,1],' +
       '"sld":[70,30,40],' +
       '"llm":[580, 270, 400],' +
@@ -36,9 +36,9 @@ window.onload = function () {
   p = JSON.parse(
     '{"key":"profl","nam":136,"col":"#A000FF","onh":6,"ofh":22, "onm":0,"ofm":30,"fin":12,"fqy":1.5,"tpd":20,"tpn":12,"hmd":80,"hmn":90}'
   );
-  fillProfiles();
-  fillPage(o);
-  updatePage();
+  // fillProfiles(p);
+  // fillPage(o);
+  // updatePage();
 };
 
 function initWS() {
@@ -91,7 +91,7 @@ function handleProfWrite(msg) {
           )
         ) {
           if (i > 5) {
-            data.push(document.getElementById(pre + i).value);
+            data.push(parseInt(document.getElementById(pre + i).value));
           } else if (i == 4) {
             data.push(getNameNumber());
           } else if (i == 5) {
@@ -112,8 +112,8 @@ function handleProfWrite(msg) {
           window.alert("Profile write selection not valid: time missing");
           return false;
         }
-        data.push(clock[0]);
-        data.push(clock[1]);
+        data.push(parseInt(clock[0]));
+        data.push(parseInt(clock[1]));
       }
     }
     console.log(data);

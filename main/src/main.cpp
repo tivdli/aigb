@@ -12,7 +12,7 @@
 //local files
 #include <aigb.h>
 #include <gbint.h>
-
+#include <data.h>
 //setup
 #define PORT 80
 #define SSID "VGV75195AFCBD"
@@ -25,25 +25,7 @@ AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
 // AIGB aigb;
 
-int temp_reading_inside = 0;
-int temp_reading_outside = 0;
-int temp_setting_inside_day = 0;
-int temp_setting_inside_night = 0;
-int Hum_reading_inside = 0;
-int Hum_reading_outside = 0;
-int Hum_setting_inside_day = 0;
-int Hum_setting_inside_night = 0;
-int co2_current_inside = 0;
-int light_reading_1 = 0;
-int light_reading_2 = 0;
-int water_leavel_reading = 0;
-int pump_power_setting = 0;
-
-int light_power_setting = 0;
-int light_color_setting = 0;
-
-int feed_interval_setting = 0;
-int feed_volume_setting = 0;
+DATA aigb_data();
 
 
 
@@ -85,7 +67,7 @@ void setup()
 
 
     
-    GBINT::init(&server, &websocket, &events);
+    GBINT::init(&server, &websocket, &events, &aigb_data);
     // aigb.init();
     //define baud rate for co2 sensor
     
