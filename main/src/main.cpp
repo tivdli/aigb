@@ -25,7 +25,7 @@ AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
 // AIGB aigb;
 
-DATA aigb_data();
+DATA aigb_data;
 
 
 
