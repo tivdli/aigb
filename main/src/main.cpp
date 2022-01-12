@@ -15,7 +15,7 @@
 #include <Arduino.h>
 
 #include <Adafruit_AM2320.h>
-#include <SoftwareSerial.h>
+
 using namespace std;
 
 #include <bits/stdc++.h>
@@ -54,7 +54,7 @@ int light_color_setting = 0;
 
 int feed_interval_setting = 0;
 int feed_volume_setting = 0;
-
+unsigned long start_time=millis();
 
 
 
@@ -82,7 +82,9 @@ int feed_volume_setting = 0;
 
 void setup()
 {
+    
     Serial.begin(115200);
+
     
     //start wifi and reset ESP on failure to connect within 10 seconds
     // WiFi.begin(SSID, PASS);
@@ -95,17 +97,23 @@ void setup()
     // server.addHandler(&websocket);
 
 
-    
-    //gbint.init();
     aigb.init();
+    //gbint.init();
+    
     //define baud rate for co2 sensor
 }
     
 void loop(){
  //first the variable settings have to be set (or we need a default setting)
+ 
     
     
-    aigb.Calibrate(&temp_setting_inside_day, &temp_setting_inside_night, &Hum_setting_inside_day,&Hum_setting_inside_night,&pump_power_setting,&light_power_setting,&light_color_setting,&feed_interval_setting,&feed_volume_setting);
+    aigb.Get_Co2();
+    
+    
+   
+    
+    //aigb.Calibrate(&temp_setting_inside_day, &temp_setting_inside_night, &Hum_setting_inside_day,&Hum_setting_inside_night,&pump_power_setting,&light_power_setting,&light_color_setting,&feed_interval_setting,&feed_volume_setting);
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     //websocket.cleanupClients();
 }
