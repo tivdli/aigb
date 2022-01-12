@@ -1,7 +1,6 @@
 import htmlmin
 import os
 from jsmin import jsmin
-from math import ceil
 dir = os.path.dirname(os.path.realpath(__file__))
 readfileHTML = os.path.join(dir, "index.html")
 writefileHTML = os.path.join(dir, "data", "index.html")

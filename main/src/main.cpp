@@ -15,7 +15,7 @@
 //local files
 #include <aigb.h>
 #include <gbint.h>
-
+#include <data.h>
 //setup
 #define PORT 80
 #define SSID "Daerkspot"
@@ -25,28 +25,9 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-GBINT gbint(&server, &websocket, &events);
-AIGB aigb;
+// AIGB aigb;
 
-int temp_reading_inside = 4;
-int temp_reading_outside = 6;
-int temp_setting_inside_day = 7;
-int temp_setting_inside_night = 7;
-int Hum_reading_inside = 0;
-int Hum_reading_outside = 0;
-int Hum_setting_inside_day = 0;
-int Hum_setting_inside_night = 0;
-int co2_current_inside = 0;
-int light_reading_1 = 0;
-int light_reading_2 = 0;
-int water_level_reading = 0;
-int pump_power_setting = 0;
-
-int light_power_setting = 0;
-int light_color_setting = 0;
-
-int feed_interval_setting = 0;
-int feed_volume_setting = 0;
+DATA aigb_data;
 
 int Settings[9]={temp_setting_inside_day , temp_setting_inside_night , Hum_setting_inside_day ,Hum_setting_inside_night,pump_power_setting,light_power_setting,light_color_setting,feed_interval_setting,feed_volume_setting};
 int *Set=Settings;
@@ -72,7 +53,7 @@ void initWifi()
 
 void oE(AsyncWebSocket * server, AsyncWebSocketClient * client, AwsEventType type, void * arg, uint8_t * data, size_t len)
 {
-    gbint.onEvent(server, client, type, arg, data, len);
+    GBINT::onEvent(server, client, type, arg, data, len);
 }
 
 void setup()
@@ -90,8 +71,8 @@ void setup()
 
 
     
-    gbint.init();
-    aigb.init();
+    GBINT::init(&server, &websocket, &events, &aigb_data);
+    // aigb.init();
     //define baud rate for co2 sensor
     
   
