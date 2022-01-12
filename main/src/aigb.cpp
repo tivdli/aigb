@@ -1,6 +1,7 @@
 #include <Arduino.h>
 #include <aigb.h>
 #include <ESP32Servo.h>
+#include <data.h>
 
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
@@ -9,9 +10,9 @@
 #include <Adafruit_NeoPixel.h>
 // #include <MHZ19PWM.h>
 
-AIGB::AIGB(){
+AIGB::AIGB(DATA * data){
     init();
-    
+    AIGB::aigb_data = data;
 }
 
 void AIGB::init(){

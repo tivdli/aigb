@@ -7,6 +7,7 @@
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <SoftwareSerial.h>
+#include <data.h>
 // #include <MHZ19PWM.h>
 
 #define CO2_TX 27
@@ -37,7 +38,7 @@ class AIGB{
     public:
         
         int Test();
-        AIGB();
+        AIGB(DATA * data);
         void init();
         //"main" functions
         int Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume);
@@ -115,7 +116,7 @@ class AIGB{
 
        unsigned long getDataTimer = 0;
     //    MHZ19PWM mhz;
-       
+       DATA *aigb_data;
     private:
        long th,tl,l=0.0;
     

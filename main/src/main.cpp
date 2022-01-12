@@ -25,9 +25,11 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-AIGB aigb;
 
 DATA aigb_data;
+
+AIGB aigb(&aigb_data);
+
 
 int Settings[9]={temp_setting_inside_day , temp_setting_inside_night , Hum_setting_inside_day ,Hum_setting_inside_night,pump_power_setting,light_power_setting,light_color_setting,feed_interval_setting,feed_volume_setting};
 int *Set=Settings;
