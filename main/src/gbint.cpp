@@ -201,6 +201,7 @@ void GBINT::set_profile(JSONVar msg)
 String GBINT::get_profile(int number)
 {
     JSONVar data;
+    //KLOPT NIET, ALTIJD PROFIEL 0
     int address = PROFILESTART + number * PROFILELENGTH;
     data["key"] = "pfr";
     String s;
@@ -219,14 +220,18 @@ void alloc_array(int size, int **result) {
 //Check if profile exists, returns 0 when false and EEPROM index if true
 int GBINT::check_profile(int name_number)
 {
+    Serial.println("check_profile");
     for (int a = PROFILESTART; a < EEPROMSIZE; a+=PROFILELENGTH)
     {
+        Serial.print(a);
+        Serial.print(" -> ");
+        Serial.println(EEPROM.read(a));
         if (EEPROM.read(a) == name_number)
         {
             return a;
         }
     }
-    return 0;
+    return -1;
 }
 
 //Get current AIGB data from DATA block and send to requesting client
@@ -300,12 +305,15 @@ void GBINT::activate_profile(int number)
 {
     int address = GBINT::check_profile(number);
     int val = 0;
+    Serial.print("Profile start at");
+    Serial.println(address);
     if (address != 0)
     {
         //start at i=1 because we don't use the first byte (name)
         for (int i = 1; i < PROFILEENTRIES; i++)
         {
             val = EEPROM.read(address +i);
+            Serial.println(val);
             switch (i-1){
                 case 0:
                 GBINT::aigb_data->light_color_setting_r = val;

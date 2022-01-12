@@ -195,14 +195,15 @@ function concNameFromByte(b) {
 
 function profileOptions(optionlist) {
   select = document.getElementById("pss_sct");
+  curr_options = [...document.querySelector("#pss_sct").options].map( opt => opt.value );
   for (var i = 0; i < (Object.keys(optionlist).length - 1); i++) {
-    // if (!select.options.includes(concNameFromByte(optionlist[i.toString()])))
-    // {
+    if (curr_options.includes(optionlist[i.toString()]) == false)
+    {
       var option = document.createElement("option");
       option.setAttribute("value", optionlist[i.toString()]);
       option.innerHTML = concNameFromByte(optionlist[i.toString()]);
       select.appendChild(option);
-    //}
+    }
   }
 }
 
@@ -303,7 +304,7 @@ function updateTime(){
   go = window.confirm("Do you want to set AIGB time to local system time?");
   if (go) {
     time = new Date();
-    data = [time.getFullYear(), time.getMonth()+1, time.getDate(), time.getHours(), time.getMinutes()];
+    data = [time.getFullYear(), time.getMonth()+1, time.getDate(), time.getHours(), time.getMinutes(), time.getSeconds()];
     console.log(data);
     message("utv", 0, data);
   }

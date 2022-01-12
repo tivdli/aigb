@@ -10,7 +10,7 @@
 #include <ESPAsyncWebServer.h>
 
 //local files
-#include <aigb.h>
+//#include <aigb.h>
 #include <gbint.h>
 #include <data.h>
 //setup
