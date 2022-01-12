@@ -1,6 +1,7 @@
 #ifndef aigb_h
 #define aigb_h
 
+#include <AM2320.h>
 #include <Arduino.h>
 #include <ESP32Servo.h>
 #include <MHZ19.h>
@@ -31,26 +32,31 @@
 #define LDR_2 36
 #define Water_Level 39
 
+#define PWM1_Ch    0
+#define PWM1_Res   16
+#define PWM1_Freq  1000
 
-
+#define PWM2_Ch    1
+#define PWM2_Res   16
+#define PWM2_Freq  1000
 
 class AIGB{
     public:
         
-        int Test();
+        
         AIGB(DATA * data);
         void init();
         //"main" functions
-        int Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume);
-        int Control();
+        void Calibrate();
+        void Control();
         //measurment
-        int LED();
+        void LED();
         void Moisture();
         void Get_Co2();
-        int Get_Hum();
-        int Get_Temp();
-        int Get_water();
-        int Get_LDR();
+        void Get_Hum();
+        void Get_Temp();
+        void Get_water();
+        void Get_LDR();
         unsigned long _time = 0;
         bool waitMode = false;
         // control function
@@ -62,30 +68,20 @@ class AIGB{
         void Pel_two();
         void Control_Fan();
         void Led_Strip();
-        int Time();
+        void Time();
         Servo MyServo1;
         Servo MyServo2;
         
     
         SoftwareSerial mySerial;
         // MHZ19 myMHZ19;
-        
+        AM2320 th_1;
+        AM2320 th_2;
         bool day;
-        //pointers for settings
-        int* temp_day;
-        int* temp_night;
-        int* Hum_day;
-        int* Hum_night;
-        int* pump_power;
-        int* light_power;
-        int* light_color;
-        int* feed_interval;
-        int* feed_volume;
 
-        // Variable pointers for control and given values (temp waterlevel, hum enz.)
-        int* Temp_Set;
-        int* Hum_Set;
-
+        int food_timer;        
+        float PWM2_DutyCycle=(AIGB::aigb_data->pump_power_setting/100)*(1024/2);
+        float PWM1_DutyCycle=AIGB::aigb_data->feed_interval_setting*(1024/3);
         //variables 
         int Water_level;
         int Hum_In;
@@ -112,11 +108,16 @@ class AIGB{
        int ldr_1, ldr_2;
        float ldr_01=0.5*ldr_1+5;
        float ldr_02=0.5*ldr_2+5;
-       #define RANGE 5000
+       
 
        unsigned long getDataTimer = 0;
     //    MHZ19PWM mhz;
+
+      
+
        DATA *aigb_data;
+
+
     private:
        long th,tl,l=0.0;
     

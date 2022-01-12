@@ -2,7 +2,7 @@
 #include <aigb.h>
 #include <ESP32Servo.h>
 #include <data.h>
-
+#include <AM2320.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
 #include <SoftwareSerial.h>
@@ -29,8 +29,8 @@ void AIGB::init(){
     MyServo2.attach(Servo_2,0,180);
     // making am2320 sensor object
     
-    Adafruit_AM2320 AM2320 = Adafruit_AM2320();
-    
+    AM2320 th_1;
+    AM2320 th_2;
     // defined all the outputs
     pinMode(Led_pin,OUTPUT);
     pinMode(Vernevelaar,OUTPUT);
@@ -52,17 +52,23 @@ void AIGB::init(){
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
    // SoftwareSerial co2Serial(CO2_RX, CO2_TX);
-    //SoftwareSerial AM2320(SDA, SCL);
+    SoftwareSerial AM2320Serial(SDA, SCL);
     //co2Serial.begin(9600); 
-    //AM2320.begin(9600);
+    AM2320Serial.begin(9600);
+    Wire.begin();
     Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_B, NEO_GRB + NEO_KHZ800);
 
     // MHZ19 myMHZ19;                               
     // SoftwareSerial mySerial(CO2_RX, CO2_TX); 
     
 
-  //Serielle Intialisierung
-    
+    //Pwm pinnen instellen
+    ledcAttachPin(Pomp_Voeding, PWM1_Ch);
+    ledcSetup(PWM1_Ch, PWM1_Freq, PWM1_Res);
+
+    ledcAttachPin(Pomp_Water, PWM2_Ch);
+    ledcSetup(PWM2_Ch, PWM1_Freq, PWM1_Res);
+
     Serial2.begin(9600);                   
     //myMHZ19.begin(mySerial);
     //MHZ19PWM mhz(2, MHZ_ASYNC_MODE);
@@ -74,42 +80,41 @@ void AIGB:: Time(){
     int t=1;
    
 }
-void AIGB::Test(){
-    int test=1;
-    printf("%d", test);
-    
-}
+
 void AIGB::Calibrate(){
     //Time();
-    
+    if (AIGB::aigb_data->Profile_user==false){
     bool day;
     
-    if (20 > t > 7){
+    if (20 > t && t> 7){
         day=true;
-        int *Temp_Set=temp_day;
-        int *Hum_Set=Hum_day;
+        AIGB::aigb_data->temp_setting_current=AIGB::aigb_data->temp_setting_inside_day;
+       AIGB::aigb_data->hum_setting_current=AIGB::aigb_data->Hum_setting_inside_day;
     }
 
     else{
         day=false;
         
-        int *Temp_Set=temp_night;
-        int *Hum_Set=Hum_night;
-        
+        AIGB::aigb_data->temp_setting_current=AIGB::aigb_data->temp_setting_inside_night;
+        AIGB::aigb_data->hum_setting_current=AIGB::aigb_data->Hum_setting_inside_night;
     }
-    
+    }
+    else{
+        //profile is set by user
+    }
     // check waterlevel
-    //Get_water();
+    Get_water();
     
     // check humidity
-    //Get_Hum();
-    // check light
-    //Get_LDR();
+    Get_Hum();
 
-    //Get_Co2();
+    // check light
+    Get_LDR();
+
+    Get_Co2();
     
     //Control();
-    return 1;
+    
 }
 void AIGB::Control(){
     
@@ -122,7 +127,7 @@ void AIGB::Control(){
     // temp difference
     Temp_Dif = AIGB::aigb_data->temp_setting_current-Temp_In;
     Hum_Dif = AIGB::aigb_data->hum_setting_current-Hum_In;
-    if (-1>Temp_Dif>1){
+    if (-1<Temp_Dif&& Temp_Dif>1){
         //temp control
     }
 
@@ -130,9 +135,9 @@ void AIGB::Control(){
         // keep Temp as it is
     }
 
-    if (-1>Hum_Dif>1){
+    if (-1<Hum_Dif && Hum_Dif>1){
         //huminity control
-        //Moisture();
+        Moisture();
     }
 
     else{
@@ -143,7 +148,7 @@ void AIGB::Control(){
   
     
 }
-// function to led a led blink hopfully from there we can built further
+
 void AIGB::LED(){
     
 }
@@ -178,16 +183,16 @@ void AIGB::Get_Co2(){
     // Wrong command from co2 sensor
     }
 
-    int ppm = (256 * response[2]) + response[3];
+    AIGB::aigb_data->co2_current_inside = (256 * response[2]) + response[3];
     Temp_In = response[4]-40;
     byte status = response[5];
     int minimum = (256 * response[6]) + response[7];
     
-    Serial.println("\nppm: ");
+    Serial.println("ppm: ");
     Serial.println(ppm);
     Serial.println("temp:");
     Serial.println(Temp_In);
-    AIGB::aigb_data->co2_current_inside=ppm;
+    
 
     delay(5000);
     }
@@ -196,24 +201,27 @@ void AIGB::Get_Co2(){
    
     
 
-int AIGB::Get_Hum(){
-    return 1;
-} 
+void AIGB::Get_Hum(){
+    AIGB::aigb_data->Hum_reading_inside=th_1.h;
+    AIGB::aigb_data->Hum_reading_outside=th_2.h;
+    
+    } 
 
-int AIGB::Get_Temp(){
-    return 1;
+void AIGB::Get_Temp(){
+    AIGB::aigb_data->temp_reading_inside=th_1.t;
+    AIGB::aigb_data->temp_reading_outside=th_2.t;
 }
 
     
-int AIGB:: Get_water(){
-
+void AIGB:: Get_water(){
+    AIGB::aigb_data->water_level_reading=   2  ;
 }
 
-int AIGB:: Get_LDR(){
+void AIGB:: Get_LDR(){
     ldr_1=analogRead(LDR_1);
     ldr_2=analogRead(LDR_2);
-    printf("%f",ldr_01);
-    printf("%f",ldr_02);
+    AIGB::aigb_data->light_reading_1=ldr_01;
+    AIGB::aigb_data->light_reading_2=ldr_02;
  }
 
 // lets servo one move
@@ -224,7 +232,7 @@ void AIGB:: Servo_one(){
     delay(15);
     MyServo1.write(175);
   
-}`1
+}
 
 // lets servo two move
 void AIGB:: Servo_two(){
@@ -236,6 +244,18 @@ void AIGB:: Servo_two(){
     delay(200); 
 }
 
-void AIGB:: Water_Con(){
+void AIGB::Water_Con(){
+    
+    ledcWrite(PWM2_Ch, PWM2_DutyCycle);
+}
 
+void AIGB::Food_Con(){
+    //heel kort aan
+    if (AIGB::aigb_data->feed_interval_setting<food_timer){
+        
+        ledcWrite(PWM1_Ch, PWM1_DutyCycle);
+    }
+    else{
+        ledcWrite(PWM1_Ch, 0);
+    }
 }
