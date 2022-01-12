@@ -1,17 +1,17 @@
 #include <Arduino.h>
 #include <aigb.h>
 #include <ESP32Servo.h>
-#include <MHZ19.h>
+
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
-#include <Wire.h>
-#include <RTClib.h>
-#include <list>
-#include "SPIFFS.h"
+#include <SoftwareSerial.h>
 #include <SPI.h> 
+#include <Adafruit_NeoPixel.h>
+// #include <MHZ19PWM.h>
+
 AIGB::AIGB(){
-      
     init();
+    
 }
 
 void AIGB::init(){
@@ -29,158 +29,237 @@ void AIGB::init(){
     // making am2320 sensor object
     
     Adafruit_AM2320 AM2320 = Adafruit_AM2320();
-    // making rtc
-    RTC_DS1307 rtc;
     
     // defined all the outputs
     pinMode(Led_pin,OUTPUT);
     pinMode(Vernevelaar,OUTPUT);
     pinMode(Led_B,OUTPUT);
     pinMode(Led_G,OUTPUT);
-    pinMode(Led_R,OUTPUT);
+    //pinMode(Led_R,OUTPUT);
+    pinMode(CO2_PWM,INPUT);
     pinMode(Pomp_Voeding,OUTPUT);
     pinMode(Pomp_Water,OUTPUT);
     pinMode(Fan_Control_1,OUTPUT);
     pinMode(Fan_Control_2,OUTPUT);
     pinMode(Peltier_1,OUTPUT);
     pinMode(Peltier_2,OUTPUT);
+    pinMode(SDA,OUTPUT);
+    pinMode(SCL,OUTPUT);
 
     // defines the inputs
     pinMode(Water_Level,INPUT);
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
-    SoftwareSerial co2Serial(CO2_RX, CO2_TX);
-    
-    co2Serial.begin(9600); 
+   // SoftwareSerial co2Serial(CO2_RX, CO2_TX);
+    //SoftwareSerial AM2320(SDA, SCL);
+    //co2Serial.begin(9600); 
     //AM2320.begin(9600);
+    Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_B, NEO_GRB + NEO_KHZ800);
+
+    // MHZ19 myMHZ19;                               
+    // SoftwareSerial mySerial(CO2_RX, CO2_TX); 
+    
+
+  //Serielle Intialisierung
+    
+    Serial2.begin(9600);                   
+    //myMHZ19.begin(mySerial);
+    //MHZ19PWM mhz(2, MHZ_ASYNC_MODE);
+    //mhz.useLimit(5000);
+
 }
 
 int AIGB:: Time(){
     int t=1;
     return t;
 }
-int AIGB::Calibrate(int *Settings){
-    int t=Time();
+int AIGB::Test(){
+    int test=1;
+    printf("%d", test);
+    return 0;
+}
+int AIGB::Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume){
+    //Time();
+    
     bool day;
+    
     if (20 > t > 7){
         day=true;
+        int *Temp_Set=temp_day;
+        int *Hum_Set=Hum_day;
     }
+
     else{
         day=false;
+        
+        int *Temp_Set=temp_night;
+        int *Hum_Set=Hum_night;
+        
     }
-    Control(Settings);
-    return day;
+    
+    // check waterlevel
+    //Get_water();
+    
+    // check humidity
+    //Get_Hum();
+    // check light
+    //Get_LDR();
+
+    //Get_Co2();
+    
+    //Control();
+    return 1;
 }
-int AIGB::Control(int *Settings){
+int AIGB::Control(){
     
     //settings instellen
-     if (day==true){
-        
-        //point ik nu naar een pointer?
-        int *Setting[7]={&Settings[0],&Settings[2],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
-    }
-    else{
-        
-        int *Setting[7]={&Settings[1],&Settings[3],&Settings[4],&Settings[5],&Settings[6],&Settings[7],&Settings[8]};
-    }
-    //Setting (0=day temp, 1=night temp, 2= day hum, 3=night hum, 4=pomp power, 5= light power, 6= light color, 7= food interval, 8=food volume)
+   
+     
     //check settings (looks if the settings are still compatible with the time of day)
     // int* temp_setting= &temp_setting_inside_day;
     
     // temp difference
-    printf("%d" ,*Setting[0]);
+    Temp_Dif = *Temp_Set-Temp_In;
+    Hum_Dif = *Hum_Set-Hum_In;
+    if (-1>Temp_Dif>1){
+        //temp control
+    }
 
-    // check waterlevel
-    // check humidity
-    // check light
+    else{
+        // keep Temp as it is
+    }
+
+    if (-1>Hum_Dif>1){
+        //huminity control
+        //Moisture();
+    }
+
+    else{
+        digitalWrite(Vernevelaar,LOW);
+    }
     
+    LED();
+  
     return 1;
 }
 // function to led a led blink hopfully from there we can built further
 int AIGB::LED(){
-    digitalWrite(Vernevelaar,HIGH);
-  
-    delay(300);
-    digitalWrite(Vernevelaar,LOW);
-  
-    delay(300);
-    digitalWrite(Vernevelaar,HIGH);
-   
-    delay(300);
-    digitalWrite(Vernevelaar,LOW);
-    
     return 1;
 }
 
-// int AIGB::Measurment_In(){
-//       // Read the temperature and the humidity:
-//     float tempCIn = AM2320.readTemperature();
-//     float humidityIn = AM2320.readHumidity();
-
-//     return tempCIn,humidityIn;
-// } 
-
-// int AIGB::Measurment_Out(){
-//       // Read the temperature and the humidity:
-//     float tempC = AM2320.readTemperature();
-//     float humidity = AM2320.readHumidity();
-
-//     return tempC,humidity;
-// } 
+void AIGB::Moisture(){
+    digitalWrite(Vernevelaar,HIGH);
+} 
 
 // has to be tested if it function 
 int AIGB::Get_Co2(){
     
-     
+    // Start serial in setup routine
+
+    //Command and response
     byte cmd[9] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
     byte response[9];
-    co2Serial.write(cmd, 9);
-      // The serial stream can get out of sync. The response starts with 0xff, try to resync.
-    while (co2Serial.available() > 0 && (unsigned char)co2Serial.peek() != 0xFF) {
-        co2Serial.read();
+
+    // Clear serial buffer
+    while (mySerial.available() > 0) {
+        mySerial.read();
     }
 
-    memset(response, 0, 9);
-    co2Serial.readBytes(response, 9);
+    // Send command and read response
+    mySerial.write(cmd, 9);
+    mySerial.readBytes(response, 9);
 
-    if (response[1] != 0x86){
-        Serial.println("Invalid response from co2 sensor!");
-        return -1;
+    // Check if response is valid
+    if (response[0] != 0xFF) {
+    // wrong starting byte from co2 sensor
+    }
+    if (response[1] != 0x86) {
+    // Wrong command from co2 sensor
     }
 
-    byte crc = 0;
-    for (int i = 1; i < 8; i++) {
-        crc += response[i];
-    }
-
-    crc = 255 - crc + 1;
-
-    if (response[8] == crc) {
-        int responseHigh = (int) response[2];
-        int responseLow = (int) response[3];
-        int ppm = (256 * responseHigh) + responseLow;
-        return ppm;
-        } 
-        
-        else {
-        Serial.println("CRC error!");
-        return -1;
-    }
-    }
+    int ppm = (256 * response[2]) + response[3];
+    int temp = response[4]-40;
+    byte status = response[5];
+    int minimum = (256 * response[6]) + response[7];
     
+    Serial.println("\nppm: ");
+    Serial.println(ppm);
+    Serial.println("temp:");
+    Serial.println(temp);
+    delay(5000);
+    }
+    //Serial.println(ppm);  
 
+   
+    
+// int AIGB::Get_Co2(){
+//       unsigned long ms = millis();
 
-// int AIGB:: Get_water(){
+//   if (waitMode)
+//   {
+//     if (ms - _time >= 500 || ms < _time)
+//     {
+//       _time = ms;
+//       bool state = mhz.isDataReady();
+//       Serial.print(F("isDataReady: "));
+//       Serial.println(state);
+      
+//       if (state)
+//       {
+//         waitMode = false;
+//         unsigned long start = millis();
+//         float co2 = mhz.getCO2();
+//         unsigned long duration = millis() - start;
+
+//         Serial.print(F("CO2: "));
+//         Serial.println(co2);
+//         Serial.print(F("Duration: "));
+//         Serial.println(duration);
+//         Serial.println();
+//                 }
+//     }
+//   }
+//   else
+//   {
+//     if (ms - _time >= 10000 || ms < _time)
+//     {
+//       _time = ms;
+//       waitMode = true;
+//       mhz.requestData();
+//       Serial.println(F("Request data"));
+//     }
+//   }
+    
+  
+//     pwmtime = pulseIn(CO2_PWM, HIGH, 2000000) / 1000;
+//     Serial.print(pwmtime);
+//     float pulsepercent = pwmtime / 1004.0;
+//     ppm = ppmrange * pulsepercent;
+//     Serial.print("\nCO2 Konzentration in der Luft in PPM: ");
+//     Serial.println(ppm);
+//     delay(5000);
 
 // }
 
-// int AIGB:: Get_LDR_One(){
+int AIGB::Get_Hum(){
+    return 1;
+} 
 
-// }
+int AIGB::Get_Temp(){
+    return 1;
+}
 
-// int AIGB:: Get_LDR_Two(){
+    
+int AIGB:: Get_water(){
 
-// }
+}
+
+int AIGB:: Get_LDR(){
+    ldr_1=analogRead(LDR_1);
+    ldr_2=analogRead(LDR_2);
+    printf("%f",ldr_01);
+    printf("%f",ldr_02);
+ }
 
 // lets servo one move
 void AIGB:: Servo_one(){
@@ -202,9 +281,9 @@ void AIGB:: Servo_two(){
     delay(200); 
 }
 
-// void AIGB:: Water_Con(){
+void AIGB:: Water_Con(){
 
-// }
+}
 
 // void AIGB:: Food_Con(){
 
@@ -225,3 +304,4 @@ void AIGB:: Servo_two(){
 // void AIGB:: Led_Strip(){
 
 // }
+

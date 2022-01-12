@@ -25,7 +25,7 @@
 AsyncWebServer server(PORT);
 AsyncWebSocket websocket("/ws");
 AsyncEventSource events("/events");
-// AIGB aigb;
+AIGB aigb;
 
 DATA aigb_data;
 
@@ -83,7 +83,8 @@ void loop()
     //first the variable settings have to be set (or we need a default setting)
     
     
-    aigb.Calibrate(Set);
+    //aigb.Calibrate(Set);
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     websocket.cleanupClients();
+    aigb.Get_Co2();
 }
