@@ -46,7 +46,7 @@ class AIGB{
         //measurment
         int LED();
         void Moisture();
-        int Get_Co2();
+        void Get_Co2();
         int Get_Hum();
         int Get_Temp();
         int Get_water();

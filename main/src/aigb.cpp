@@ -25,7 +25,7 @@ void AIGB::init(){
     //making two servo objects
     Servo MyServo1;
     Servo MyServo2;
-    MyServo1.attach(Servo_1,0,180);
+    MyServo1.attach(Servo_1,500,2400);
     MyServo2.attach(Servo_2,0,180);
     // making am2320 sensor object
     
@@ -70,16 +70,16 @@ void AIGB::init(){
 
 }
 
-int AIGB:: Time(){
+void AIGB:: Time(){
     int t=1;
-    return t;
+   
 }
-int AIGB::Test(){
+void AIGB::Test(){
     int test=1;
     printf("%d", test);
-    return 0;
+    
 }
-int AIGB::Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night,int *pump_power, int *light_power,int *light_color,int *feed_interval,int *feed_volume){
+void AIGB::Calibrate(){
     //Time();
     
     bool day;
@@ -111,7 +111,7 @@ int AIGB::Calibrate(int *temp_day, int *temp_night ,int *Hum_day, int *Hum_night
     //Control();
     return 1;
 }
-int AIGB::Control(){
+void AIGB::Control(){
     
     //settings instellen
    
@@ -141,11 +141,11 @@ int AIGB::Control(){
     
     LED();
   
-    return 1;
+    
 }
 // function to led a led blink hopfully from there we can built further
-int AIGB::LED(){
-    return 1;
+void AIGB::LED(){
+    
 }
 
 void AIGB::Moisture(){
@@ -153,7 +153,7 @@ void AIGB::Moisture(){
 } 
 
 // has to be tested if it function 
-int AIGB::Get_Co2(){
+void AIGB::Get_Co2(){
     
     // Start serial in setup routine
 
@@ -179,68 +179,22 @@ int AIGB::Get_Co2(){
     }
 
     int ppm = (256 * response[2]) + response[3];
-    int temp = response[4]-40;
+    Temp_In = response[4]-40;
     byte status = response[5];
     int minimum = (256 * response[6]) + response[7];
     
     Serial.println("\nppm: ");
     Serial.println(ppm);
     Serial.println("temp:");
-    Serial.println(temp);
+    Serial.println(Temp_In);
+    AIGB::aigb_data->co2_current_inside=ppm;
+
     delay(5000);
     }
-    //Serial.println(ppm);  
+   
 
    
     
-// int AIGB::Get_Co2(){
-//       unsigned long ms = millis();
-
-//   if (waitMode)
-//   {
-//     if (ms - _time >= 500 || ms < _time)
-//     {
-//       _time = ms;
-//       bool state = mhz.isDataReady();
-//       Serial.print(F("isDataReady: "));
-//       Serial.println(state);
-      
-//       if (state)
-//       {
-//         waitMode = false;
-//         unsigned long start = millis();
-//         float co2 = mhz.getCO2();
-//         unsigned long duration = millis() - start;
-
-//         Serial.print(F("CO2: "));
-//         Serial.println(co2);
-//         Serial.print(F("Duration: "));
-//         Serial.println(duration);
-//         Serial.println();
-//                 }
-//     }
-//   }
-//   else
-//   {
-//     if (ms - _time >= 10000 || ms < _time)
-//     {
-//       _time = ms;
-//       waitMode = true;
-//       mhz.requestData();
-//       Serial.println(F("Request data"));
-//     }
-//   }
-    
-  
-//     pwmtime = pulseIn(CO2_PWM, HIGH, 2000000) / 1000;
-//     Serial.print(pwmtime);
-//     float pulsepercent = pwmtime / 1004.0;
-//     ppm = ppmrange * pulsepercent;
-//     Serial.print("\nCO2 Konzentration in der Luft in PPM: ");
-//     Serial.println(ppm);
-//     delay(5000);
-
-// }
 
 int AIGB::Get_Hum(){
     return 1;
@@ -264,13 +218,13 @@ int AIGB:: Get_LDR(){
 
 // lets servo one move
 void AIGB:: Servo_one(){
-    MyServo1.write(90);
-    delay (200);
     MyServo1.write(180);
-    delay (200);
-    MyServo1.write(0);
-    delay(200); 
-}
+    delay(15);
+    MyServo1.write(179);
+    delay(15);
+    MyServo1.write(175);
+  
+}`1
 
 // lets servo two move
 void AIGB:: Servo_two(){
@@ -285,24 +239,3 @@ void AIGB:: Servo_two(){
 void AIGB:: Water_Con(){
 
 }
-
-// void AIGB:: Food_Con(){
-
-// }
-        
-// void AIGB:: Pel_one(){
-
-// }
-
-// void AIGB:: Pel_two(){
-
-// }
-
-// void AIGB:: Control_Fan(){
-
-// }
-
-// void AIGB:: Led_Strip(){
-
-// }
-

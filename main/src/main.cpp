@@ -18,8 +18,8 @@
 #include <data.h>
 //setup
 #define PORT 80
-#define SSID "Daerkspot"
-#define PASS "twee0168"
+#define SSID "NETGEAR96"
+#define PASS "5tsWWScWn"
 
 //variables
 AsyncWebServer server(PORT);
@@ -31,8 +31,6 @@ DATA aigb_data;
 AIGB aigb(&aigb_data);
 
 
-int Settings[9]={temp_setting_inside_day , temp_setting_inside_night , Hum_setting_inside_day ,Hum_setting_inside_night,pump_power_setting,light_power_setting,light_color_setting,feed_interval_setting,feed_volume_setting};
-int *Set=Settings;
 
 
 
@@ -88,5 +86,6 @@ void loop()
     //aigb.Calibrate(Set);
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     websocket.cleanupClients();
-    aigb.Get_Co2();
+    
+    aigb.Servo_one();
 }
