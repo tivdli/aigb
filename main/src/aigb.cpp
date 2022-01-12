@@ -120,8 +120,8 @@ int AIGB::Control(){
     // int* temp_setting= &temp_setting_inside_day;
     
     // temp difference
-    Temp_Dif = *Temp_Set-Temp_In;
-    Hum_Dif = *Hum_Set-Hum_In;
+    Temp_Dif = AIGB::aigb_data->temp_setting_current-Temp_In;
+    Hum_Dif = AIGB::aigb_data->hum_setting_current-Hum_In;
     if (-1>Temp_Dif>1){
         //temp control
     }
