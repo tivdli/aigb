@@ -116,7 +116,9 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             //select profile and set data variables accordingly. Then, send values to 
             else if (name == "pfs")
             {
-                client->text(GBINT::get_profile((int) obj["d"]));
+                int pf_num = (int) obj["d"];
+                Serial.println(pf_num);
+                client->text(GBINT::get_profile(pf_num));
             }
             //Create or update profile
             else if (name == "pfw")
@@ -141,10 +143,14 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 Serial.print((int) obj["d"][3]);Serial.print(":");
                 Serial.print((int) obj["d"][4]);Serial.print(":");
                 Serial.println((int) obj["d"][5]);
+
+                Serial.println(GBINT::aigb_data->pump_power_setting);
             }
         }         
     }
     break;
+    case WS_PONG:
+        break;
     case WS_EVT_ERROR:
     {
         Serial.println("WS event error");
@@ -202,7 +208,7 @@ String GBINT::get_profile(int number)
 {
     JSONVar data;
     //KLOPT NIET, ALTIJD PROFIEL 0
-    int address = PROFILESTART + number * PROFILELENGTH;
+    int address = GBINT::check_profile(number);
     data["key"] = "pfr";
     String s;
     for (int a = 0; a < PROFILELENGTH; a++)
@@ -220,7 +226,8 @@ void alloc_array(int size, int **result) {
 //Check if profile exists, returns 0 when false and EEPROM index if true
 int GBINT::check_profile(int name_number)
 {
-    Serial.println("check_profile");
+    Serial.print(name_number);
+    Serial.println("  - check if profile exists");
     for (int a = PROFILESTART; a < EEPROMSIZE; a+=PROFILELENGTH)
     {
         Serial.print(a);

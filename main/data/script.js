@@ -9,7 +9,7 @@ data.push(parseInt(clock[0]));data.push(parseInt(clock[1]));}}
 console.log(data);message("pfw",data);}}
 function processButton(elem){var first=false;if(typeof elem=="string"){first=true;elem=document.getElementById(elem);buttonStates.forEach((x,i)=>buttonStates[i]=0?x:1);}
 num=parseInt(elem.id.split("")[1]);if(num<buttonStates.length+1){if(buttonStates[num-1]==1){elem.style.color="red";if(!first){buttonStates[num-1]=0;}}else{elem.style.color="green";if(!first){buttonStates[num-1]=1;}}
-if(!first){message("btn",elem.id,buttonStates[num-1]);}}else if(num>=buttonStates.length+1){elem.style.color="green";setTimeout(function(){elem.style.color="black";},250);if(elem.id=="b6"){message("btn",elem.id,document.getElementById("pss_sct").value);}
+if(!first){message("btn",elem.id,buttonStates[num-1]);}}else if(num>=buttonStates.length+1){elem.style.color="green";setTimeout(function(){elem.style.color="black";},250);if(elem.id=="b6"){message("btn",elem.id,1*document.getElementById("pss_sct").value);}
 else{message("btn",elem.id,getNameNumber());}}}
 function getNameNumber(){ret=0;for(a=1;a<5;a++){ret+=(document.getElementById("wp"+a).value-1)*2**(8-(a*2));}
 return ret;}
@@ -23,13 +23,14 @@ profile_name_type[n3]+
 " "+
 profile_name_mode[n4]);}
 function concNameFromByte(b){n1=(b&0b11000000)>>>6;n2=(b&0b00110000)>>>4;n3=(b&0b00001100)>>>2;n4=b&0b00000011;console.log(b);return concName(n1,n2,n3,n4);}
-function profileOptions(optionlist){select=document.getElementById("pss_sct");curr_options=[...document.querySelector("#pss_sct").options].map(opt=>opt.value);for(var i=0;i<(Object.keys(optionlist).length-1);i++){if(curr_options.includes(optionlist[i.toString()])==false)
-{var option=document.createElement("option");option.setAttribute("value",optionlist[i.toString()]);option.innerHTML=concNameFromByte(optionlist[i.toString()]);select.appendChild(option);}}}
+function profileOptions(optionlist){select=document.getElementById("pss_sct");curr_options=[...document.querySelector("#pss_sct").options].map(opt=>opt.value);for(var i=0;i<(Object.keys(optionlist).length-1);i++){if(curr_options.includes(optionlist[i].toString())==false)
+{var option=document.createElement("option");option.setAttribute("value",optionlist[i]);option.innerHTML=concNameFromByte(optionlist[i]);select.appendChild(option);}}}
 function fillProfiles(){for(var i=1;i<5;i++){switch(i){case 1:prof_array=profile_name_climate;break;case 2:prof_array=profile_name_stage;break;case 3:prof_array=profile_name_type;break;case 4:prof_array=profile_name_mode;break;}
 opt_array=document.getElementsByName("prof_opt_"+String(i));for(var y=0;y<4;y++){opt_array[y].innerText=prof_array[y];}}}
 function updatePage(){buttonStates.forEach((x,i)=>processButton("b"+(i+1)));sliderStates.forEach((x,i)=>processSlider(document.getElementById("s"+(i+1))));light_sensor.forEach((x,i)=>(document.getElementById("l"+(i+1)).innerText=x));feed_values.forEach((x,i)=>(document.getElementById("f"+(i+1)).value=x));air_sensor.forEach((x,i)=>(document.getElementById("a"+(i+1)).innerText=x));air_input.forEach((x,i)=>(document.getElementById("i"+(i+1)).value=x));document.getElementById("c1").value="#"+light_color.toString(16).padStart(6,"0");}
 function request_profile()
-{doc_sel=document.getElementById("pss_sct");message("pfs",0,doc_sel.value);}
+{doc_sel=document.getElementById("pss_sct").value;console.log(doc_sel);if(doc_sel==-1){window.alert("Please select a profile");}
+else{message("pfs",0,doc_sel*1);}}
 function setProfileRead(msg){pref="r";document.getElementById(pref+"p9").innerText=msg[7].toString().padStart(2,"0");document.getElementById(pref+"p7").innerText=msg[5].toString().padStart(2,"0");document.getElementById(pref+"p5").innerText="#"+msg[1].toString(16).padStart(2,"0")+msg[2].toString(16).padStart(2,"0")+msg[3].toString(16).padStart(2,"0");document.getElementById(pref+"p6").innerText=msg[4];document.getElementById(pref+"p8").innerText=msg[6];document.getElementById(pref+"p10").innerText=msg[8];document.getElementById(pref+"p11").innerText=msg[9];document.getElementById(pref+"p12").innerText=msg[10];document.getElementById(pref+"p13").innerText=msg[11];document.getElementById(pref+"p14").innerText=msg[12];document.getElementById(pref+"p15").innerText=msg[13];document.getElementById(pref+"p16").innerText=msg[14];}
 function setProfileWrite(){pref="w";document.getElementById(pref+"p5").innerText=msg["col"];document.getElementById(pref+"p10").innerText=msg["fin"];document.getElementById(pref+"p11").innerText=msg["fqy"];document.getElementById(pref+"p12").innerText=msg["tpd"];document.getElementById(pref+"p13").innerText=msg["tpn"];document.getElementById(pref+"p14").innerText=msg["hmd"];document.getElementById(pref+"p15").innerText=msg["hmn"];}
 function message(type,id,data){comm={n:type,i:id,d:data,};console.log(JSON.stringify(comm));ws.send(JSON.stringify(comm));}

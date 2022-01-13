@@ -138,7 +138,7 @@ function processButton(elem) {
       elem.style.color = "black";
     }, 250);
     if (elem.id == "b6"){
-      message("btn", elem.id, document.getElementById("pss_sct").value);
+      message("btn", elem.id, 1*document.getElementById("pss_sct").value);
     }
     else {
       message("btn", elem.id, getNameNumber());
@@ -197,11 +197,11 @@ function profileOptions(optionlist) {
   select = document.getElementById("pss_sct");
   curr_options = [...document.querySelector("#pss_sct").options].map( opt => opt.value );
   for (var i = 0; i < (Object.keys(optionlist).length - 1); i++) {
-    if (curr_options.includes(optionlist[i.toString()]) == false)
+    if (curr_options.includes(optionlist[i].toString()) == false)
     {
       var option = document.createElement("option");
-      option.setAttribute("value", optionlist[i.toString()]);
-      option.innerHTML = concNameFromByte(optionlist[i.toString()]);
+      option.setAttribute("value", optionlist[i]);
+      option.innerHTML = concNameFromByte(optionlist[i]);
       select.appendChild(option);
     }
   }
@@ -235,6 +235,7 @@ function updatePage() {
   buttonStates.forEach((x, i) => processButton("b" + (i + 1)));
   sliderStates.forEach((x, i) =>
     processSlider(document.getElementById("s" + (i + 1)))
+    //TODO fix input on slider
   );
   light_sensor.forEach(
     (x, i) => (document.getElementById("l" + (i + 1)).innerText = x)
@@ -254,8 +255,14 @@ function updatePage() {
 
 function request_profile()
 {
-  doc_sel = document.getElementById("pss_sct");
-  message("pfs", 0, doc_sel.value);
+  doc_sel = document.getElementById("pss_sct").value;
+  console.log(doc_sel);
+  if (doc_sel == -1){
+    window.alert("Please select a profile");
+  }
+  else {
+    message("pfs", 0, doc_sel*1);
+  }
 }
 function setProfileRead(msg) {
   pref = "r";
