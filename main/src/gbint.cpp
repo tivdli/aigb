@@ -118,7 +118,6 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             else if (name == "pfs")
             {
                 int pf_num = (int) obj["d"];
-                Serial.println(pf_num);
                 client->text(GBINT::get_profile(pf_num));
             }
             //Create or update profile
@@ -144,8 +143,6 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 Serial.print((int) obj["d"][3]);Serial.print(":");
                 Serial.print((int) obj["d"][4]);Serial.print(":");
                 Serial.println((int) obj["d"][5]);
-
-                Serial.println(GBINT::aigb_data->pump_power_setting);
             }
         }         
     }
@@ -199,10 +196,7 @@ void GBINT::set_profile(JSONVar msg)
     for (int i = 0; i < PROFILEENTRIES; i++)
     {
         EEPROM.write(writeStart + i, (int)msg["i"][i]);
-        Serial.println( (int)msg["i"][i]);
     }
-    Serial.print("Printed thing: ");
-    Serial.println(EEPROM.commit());
     delay(500);
 }
 
@@ -228,13 +222,8 @@ void alloc_array(int size, int **result) {
 //Check if profile exists, returns 0 when false and EEPROM index if true
 int GBINT::check_profile(int name_number)
 {
-    Serial.print(name_number);
-    Serial.println("  - check if profile exists");
     for (int a = PROFILESTART; a < EEPROMSIZE; a+=PROFILELENGTH)
     {
-        Serial.print(a);
-        Serial.print(" -> ");
-        Serial.println(EEPROM.read(a));
         if (EEPROM.read(a) == name_number)
         {
             return a;
@@ -287,8 +276,6 @@ void GBINT::handle_direct_input(String input_id, int value)
         GBINT::aigb_data->Profile_user = -1;
     }
     if (input_id == "s1"){
-        Serial.print("set pump_power_settting: ");
-        Serial.println(value);
         GBINT::aigb_data->pump_power_setting = value;
     }
     else if (input_id == "s2"){
@@ -322,8 +309,6 @@ void GBINT::activate_profile(int number)
 {
     int address = GBINT::check_profile(number);
     int val = 0;
-    Serial.print("Profile start at");
-    Serial.println(address);
     if (address != 0)
     {
         GBINT::aigb_data->Profile_user = number;

@@ -44,9 +44,7 @@ function onClose(event) {
 setInterval(message, 5000, "stt", 0, 0);
 
 function onMessage(event) {
-  console.log(event)
   msg = JSON.parse(event.data);
-  console.log(msg);
   switch (msg["key"]) {
     case "stt":
       fillPage(msg);
@@ -317,7 +315,6 @@ function updateTime(){
     time = new Date();
     data = [time.getFullYear(), time.getMonth()+1, time.getDate(), time.getHours(), time.getMinutes(), time.getSeconds()];
     console.log(data);
-    message("utv", 0, data);
   }
 }
 
