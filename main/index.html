@@ -41,7 +41,7 @@
             <h5 class="card-title">Pump power: <em id="s1_v">0</em>%</h5>
             <div class="slidecontainer">
               <input type="range" min="0" max="100" value="0" class="slider" id="s1"
-                onchange="message('inp', this.id, this.value)" onclick="processSlider(this)">
+                onchange="message('inp', this.id, 1*this.value)" onclick="processSlider(this)">
             </div>
           </div>
           <div class="d-flex justify-content-center card-footer"><svg id="b1" aria-hidden="true" focusable="true"
@@ -59,7 +59,7 @@
             <h5 class="card-title">Light power: <em id="s2_v">0</em>%</h5>
             <div class="slidecontainer">
               <input type="range" min="0" max="100" value="0" class="slider" id="s2"
-                onchange="message('inp', this.id, this.value)" onclick="processSlider(this)">
+                onchange="message('inp', this.id, 1*this.value)" onclick="processSlider(this)">
             </div>
             <div class="card-text">
               <h6 class="card-title">Sensor readouts</h6>
@@ -95,9 +95,10 @@
         <!-- Profileblock -->
         <div class="card bg-light m-2" style="min-height: 15rem;">
           <div class="card-header">Profile selection</div>
+          <h6 class="card-header">Active: <em id="act_pfl"></em></h6>
           <div class="card-body">
             <select id="pss_sct" class="form-control card-text" oninput="request_profile()">
-              <option disabled value=-1 selected>Change profile here</option>
+              <option disabled value=-1 selected>Change profile here </option>
 
             </select>
             <h5 style="padding-top:10px;" class="card-title">Profile characteristics</h6>
@@ -175,10 +176,10 @@
           <div class="card-body">
             <h5 class="card-title">deposition volume:</h5>
             <input type="number" min="0" max="5" value="0" class="card-text" id="f1"
-              onchange="message('inp', this.id, this.value)" step="0.5" value="0">
+              onchange="message('inp', this.id, 1*this.value)" step="0.5" value="0">
             <h5 class="card-title">Feed interval</h5>
             <input type="number" min="0" max="30" value="0" class="card-text" id="f2"
-              onchange="message('inp', this.id, this.value)" step="1" value="0">
+              onchange="message('inp', this.id, 1*this.value)" step="1" value="0">
           </div>
           <div class="d-flex justify-content-center card-footer"><svg id="b3" aria-hidden="true" focusable="true"
               data-icon="power" role="button" class="ico_btns" onclick="processButton(this)"
@@ -195,7 +196,7 @@
             <h5 class="card-title">Circulation power: <em id="s3_v">0</em>%</h5>
             <div class="slidecontainer">
               <input type="range" min="0" max="100" value="0" class="slider" id="s3"
-                onchange="message('inp', this.id, this.value)" onclick="processSlider(this)">
+                onchange="message('inp', this.id, 1*this.value)" onclick="processSlider(this)">
             </div>
             <div class="card-text">
               <h6 class="card-title">Sensor readouts</h6>
@@ -232,13 +233,13 @@
               <table style="width:100%">
                 <tr>
                   <td>Temperature</td>
-                  <td><input type="number" min="15" max="30" id="i1" onchange="message('inp', this.id, this.value)">
+                  <td><input type="number" min="15" max="30" id="i1" onchange="message('inp', this.id, 1*this.value)">
                   </td>
                   <td>°C</td>
                 </tr>
                 <tr>
                   <td>Rel. humidity</td>
-                  <td><input type="number" min="60" max="100" id="i2" onchange="message('inp', this.id, this.value)">
+                  <td><input type="number" min="60" max="100" id="i2" onchange="message('inp', this.id, 1*this.value)">
                   </td>
                   <td>%</td>
                 </tr>

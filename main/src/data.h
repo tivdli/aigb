@@ -35,5 +35,6 @@ public:
     int m_morning = 0;
     int h_night = 20;
     int m_night = 30;
+    int Profile_user = -1;
 };
 #endif

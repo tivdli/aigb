@@ -41,6 +41,8 @@ function onClose(event) {
   setTimeout(initWS, 2000);
 }
 
+setInterval(message, 5000, "stt", 0, 0);
+
 function onMessage(event) {
   console.log(event)
   msg = JSON.parse(event.data);
@@ -162,7 +164,9 @@ function fillPage(msg) {
   feed_values = [msg["fv0"],msg["fv1"]];
   air_sensor = [msg["as0"], msg["as1"], msg["as2"], msg["as3"], msg["as4"]];
   air_input = [msg["ai0"], msg["ai1"]];
-  if (msg["prf"]  > 0) {
+  act_val = msg["pfa"] < 0 ? "None" : concNameFromByte(msg["pfa"]);
+  document.getElementById("act_pfl").innerHTML = act_val
+  if (msg["prf"] > document.querySelector("#pss_sct").options.length-1) {
     message("prr", 0, 0);
   }
 }
@@ -316,3 +320,4 @@ function updateTime(){
     message("utv", 0, data);
   }
 }
+

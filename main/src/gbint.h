@@ -38,7 +38,7 @@ protected:
     static void set_subsystem(String btn, bool set_state);
     static int check_profile(int name_number);
     static void fill_page(int id);
-    static void handle_direct_input(int id, String input_id, int value);
+    static void handle_direct_input(String input_id, int value);
     static String get_profile(int number);
     static void activate_profile(int number);
 };

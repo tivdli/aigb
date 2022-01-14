@@ -111,7 +111,8 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
             {
                 String input_id = (const char *) obj["i"];
                 int value = (int) obj["d"];
-                GBINT::handle_direct_input(client->id(), input_id, value);
+
+                GBINT::handle_direct_input(input_id, value);
             }
             //select profile and set data variables accordingly. Then, send values to 
             else if (name == "pfs")
@@ -149,7 +150,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
         }         
     }
     break;
-    case WS_PONG:
+    case WS_EVT_PONG:
         break;
     case WS_EVT_ERROR:
     {
@@ -158,6 +159,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
     break;
     }
 }
+
 void GBINT::resetmemory()
 {
     for (int i = 1; i < EEPROMSIZE; i++)
@@ -273,12 +275,20 @@ void GBINT::fill_page(int id){
     
     msg["prf"] = GBINT::profileNum;
 
+    msg["pfa"] = GBINT::aigb_data->Profile_user;
+
+
     GBINT::ws->text(id, JSON.stringify(msg));
 }
 
-void GBINT::handle_direct_input(int id, String input_id, int value)
+void GBINT::handle_direct_input(String input_id, int value)
 {
+    if (GBINT::aigb_data->Profile_user >= 0){
+        GBINT::aigb_data->Profile_user = -1;
+    }
     if (input_id == "s1"){
+        Serial.print("set pump_power_settting: ");
+        Serial.println(value);
         GBINT::aigb_data->pump_power_setting = value;
     }
     else if (input_id == "s2"){
@@ -316,6 +326,9 @@ void GBINT::activate_profile(int number)
     Serial.println(address);
     if (address != 0)
     {
+        GBINT::aigb_data->Profile_user = number;
+        Serial.print("Set PROFILE active to: ");
+        Serial.println(GBINT::aigb_data->Profile_user);
         //start at i=1 because we don't use the first byte (name)
         for (int i = 1; i < PROFILEENTRIES; i++)
         {
@@ -379,6 +392,9 @@ void GBINT::activate_profile(int number)
 
 void GBINT::set_subsystem(String btn, bool set_state)
 {
+    if (GBINT::aigb_data->Profile_user >= 0){
+        GBINT::aigb_data->Profile_user = -1;
+    }
     bool * ptr;
     if (btn == "b1")
     {
