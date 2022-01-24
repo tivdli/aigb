@@ -47,72 +47,70 @@ class AIGB{
         
         
         AIGB(DATA * data);
-   //      void init();
-   //      //"main" functions
-   //      void Calibrate();
-   //      void Control();
-   //      //measurment
-   //      void LED();
-   //      void Moisture();
-   //      void Get_Co2();
-   //      void Get_Hum();
-   //      void Get_Temp();
-   //      void Get_water();
-   //      void Get_LDR();
-   //      unsigned long _time = 0;
-   //      bool waitMode = false;
-   //      // control function
-   //      void Servo_one();
-   //      void Servo_two();
-   //      void Water_Con();
-   //      void Food_Con();
-   //      void Pel_one();
-   //      void Pel_two();
-   //      void Control_Fan();
-   //      void Led_Strip();
-   //      void Time();
-   //      Servo MyServo1;
-   //      Servo MyServo2;
+        void init();
+        //"main" functions
+        void Calibrate();
+        void Control();
+        //measurment
+        void LED();
+        void Moisture();
+        void Get_Co2();
+        void Get_Hum();
+        void Get_Temp();
+        void Get_water();
+        void Get_LDR();
+        unsigned long _time = 0;
+        bool waitMode = false;
+        // control function
+        void Servo_one();
+        void Servo_two();
+        void Water_Con();
+        void Food_Con();
+        void Pel_one();
+        void Pel_two();
+        void Control_Fan();
+        void Led_Strip();
+        void Time();
         
     
         
-   //      // MHZ19 myMHZ19;
-   //      AM2320 th_1;
-   //      AM2320 th_2;
-   //      bool day;
+        //MHZ19 myMHZ19;
+        AM2320 th_1;
+        AM2320 th_2;
+        bool day;
 
-   //      int food_timer;        
-   //      float PWM2_DutyCycle=(AIGB::aigb_data->pump_power_setting/100)*(1024/2);
-   //      float PWM1_DutyCycle=AIGB::aigb_data->feed_interval_setting*(1024/3);
-   //      //variables 
-   //      int Water_level;
-   //      int Hum_In;
-   //      int Temp_In;
-   //      int Hum_Out;
-   //      int Temp_out;
+        int food_timer;        
+        float PWM2_DutyCycle=(100/100)*(1024/2);
+        float PWM1_DutyCycle=(1*(1024/3));
+        //variables 
+        int Water_level;
+        int Hum_In;
+        int Temp_In;
+        int Hum_Out;
+        int Temp_out;
 
-   //      //int ppm;//variable for co2 sensor
-   //      long ppm, ppm2=0.0;
-   //      int light_valuel;
-   //      int ppmrange = 5000;
-   //      unsigned long pwmtime;
-   //      // difference variables local
-   //      int Temp_Dif;
-   //      int Hum_Dif;
+        //int ppm;//variable for co2 sensor
+        long ppm, ppm2=0.0;
+        int light_valuel;
+        int ppmrange = 5000;
+        unsigned long pwmtime;
+        // difference variables local
+        int Temp_Dif;
+        int Hum_Dif;
 
-   //     // time variables
-   //     int t; // the time in hours 
+       // time variables
+       int t; // the time in hours 
 
-   //     //defined constants
-   //     int NUM_LEDS=100; 
+       //defined constants
+       int NUM_LEDS=100; 
 
-   //     //formule voor ldrs
-   //     int ldr_1, ldr_2;
-   //     float ldr_01=0.5*ldr_1+5;
-   //     float ldr_02=0.5*ldr_2+5;
-   //     int Led_Cycle;
-   //    int Led_on;
-   //     unsigned long getDataTimer = 0;
+       //formule voor ldrs
+       int ldr_1, ldr_2;
+       float ldr_01=0.5*ldr_1+5;
+       float ldr_02=0.5*ldr_2+5;
+       int Led_Cycle;
+      int Led_on;
+       unsigned long getDataTimer = 0;
    //  //    MHZ19PWM mhz;
 
       
@@ -120,8 +118,8 @@ class AIGB{
        DATA *aigb_data;
 
 
-   //  private:
-   //     long th,tl,l=0.0;
+    private:
+       long th,tl,l=0.0;
     
 
 };
