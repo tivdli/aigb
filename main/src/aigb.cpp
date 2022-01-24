@@ -10,6 +10,12 @@
 #include <Adafruit_NeoPixel.h>
 // #include <MHZ19PWM.h>
 
+SoftwareSerial AM2320Serial(SDA, SCL);
+/* To Do
+Logica
+
+ */
+
 AIGB::AIGB(DATA * data){
     init();
     AIGB::aigb_data = data;
@@ -51,10 +57,11 @@ void AIGB::init(){
     pinMode(Water_Level,INPUT);
     pinMode(LDR_1,INPUT); 
     pinMode(LDR_2,INPUT);
-   // SoftwareSerial co2Serial(CO2_RX, CO2_TX);
-    SoftwareSerial AM2320Serial(SDA, SCL);
-    //co2Serial.begin(9600); 
+
+    
+    
     AM2320Serial.begin(9600);
+
     Wire.begin();
     Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_B, NEO_GRB + NEO_KHZ800);
 
@@ -69,7 +76,7 @@ void AIGB::init(){
     ledcAttachPin(Pomp_Water, PWM2_Ch);
     ledcSetup(PWM2_Ch, PWM1_Freq, PWM1_Res);
 
-    Serial2.begin(9600);                   
+                      
     //myMHZ19.begin(mySerial);
     //MHZ19PWM mhz(2, MHZ_ASYNC_MODE);
     //mhz.useLimit(5000);
@@ -83,7 +90,7 @@ void AIGB:: Time(){
 
 void AIGB::Calibrate(){
     //Time();
-    if (AIGB::aigb_data->Profile_user==false){
+    if (AIGB::aigb_data->Profile_user<=0){
     bool day;
     
     if (20 > t && t> 7){
@@ -122,8 +129,6 @@ void AIGB::Control(){
    
      
     //check settings (looks if the settings are still compatible with the time of day)
-    // int* temp_setting= &temp_setting_inside_day;
-    
     // temp difference
     Temp_Dif = AIGB::aigb_data->temp_setting_current-Temp_In;
     Hum_Dif = AIGB::aigb_data->hum_setting_current-Hum_In;
@@ -150,7 +155,21 @@ void AIGB::Control(){
 }
 
 void AIGB::LED(){
-    
+    if (AIGB::aigb_data->water_level_reading=0){
+        Led_Cycle=200;
+        for (int i=0;i<=Led_Cycle;i++){
+            if (Led_on==1 && i<=Led_Cycle){
+                Led_on=0;
+                digitalWrite(Led , HIGH);
+                i=0;
+            }
+            else if(Led_on==0 && i<=Led_Cycle){
+                Led_on=1;
+                digitalWrite(Led ,LOW);
+                i=0;
+            }
+        }
+    }
 }
 
 void AIGB::Moisture(){
@@ -161,40 +180,11 @@ void AIGB::Moisture(){
 void AIGB::Get_Co2(){
     
     // Start serial in setup routine
-
-    //Command and response
-    byte cmd[9] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
-    byte response[9];
-
-    // Clear serial buffer
-    while (mySerial.available() > 0) {
-        mySerial.read();
-    }
-
-    // Send command and read response
-    mySerial.write(cmd, 9);
-    mySerial.readBytes(response, 9);
-
-    // Check if response is valid
-    if (response[0] != 0xFF) {
-    // wrong starting byte from co2 sensor
-    }
-    if (response[1] != 0x86) {
-    // Wrong command from co2 sensor
-    }
-
-    AIGB::aigb_data->co2_current_inside = (256 * response[2]) + response[3];
-    Temp_In = response[4]-40;
-    byte status = response[5];
-    int minimum = (256 * response[6]) + response[7];
-    
-    Serial.println("ppm: ");
-    Serial.println(ppm);
-    Serial.println("temp:");
-    Serial.println(Temp_In);
-    
-
-    delay(5000);
+    do{
+    th = pulseIn(CO2_PWM, HIGH, 1004000) / 1000;
+    tl = 1004 - th;
+    AIGB::aigb_data->co2_current_inside = 2000 * (th-2)/(th+tl-4);
+  } while (th == 0);
     }
    
 
@@ -202,12 +192,14 @@ void AIGB::Get_Co2(){
     
 
 void AIGB::Get_Hum(){
+    //get the value of the two huminity sensors
     AIGB::aigb_data->Hum_reading_inside=th_1.h;
     AIGB::aigb_data->Hum_reading_outside=th_2.h;
     
     } 
 
 void AIGB::Get_Temp(){
+    //get the value of the temp according to the am2320
     AIGB::aigb_data->temp_reading_inside=th_1.t;
     AIGB::aigb_data->temp_reading_outside=th_2.t;
 }

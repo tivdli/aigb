@@ -83,9 +83,9 @@ void loop()
     //first the variable settings have to be set (or we need a default setting)
     
     
-    //aigb.Calibrate(Set);
+   // aigb.Get_Co2();
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     websocket.cleanupClients();
     
-    aigb.Servo_one();
+    
 }

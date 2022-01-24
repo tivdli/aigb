@@ -11,9 +11,9 @@
 #include <data.h>
 // #include <MHZ19PWM.h>
 
-#define CO2_TX 27
+//25 and 27 open
 #define Vernevelaar 2
-#define CO2_RX 25
+
 #define Led_pin 4
 #define Led_B 13
 #define Pomp_Voeding 3
@@ -31,6 +31,7 @@
 #define LDR_1 34
 #define LDR_2 36
 #define Water_Level 39
+#define Led 38
 
 #define PWM1_Ch    0
 #define PWM1_Res   16
@@ -73,7 +74,7 @@ class AIGB{
         Servo MyServo2;
         
     
-        SoftwareSerial mySerial;
+        
         // MHZ19 myMHZ19;
         AM2320 th_1;
         AM2320 th_2;
@@ -89,7 +90,7 @@ class AIGB{
         int Hum_Out;
         int Temp_out;
 
-        //int ppm;//variable for co2
+        //int ppm;//variable for co2 sensor
         long ppm, ppm2=0.0;
         int light_valuel;
         int ppmrange = 5000;
@@ -108,8 +109,8 @@ class AIGB{
        int ldr_1, ldr_2;
        float ldr_01=0.5*ldr_1+5;
        float ldr_02=0.5*ldr_2+5;
-       
-
+       int Led_Cycle;
+      int Led_on;
        unsigned long getDataTimer = 0;
     //    MHZ19PWM mhz;
 
