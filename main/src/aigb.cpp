@@ -4,10 +4,10 @@
 #include <data.h>
 #include <AM2320.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_AM2320.h>
+//#include <Adafruit_AM2320.h>
 #include <SoftwareSerial.h>
-#include <SPI.h> 
 #include <Adafruit_NeoPixel.h>
+#include <SPI.h>
 // #include <MHZ19PWM.h>
 
 SoftwareSerial AM2320Serial(SDA, SCL);
@@ -17,7 +17,7 @@ Logica
  */
 
 AIGB::AIGB(DATA * data){
-    init();
+    //init();
     AIGB::aigb_data = data;
 }
 
@@ -28,11 +28,7 @@ void AIGB::init(){
     ESP32PWM::allocateTimer(1);
     ESP32PWM::allocateTimer(2);
     ESP32PWM::allocateTimer(3);
-    //making two servo objects
-    Servo MyServo1;
-    Servo MyServo2;
-    MyServo1.attach(Servo_1,500,2400);
-    MyServo2.attach(Servo_2,0,180);
+    //making two servo objectss
     // making am2320 sensor object
     
     AM2320 th_1;
@@ -216,25 +212,6 @@ void AIGB:: Get_LDR(){
     AIGB::aigb_data->light_reading_2=ldr_02;
  }
 
-// lets servo one move
-void AIGB:: Servo_one(){
-    MyServo1.write(180);
-    delay(15);
-    MyServo1.write(179);
-    delay(15);
-    MyServo1.write(175);
-  
-}
-
-// lets servo two move
-void AIGB:: Servo_two(){
-    MyServo2.write(90);
-    delay (200);
-    MyServo2.write(180);
-    delay (200);
-    MyServo2.write(0);
-    delay(200); 
-}
 
 void AIGB::Water_Con(){
     
