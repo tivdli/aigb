@@ -8,9 +8,12 @@
 #include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 #include <SPI.h>
-//#include <MHZ19PWM.h>
 
-SoftwareSerial AM2320Serial(SDA, SCL);
+
+
+//#include <MHZ19PWM.h>
+AM2320 Sensor1(21,22);
+AM2320 Sensor2(33,32);
 /* To Do
 Logica
 
@@ -35,8 +38,7 @@ void AIGB::init(){
     // MyServo2.attach(Servo_2,0,180);
     // making am2320 sensor object
     
-    AM2320 th_1;
-    AM2320 th_2;
+ 
     // defined all the outputs
     pinMode(Led_pin,OUTPUT);
     pinMode(Vernevelaar,OUTPUT);
@@ -60,8 +62,11 @@ void AIGB::init(){
 
     
     
-    AM2320Serial.begin(9600);
+    //SoftwareSerial Serial2(SDA1 , SCL1);
 
+    AM2320 Sensor1(SDA,SCL);
+    //AM2320 Sensor2 (33,32);
+ 
     Wire.begin();
     Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_B, NEO_GRB + NEO_KHZ800);
 
@@ -183,8 +188,12 @@ void AIGB::Get_Co2(){
     do{
     th = pulseIn(CO2_PWM, HIGH, 1004000) / 1000;
     tl = 1004 - th;
-    AIGB::aigb_data->co2_current_inside = 2000 * (th-2)/(th+tl-4);
+   // AIGB::aigb_data->co2_current_inside = 5000 * (th-2)/(th+tl-4);
+    ppm = 2000 * (th-2)/(th+tl-4);
+    
   } while (th == 0);
+  delay(300);
+  Serial.println(ppm);
     }
    
 
@@ -193,15 +202,45 @@ void AIGB::Get_Co2(){
 
 void AIGB::Get_Hum(){
     //get the value of the two huminity sensors
-    AIGB::aigb_data->Hum_reading_inside=th_1.h;
-    AIGB::aigb_data->Hum_reading_outside=th_2.h;
-    
+    //AIGB::aigb_data->Hum_reading_inside=th_1.h;
+   // AIGB::aigb_data->Hum_reading_outside=th_2.h;
+    switch(Sensor1.Read()) {
+    case 2:
+      Serial.println("CRC failed");
+      break;
+    case 1:
+      Serial.println("Sensor1 offline");
+      break;
+    case 0:
+      Serial.print("Humidity: ");
+      Serial.print(Sensor1.h);
+      Serial.print("%\t Temperature: ");
+      Serial.print(Sensor1.t);
+      Serial.println("*C");
+      break;
+  }
+   switch(Sensor2.Read()) {
+    case 2:
+      Serial.println("CRC failed");
+      break;
+    case 1:
+      Serial.println("Sensor1 offline");
+      break;
+    case 0:
+      Serial.print("Humidity: ");
+      Serial.print(Sensor2.h);
+      Serial.print("2%\t Temperature: ");
+      Serial.print(Sensor2.t);
+      Serial.println("*C 2");
+      break;
+  }
+  delay(300);
     } 
 
 void AIGB::Get_Temp(){
     //get the value of the temp according to the am2320
-    AIGB::aigb_data->temp_reading_inside=th_1.t;
-    AIGB::aigb_data->temp_reading_outside=th_2.t;
+    //AIGB::aigb_data->temp_reading_inside=th_1.t;
+    //AIGB::aigb_data->temp_reading_outside=th_2.t;
 }
 
     

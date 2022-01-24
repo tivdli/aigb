@@ -10,6 +10,7 @@
 #include <SoftwareSerial.h>
 #include <data.h>
 #include <SPI.h>
+#include <SoftwareWire.h>
 // #include <MHZ19PWM.h>
 
 //25 and 27 open
@@ -23,12 +24,13 @@
 #define Fan_Control_2 19
 #define SDA 21
 #define SCL 22
+#define SDA1 33
+#define SCL1 32
 #define Peltier_1 23
 #define Peltier_2 25
 #define CO2_PWM 14 //is not used?
 #define Led_G 27// is not used?
-#define Servo_1 32
-#define Servo_2 33
+
 #define LDR_1 34
 #define LDR_2 36
 #define Water_Level 39
@@ -75,8 +77,7 @@ class AIGB{
     
         
         //MHZ19 myMHZ19;
-        AM2320 th_1;
-        AM2320 th_2;
+        
         bool day;
 
         int food_timer;        
