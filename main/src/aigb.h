@@ -4,12 +4,13 @@
 #include <AM2320.h>
 #include <Arduino.h>
 #include <ESP32Servo.h>
-#include <MHZ19.h>
-#include <AsyncTCP.h>
-#include <ESPAsyncWebServer.h>
+//#include <MHZ19.h>
+//#include <AsyncTCP.h>
+//#include <ESPAsyncWebServer.h>
 #include <SoftwareSerial.h>
 #include <data.h>
-#include <MHZ19PWM.h>
+#include <SPI.h>
+// #include <MHZ19PWM.h>
 
 //25 and 27 open
 #define Vernevelaar 2

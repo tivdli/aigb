@@ -8,10 +8,10 @@
 //Local libraries
 #include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
-#include <MHZ19.h>
+//#include <MHZ19.h>
 #include <ESP32Servo.h>
 #include <Adafruit_Sensor.h>
-#include <SPI.h> 
+//#include <SPI.h> 
 //local files
 #include <aigb.h>
 #include <gbint.h>

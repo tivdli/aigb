@@ -1,13 +1,13 @@
 #include <Arduino.h>
 #include <aigb.h>
-// #include <ESP32Servo.h>
- #include <data.h>
-// #include <AM2320.h>
-// #include <Adafruit_Sensor.h>
-// #include <Adafruit_AM2320.h>
-// #include <SoftwareSerial.h>
-// #include <SPI.h> 
-// #include <Adafruit_NeoPixel.h>
+#include <ESP32Servo.h>
+#include <data.h>
+#include <AM2320.h>
+#include <Adafruit_Sensor.h>
+//#include <Adafruit_AM2320.h>
+#include <SoftwareSerial.h>
+#include <Adafruit_NeoPixel.h>
+#include <SPI.h>
 // #include <MHZ19PWM.h>
 
 // SoftwareSerial AM2320Serial(SDA, SCL);
