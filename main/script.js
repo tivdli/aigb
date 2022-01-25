@@ -37,9 +37,9 @@ function onOpen(event) {
   fillProfiles();
 }
 
-function onClose(event) {
-  setTimeout(initWS, 2000);
-}
+// function onClose(event) { //Function disabled, should work via auto-update (gbint::update) now
+//   setTimeout(initWS, 60000);
+// }
 
 function onMessage(event) {
   console.log(event)

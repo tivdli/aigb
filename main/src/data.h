@@ -4,8 +4,11 @@ class DATA
 {
 public:
     DATA();
-    int temp_reading_inside = 20;
+    void set(String var, int val);
+    int get(String name);
+private:
     int temp_reading_outside = 15;
+    int temp_reading_inside = 20;
     int temp_setting_inside_day = 21;
     int temp_setting_inside_night = 16;
     int temp_setting_current = 16;

@@ -4,6 +4,7 @@
 #include <AM2320.h>
 #include <Arduino.h>
 #include <ESP32Servo.h>
+#include <Adafruit_NeoPixel.h>
 //#include <MHZ19.h>
 //#include <AsyncTCP.h>
 //#include <ESPAsyncWebServer.h>
@@ -15,7 +16,7 @@
 //25 and 27 open
 #define Vernevelaar 2
 
-#define Led_pin 4
+#define Led_pin 24
 #define Led_B 13
 #define Pomp_Voeding 3
 #define Pomp_Water 1
@@ -78,7 +79,7 @@ class AIGB{
         AM2320 th_1;
         AM2320 th_2;
         bool day;
-
+        Adafruit_NeoPixel strip;
         int food_timer;        
         float PWM2_DutyCycle=(100/100)*(1024/2);
         float PWM1_DutyCycle=(1*(1024/3));
@@ -102,7 +103,7 @@ class AIGB{
        int t; // the time in hours 
 
        //defined constants
-       int NUM_LEDS=100; 
+       int NUM_LEDS=21; 
 
        //formule voor ldrs
        int ldr_1, ldr_2;

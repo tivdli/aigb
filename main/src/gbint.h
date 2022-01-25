@@ -21,7 +21,7 @@ class GBINT
 public:
     static void getprofile(int number, int *data_var[PROFILEENTRIES]);
     static String listprofiles();
-
+    static void update();
     static void init(AsyncWebServer *server, AsyncWebSocket *ws, AsyncEventSource *events, DATA *aigb_data);
     static void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType type, void *arg, uint8_t *data, size_t len);
     //profile vars

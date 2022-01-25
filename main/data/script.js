@@ -1,6 +1,5 @@
 var ws;var gW="ws://"+window.location.hostname+"/ws";const PROFVAR=16;profile_name_climate=["Tropical","Dry","Temperate","Continental"];profile_name_stage=["Seedling","Vegetative","Budding","Ripening"];profile_name_type=["Common","Leaf","Fruit","Flower"];profile_name_mode=["Phase","Stable","Custom","Stress"];var buttonStates=[0,0,0,0];var sliderStates=[0];var light_sensor=[0];var light_color=0;var feed_values=[0];var air_sensor=[0];var air_input=[0];window.addEventListener("beforeunload",(event)=>{ws.close();event.preventDefault();event.returnValue="";});window.onload=function(){initWS();};function initWS(){ws=new WebSocket(gW);ws.onopen=onOpen;ws.onclose=onClose;ws.onmessage=onMessage;}
 function onOpen(event){message("stt",0,0);fillProfiles();}
-function onClose(event){setTimeout(initWS,2000);}
 function onMessage(event){console.log(event)
 msg=JSON.parse(event.data);console.log(msg);switch(msg["key"]){case"stt":fillPage(msg);updatePage();break;case"pfr":setProfileRead(msg);break;case"pfw":handleProfWrite(msg);break;case"pfo":profileOptions(msg);}}
 function handleProfWrite(msg){if(msg["go"]==0){go=msg["go"];}else{go=0?window.confirm("Profile already exists, do you want to overwrite it?"):1;}

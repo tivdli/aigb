@@ -90,20 +90,20 @@ void AIGB:: Time(){
 
 void AIGB::Calibrate(){
     //Time();
-    if (AIGB::aigb_data->Profile_user<=0){
+    if (AIGB::aigb_data->get("Profile_user")<=0){
     bool day;
     
     if (20 > t && t> 7){
         day=true;
-        AIGB::aigb_data->temp_setting_current=AIGB::aigb_data->temp_setting_inside_day;
-       AIGB::aigb_data->hum_setting_current=AIGB::aigb_data->Hum_setting_inside_day;
+        AIGB::aigb_data->set("temp_setting_current",AIGB::aigb_data->get("temp_setting_inside_day"));
+       AIGB::aigb_data->set("hum_setting_current",AIGB::aigb_data->get("Hum_setting_inside_day"));
     }
 
     else{
         day=false;
         
-        AIGB::aigb_data->temp_setting_current=AIGB::aigb_data->temp_setting_inside_night;
-        AIGB::aigb_data->hum_setting_current=AIGB::aigb_data->Hum_setting_inside_night;
+        AIGB::aigb_data->set("temp_setting_current",AIGB::aigb_data->get("temp_setting_inside_night"));
+        AIGB::aigb_data->set("hum_setting_current",AIGB::aigb_data->get("Hum_setting_inside_night"));
     }
     }
     else{
@@ -124,14 +124,14 @@ void AIGB::Calibrate(){
     
 }
 void AIGB::Control(){
-    
+    //Adafruit_Neopixel strip = AIGB::strip;
     //settings instellen
    
      
     //check settings (looks if the settings are still compatible with the time of day)
     // temp difference
-    Temp_Dif = AIGB::aigb_data->temp_setting_current-Temp_In;
-    Hum_Dif = AIGB::aigb_data->hum_setting_current-Hum_In;
+    Temp_Dif = AIGB::aigb_data->get("temp_setting_current")-Temp_In;
+    Hum_Dif = AIGB::aigb_data->get("hum_setting_current")-Hum_In;
     if (-1<Temp_Dif&& Temp_Dif>1){
         //temp control
     }
@@ -148,14 +148,24 @@ void AIGB::Control(){
     else{
         digitalWrite(Vernevelaar,LOW);
     }
-    
+    if (aigb_data->get("light_stat") == true)
+    {
+        strip.Color(aigb_data->get("light_color_setting_r"), aigb_data->get("light_color_setting_g"), aigb_data->get("light_color_setting_b"));
+        strip.setBrightness(aigb_data->get("light_power_setting"));
+        strip.show();
+    }
+    else if (aigb_data->get("light_stat") == false)
+    {
+        strip.show();
+    }
+
     LED();
   
     
 }
 
 void AIGB::LED(){
-    if (AIGB::aigb_data->water_level_reading=0){
+    if (AIGB::aigb_data->get("water_level_reading")==0){
         Led_Cycle=200;
         for (int i=0;i<=Led_Cycle;i++){
             if (Led_on==1 && i<=Led_Cycle){
@@ -183,7 +193,7 @@ void AIGB::Get_Co2(){
     do{
     th = pulseIn(CO2_PWM, HIGH, 1004000) / 1000;
     tl = 1004 - th;
-    AIGB::aigb_data->co2_current_inside = 2000 * (th-2)/(th+tl-4);
+    AIGB::aigb_data->set("co2_current_inside",2000 * (th-2)/(th+tl-4));
   } while (th == 0);
     }
    
@@ -193,27 +203,27 @@ void AIGB::Get_Co2(){
 
 void AIGB::Get_Hum(){
     //get the value of the two huminity sensors
-    AIGB::aigb_data->Hum_reading_inside=th_1.h;
-    AIGB::aigb_data->Hum_reading_outside=th_2.h;
+    AIGB::aigb_data->set("Hum_reading_inside",th_1.h);
+    AIGB::aigb_data->set("Hum_reading_outside",th_2.h);
     
     } 
 
 void AIGB::Get_Temp(){
     //get the value of the temp according to the am2320
-    AIGB::aigb_data->temp_reading_inside=th_1.t;
-    AIGB::aigb_data->temp_reading_outside=th_2.t;
+    AIGB::aigb_data->set("temp_reading_inside",th_1.t);
+    AIGB::aigb_data->set("temp_reading_outside",th_2.t);
 }
 
     
 void AIGB:: Get_water(){
-    AIGB::aigb_data->water_level_reading=   2  ;
+    AIGB::aigb_data->set("water_level_reading",   2  );
 }
 
 void AIGB:: Get_LDR(){
     ldr_1=analogRead(LDR_1);
     ldr_2=analogRead(LDR_2);
-    AIGB::aigb_data->light_reading_1=ldr_01;
-    AIGB::aigb_data->light_reading_2=ldr_02;
+    AIGB::aigb_data->set("light_reading_1",ldr_01);
+    AIGB::aigb_data->set("light_reading_2",ldr_02);
  }
 
 // // lets servo one move
@@ -243,7 +253,7 @@ void AIGB::Water_Con(){
 
 void AIGB::Food_Con(){
     //heel kort aan
-    if (AIGB::aigb_data->feed_interval_setting<food_timer){
+    if (AIGB::aigb_data->get("feed_interval_setting")<food_timer){
         
         ledcWrite(PWM1_Ch, PWM1_DutyCycle);
     }
