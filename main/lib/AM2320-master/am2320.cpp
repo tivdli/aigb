@@ -1,8 +1,9 @@
 #include "AM2320.h"
-#include <Wire.h>
+#include <SoftwareWire.h>
 // 
 // AM2320 Temperature & Humidity Sensor library for Arduino
 // Сделана Тимофеевым Е.Н.
+// Modified for i2c software support
 
 unsigned int CRC16(byte *ptr, byte length) 
 { 
@@ -21,13 +22,17 @@ unsigned int CRC16(byte *ptr, byte length)
       return crc; 
 } 
 
-AM2320::AM2320()
-{
-	Wire.begin();
+AM2320::AM2320(uint8_t SDApin, uint8_t SCLpin)
+{	
+   _sda = SDApin;
+  _scl = SCLpin;
+
 }
 
 int AM2320::Read()
 {
+	SoftwareWire Wire(_sda, _scl);
+	Wire.begin();
 	byte buf[8];
 	for(int s = 0; s < 8; s++) buf[s] = 0x00; 
 
@@ -35,9 +40,12 @@ int AM2320::Read()
 	Wire.endTransmission();
 	// запрос 4 байт (температуры и влажности)
 	Wire.beginTransmission(AM2320_address);
-	Wire.write(0x03);// запрос
-	Wire.write(0x00); // с 0-го адреса
-	Wire.write(0x04); // 4 байта
+	uint8_t datas = 0x03;
+        Wire.write(datas);// запрос
+	datas = 0x00 ;
+        Wire.write(datas); // с 0-го адреса
+	datas = 0x04 ;
+        Wire.write(datas); // с 0-го адреса
 	if (Wire.endTransmission(1) != 0) return 1;
 	delayMicroseconds(1600); //>1.5ms
 	// считываем результаты запроса
