@@ -13,302 +13,156 @@ DATA::DATA()
 
 void DATA::set(String name, int val)
 {
-    bool set = false;
-    if (name == "temp_reading_outside")
-    {
-        set = true ? temp_reading_outside != val : false;
-        temp_reading_outside = val;
-    }
-    else if (name == "temp_reading_inside")
-    {
-        set = true ? temp_reading_inside != val : false;
-        temp_reading_inside = val;
-    }
-    else if (name == "temp_setting_inside_day")
-    {
-        set = true ? temp_setting_inside_day != val : false;
-        temp_setting_inside_day = val;
-    }
-    else if (name == "temp_setting_inside_night")
-    {
-        set = true ? temp_setting_inside_night != val : false;
-        temp_setting_inside_night = val;
-    }
-    else if (name == "temp_setting_current")
-    {
-        set = true ? temp_setting_current != val : false;
-        temp_setting_current = val;
-    }
-    else if (name == "hum_setting_current")
-    {
-        set = true ? hum_setting_current != val : false;
-        hum_setting_current = val;
-    }
-    else if (name == "Hum_reading_inside")
-    {
-        set = true ? Hum_reading_inside != val : false;
-        Hum_reading_inside = val;
-    }
-    else if (name == "Hum_reading_outside")
-    {
-        set = true ? Hum_reading_outside != val : false;
-        Hum_reading_outside = val;
-    }
-    else if (name == "Hum_setting_inside_day ")
-    {
-        set = true ? Hum_setting_inside_day != val : false;
-        Hum_setting_inside_day = val;
-    }
-    else if (name == "Hum_setting_inside_night")
-    {
-        set = true ? Hum_setting_inside_night != val : false;
-        Hum_setting_inside_night = val;
-    }
-    else if (name == "co2_current_inside ")
-    {
-        set = true ? co2_current_inside != val : false;
-        co2_current_inside = val;
-    }
-    else if (name == "light_reading_1 ")
-    {
-        set = true ? light_reading_1 != val : false;
-        light_reading_1 = val;
-    }
-    else if (name == "light_reading_2 ")
-    {
-        set = true ? light_reading_2 != val : false;
-        light_reading_2 = val;
-    }
-    else if (name == "water_level_readin")
-    {
-        set = true ? water_level_reading != val : false;
-        water_level_reading = val;
-    }
-    else if (name == "pump_power_setting")
-    {
-        set = true ? pump_power_setting != val : false;
-        pump_power_setting = val;
-    }
-    else if (name == "air_power_setting")
-    {
-        set = true ? air_power_setting != val : false;
-        air_power_setting = val;
-    }
-    else if (name == "light_power_setting")
-    {
-        set = true ? light_power_setting != val : false;
-        light_power_setting = val;
-    }
-    else if (name == "light_color_setting_r")
-    {
-        set = true ? light_color_setting_r != val : false;
-        light_color_setting_r = val;
-    }
-    else if (name == "light_color_setting_g =")
-    {
-        set = true ? light_color_setting_g != val : false;
-        light_color_setting_g = val;
-    }
-    else if (name == "light_color_setting_b")
-    {
-        set = true ? light_color_setting_b != val : false;
-        light_color_setting_b = val;
-    }
-    else if (name == "current_profile")
-    {
-        set = true ? current_profile != val : false;
-        current_profile = val;
-    }
-    else if (name == "feed_interval_setting")
-    {
-        set = true ? feed_interval_setting != val : false;
-        feed_interval_setting = val;
-    }
-    else if (name == "feed_volume_setting")
-    {
-        set = true ? feed_volume_setting != val : false;
-        feed_volume_setting = val;
-    }
-    else if (name == " pump_stat")
-    {
-        set = true ? pump_stat != val : false;
-        pump_stat = val;
-    }
-    else if (name == " light_stat")
-    {
-        set = true ? light_stat != val : false;
-        light_stat = val;
-    }
-    else if (name == " feed_stat")
-    {
-        set = true ? feed_stat != val : false;
-        feed_stat = val;
-    }
-    else if (name == " air_stat")
-    {
-        set = true ? air_stat != val : false;
-        air_stat = val;
-    }
-    else if (name == "h_morning")
-    {
-        set = true ? h_morning != val : false;
-        h_morning = val;
-    }
-    else if (name == "m_morning")
-    {
-        set = true ? m_morning != val : false;
-        m_morning = val;
-    }
-    else if (name == "h_night")
-    {
-        set = true ? h_night != val : false;
-        h_night = val;
-    }
-    else if (name == "m_night")
-    {
-        set = true ? m_night != val : false;
-        m_night = val;
-    }
-    else if (name == "Profile_user")
-    {
-        set = true ? Profile_user != val : false;
-        Profile_user = val;
-    }
-    if (set){
+    bool changed= false;
+    int * ptr = pointer(name);
+    changed= true ? *ptr != val : false;
+    *ptr = val;
+    if (changed == true){
         GBINT::update();
     }
 }
 
 int DATA::get(String name)
 {
-    int val = 0;
-    if (name == "temp_reading_outside")
+    int * value = pointer(name);
+    return *value;
+}
+
+int * DATA::pointer(String name)
+{
+    int * val = 0;
+    if (name == (String) "tr_1")
     {
-        val = temp_reading_outside;
+        val = &tr_1;
     }
-    else if (name == "temp_reading_inside")
+    else if (name == "tr_2")
     {
-        val = temp_reading_inside;
+        val = &tr_2;
     }
-    else if (name == "temp_setting_inside_day")
+    else if (name == "ts_d")
     {
-        val = temp_setting_inside_day;
+        val = &ts_d;
     }
-    else if (name == "temp_setting_inside_night")
+    else if (name == "ts_n")
     {
-        val = temp_setting_inside_night;
+        val = &ts_n;
     }
-    else if (name == "temp_setting_current")
+    else if (name == "ts_c")
     {
-        val = temp_setting_current;
+        val = &ts_c;
     }
-    else if (name == "hum_setting_current")
+    else if (name == "hs_c")
     {
-        val = hum_setting_current;
+        val = &hs_c;
     }
-    else if (name == "Hum_reading_inside")
+    else if (name == "hr_1")
     {
-        val = Hum_reading_inside;
+        val = &hr_1;
     }
-    else if (name == "Hum_reading_outside")
+    else if (name == "hr_2")
     {
-        val = Hum_reading_outside;
+        val = &hr_2;
     }
-    else if (name == "Hum_setting_inside_day ")
+    else if (name == "hs_d")
     {
-        val = Hum_setting_inside_day;
+        val = &hs_d;
     }
-    else if (name == "Hum_setting_inside_night")
+    else if (name == "hs_n")
     {
-        val = Hum_setting_inside_night;
+        val = &hs_n;
     }
-    else if (name == "co2_current_inside ")
+    else if (name == "cr_1")
     {
-        val = co2_current_inside;
+        val = &cr_1;
     }
-    else if (name == "light_reading_1 ")
+    else if (name == "lr_1")
     {
-        val = light_reading_1;
+        val = &lr_1;
     }
-    else if (name == "light_reading_2 ")
+    else if (name == "lr_2")
     {
-        val = light_reading_2;
+        val = &lr_2;
     }
-    else if (name == "water_level_readin")
+    else if (name == "wr_c")
     {
-        val = water_level_reading;
+        val = &wr_c;
     }
-    else if (name == "pump_power_setting")
+    else if (name == "ps_p")
     {
-        val = pump_power_setting;
+        val = &ps_p;
     }
-    else if (name == "air_power_setting")
+    else if (name == "as_p")
     {
-        val = air_power_setting;
+        val = &as_p;
     }
-    else if (name == "light_power_setting")
+    else if (name == "ls_p")
     {
-        val = light_power_setting;
+        val = &ls_p;
     }
-    else if (name == "light_color_setting_r")
+    else if (name == "ls_r")
     {
-        val = light_color_setting_r;
+        val = &ls_r;
     }
-    else if (name == "light_color_setting_g =")
+    else if (name == "ls_g")
     {
-        val = light_color_setting_g;
+        val = &ls_g;
     }
-    else if (name == "light_color_setting_b")
+    else if (name == "ls_b")
     {
-        val = light_color_setting_b;
+        val = &ls_b;
     }
-    else if (name == "current_profile")
+    else if (name == "po_c")
     {
-        val = current_profile;
+        val = &po_c;
     }
-    else if (name == "feed_interval_setting")
+    else if (name == "fs_i")
     {
-        val = feed_interval_setting;
+        val = &fs_i;
     }
-    else if (name == "feed_volume_setting")
+    else if (name == "fs_v")
     {
-        val = feed_volume_setting;
+        val = &fs_v;
     }
-    else if (name == " pump_stat")
+    else if (name == "ps_o")
     {
-        val = pump_stat;
+        val = &ps_o;
     }
-    else if (name == " light_stat")
+    else if (name == "ls_o")
     {
-        val = light_stat;
+        val = &ls_o;
     }
-    else if (name == " feed_stat")
+    else if (name == "fs_o")
     {
-        val = feed_stat;
+        val = &fs_o;
     }
-    else if (name == " air_stat")
+    else if (name == "as_o")
     {
-        val = air_stat;
+        val = &as_o;
     }
-    else if (name == "h_morning")
+    else if (name == "tm_h")
     {
-        val = h_morning;
+        val = &tm_h;
     }
-    else if (name == "m_morning")
+    else if (name == "tm_m")
     {
-        val = m_morning;
+        val = &tm_m;
     }
-    else if (name == "h_night")
+    else if (name == "tn_h")
     {
-        val = h_night;
+        val = &tn_h;
     }
-    else if (name == "m_night")
+    else if (name == "tn_m")
     {
-        val = m_night;
+        val = &tn_m;
     }
-    else if (name == "Profile_user")
+    else if (name == "po_u")
     {
-        val = Profile_user;
+        val = &po_u;
+    }
+    else
+    {
+        Serial.print("Something went wrong getting: ");
+        Serial.println(name);
     }
     return val;
 }

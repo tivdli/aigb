@@ -83,8 +83,9 @@ void loop()
     //first the variable settings have to be set (or we need a default setting)
     
     
-    aigb.Get_Hum();
-    //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
+    //aigb.Get_Hum();
+    //aigb.Lightstrip();
+    //tr_2,hr_1 =aigb.Measurment_In();
     websocket.cleanupClients();
     
     

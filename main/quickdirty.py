@@ -1,26 +1,26 @@
-var =    """static int *temp_reading_inside;
-    static int *temp_reading_outside;
-    static int *temp_setting_inside_day;
-    static int *temp_setting_inside_night;
-    static int *Hum_reading_inside;
-    static int *Hum_reading_outside;
-    static int *Hum_setting_inside_day;
-    static int *Hum_setting_inside_night;
-    static int *co2_current_inside;
-    static int *light_reading_1;
-    static int *light_reading_2;
-    static int *water_level_reading;
-    static int *pump_power_setting;
+var =    """static int *tr_2;
+    static int *tr_1;
+    static int *ts_d;
+    static int *ts_n;
+    static int *hr_1;
+    static int *hr_2;
+    static int *hs_d;
+    static int *hs_n;
+    static int *cr_1;
+    static int *lr_1;
+    static int *lr_2;
+    static int *wr_c;
+    static int *ps_p;
 
-    static int *light_power_setting;
+    static int *ls_p;
     static int *light_color_setting;
 
-    static int *feed_interval_setting;
-    static int *feed_volume_setting;
-    static bool *pump_stat;
-    static bool *light_stat;
-    static bool *feed_stat;
-    static bool *air_stat;"""
+    static int *fs_i;
+    static int *fs_v;
+    static bool *ps_o;
+    static bool *ls_o;
+    static bool *fs_o;
+    static bool *as_o;"""
 
 var = var.replace("static", "")
 var = var.translate({ord(" "): None})

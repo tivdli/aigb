@@ -14,7 +14,7 @@
 
 const int PROFILEENTRIES = 15;
 const int PROFILEAMOUNT = PROFILESTART - 2; //location of profile_counter
-//profile makeup = 14B = 1=name 2=rgb 5=h_start 6=m_start 7=h_end 8=m_end 9=pumppower 10=feed_volume 11=feed_interval 12=tmp_day 13=tmp_night 14=hum_day 15=hum_night
+//profile makeup = 14B = 1=name 2=rgb 5=h_start 6=m_start 7=h_end 8=m_end 9=pumppower 10=feed_volume 11=feed_interval 12=tmp_day 13=tmp_night 14=hum_day 15=hutn_m
 
 class GBINT
 {
@@ -35,7 +35,7 @@ protected:
     static void resetmemory();
     static int profileNum;
     static DATA *aigb_data;
-    static void set_subsystem(String btn, bool set_state);
+    static void set_subsystem(String btn, int set_state);
     static int check_profile(int name_number);
     static void fill_page(int id);
     static void handle_direct_input(int id, String input_id, int value);

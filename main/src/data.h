@@ -1,43 +1,45 @@
 #ifndef data_h
 #define data_h
+
 class DATA
 {
 public:
     DATA();
     void set(String var, int val);
     int get(String name);
+    int * pointer(String name);
 private:
-    int temp_reading_outside = 15;
-    int temp_reading_inside = 20;
-    int temp_setting_inside_day = 21;
-    int temp_setting_inside_night = 16;
-    int temp_setting_current = 16;
-    int hum_setting_current = 65;
-    int Hum_reading_inside = 90;
-    int Hum_reading_outside = 60;
-    int Hum_setting_inside_day = 100;
-    int Hum_setting_inside_night = 75;
-    int co2_current_inside = 200;
-    int light_reading_1 = 128;
-    int light_reading_2 = 256;
-    int water_level_reading = 1;
-    int pump_power_setting = 69;
-    int air_power_setting = 42;
-    int light_power_setting = 93;
-    int light_color_setting_r = 0xFF;
-    int light_color_setting_g = 0x00;
-    int light_color_setting_b = 0xFF;
-    int current_profile = -1;
-    int feed_interval_setting = 12;
-    int feed_volume_setting = 2;
-    bool pump_stat = 1;
-    bool light_stat = 0;
-    bool feed_stat = 1;
-    bool air_stat = 0;
-    int h_morning = 7;
-    int m_morning = 0;
-    int h_night = 20;
-    int m_night = 30;
-    int Profile_user;
+    int tr_1 = 15; //temp reading 1
+    int tr_2 = 20; //temp reading 2
+    int ts_d = 21; //temp setting day
+    int ts_n = 16; //temp setting night
+    int ts_c = 16; //temp setting current
+    int hs_c = 65; //humidity setting current
+    int hr_1 = 90; //humidity reading inside
+    int hr_2 = 60; //humidity reading outside
+    int hs_d = 100; //Humidity setting day
+    int hs_n = 75; //Humidity setting night
+    int cr_1 = 200; //CO2 reading current
+    int lr_1 = 128; //LDR 1
+    int lr_2 = 255; //LDR 2
+    int wr_c = 1; //water level reading
+    int ps_p = 69; //pump power setting
+    int as_p = 42; //air power setting
+    int ls_p = 93; //Light power setting
+    int ls_r = 0xFF; //light red setting
+    int ls_g = 0x00; //light green setting
+    int ls_b = 0xFF; //light blue setting
+    int po_c = -1; //currently selected profile
+    int fs_i = 12; //feed interval setting (days)
+    int fs_v = 2; //feed volume setting (ml)
+    int ps_o = 1; //Pump setting on/off
+    int ls_o = 1; //light setting on/off
+    int fs_o = 1; //feed setting on/off
+    int as_o = 1; //air setting on/off
+    int tm_h = 7; //morning hour setting
+    int tm_m = 0; //morgning minute setting
+    int tn_h = 20; //night hour setting
+    int tn_m = 30; //night minute setting
+    int po_u; //profile in use or not
 };
 #endif

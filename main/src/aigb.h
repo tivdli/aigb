@@ -1,17 +1,17 @@
 #ifndef aigb_h
 #define aigb_h
 
-#include <AM2320.h>
+//#include <AM2320.h>
 #include <Arduino.h>
 #include <ESP32Servo.h>
 #include <Adafruit_NeoPixel.h>
 //#include <MHZ19.h>
 //#include <AsyncTCP.h>
 //#include <ESPAsyncWebServer.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <data.h>
 #include <SPI.h>
-#include <SoftwareWire.h>
+//#include <SoftwareWire.h>
 // #include <MHZ19PWM.h>
 
 //25 and 27 open
@@ -62,6 +62,7 @@ class AIGB{
         void Get_Temp();
         void Get_water();
         void Get_LDR();
+        void Lightstrip();
         unsigned long _time = 0;
         bool waitMode = false;
         // control function
@@ -72,7 +73,6 @@ class AIGB{
         void Pel_one();
         void Pel_two();
         void Control_Fan();
-        void Led_Strip();
         void Time();
         
     
