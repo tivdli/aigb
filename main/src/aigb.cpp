@@ -2,7 +2,7 @@
 #include <aigb.h>
 #include <ESP32Servo.h>
 #include <data.h>
-#include <AM2320.h>
+
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
 #include <SoftwareSerial.h>
@@ -12,8 +12,10 @@
 
 
 //#include <MHZ19PWM.h>
-AM2320 Sensor1(21,22);
-AM2320 Sensor2(33,32);
+Servo MyServo1;
+Servo MyServo2;
+
+
 /* To Do
 Logica
 
@@ -31,11 +33,13 @@ void AIGB::init(){
     ESP32PWM::allocateTimer(1);
     ESP32PWM::allocateTimer(2);
     ESP32PWM::allocateTimer(3);
+    
     //making two servo objects
-    // Servo MyServo1;
-    // Servo MyServo2;
-    // MyServo1.attach(Servo_1,500,2400);
-    // MyServo2.attach(Servo_2,0,180);
+    Servo MyServo1;
+    Servo MyServo2;
+    MyServo1.setPeriodHertz(50);
+    MyServo1.attach(MyServo_1,500,2400);
+    MyServo2.attach(MyServo_2,500,2400);
     // making am2320 sensor object
     
  
@@ -43,7 +47,7 @@ void AIGB::init(){
     pinMode(Led_pin,OUTPUT);
     pinMode(Vernevelaar,OUTPUT);
     pinMode(Led_B,OUTPUT);
-    pinMode(Led_G,OUTPUT);
+    //pinMode(Led_G,OUTPUT);
     //pinMode(Led_R,OUTPUT);
     pinMode(CO2_PWM,INPUT);
     pinMode(Pomp_Voeding,OUTPUT);
@@ -64,7 +68,7 @@ void AIGB::init(){
     
     //SoftwareSerial Serial2(SDA1 , SCL1);
 
-    AM2320 Sensor1(SDA,SCL);
+    //AM2320 Sensor1(SDA,SCL);
     //AM2320 Sensor2 (33,32);
  
     Wire.begin();
@@ -91,6 +95,19 @@ void AIGB::init(){
 void AIGB:: Time(){
     int t=1;
    
+}
+
+void AIGB::Servo_One(){
+    for (pos = 0; pos <= 180; pos += 1) { // goes from 0 degrees to 180 degrees
+		// in steps of 1 degree
+		MyServo1.write(pos);    // tell servo to go to position in variable 'pos'
+		delay(15);             // waits 15ms for the servo to reach the position
+	}
+	for (pos = 180; pos >= 0; pos -= 1) { // goes from 180 degrees to 0 degrees
+		MyServo1.write(pos);    // tell servo to go to position in variable 'pos'
+		delay(15);             // waits 15ms for the servo to reach the position
+	}
+    Serial.println("ik kom hier wel");
 }
 
 void AIGB::Calibrate(){
@@ -214,37 +231,37 @@ void AIGB::Get_Hum(){
     //get the value of the two huminity sensors
     // AIGB::aigb_data->set("Hum_reading_inside",th_1.h);
     // AIGB::aigb_data->set("Hum_reading_outside",th_2.h);
-    switch(Sensor1.Read()) {
-    case 2:
-      Serial.println("CRC failed");
-      break;
-    case 1:
-      Serial.println("Sensor1 offline");
-      break;
-    case 0:
-      Serial.print("Humidity: ");
-      Serial.print(Sensor1.h);
-      Serial.print("%\t Temperature: ");
-      Serial.print(Sensor1.t);
-      Serial.println("*C");
-      break;
-  }
-   switch(Sensor2.Read()) {
-    case 2:
-      Serial.println("CRC failed");
-      break;
-    case 1:
-      Serial.println("Sensor1 offline");
-      break;
-    case 0:
-      Serial.print("Humidity: ");
-      Serial.print(Sensor2.h);
-      Serial.print("2%\t Temperature: ");
-      Serial.print(Sensor2.t);
-      Serial.println("*C 2");
-      break;
-  }
-  delay(300);
+//     switch(Sensor1.Read()) {
+//     case 2:
+//       Serial.println("CRC failed");
+//       break;
+//     case 1:
+//       Serial.println("Sensor1 offline");
+//       break;
+//     case 0:
+//       Serial.print("Humidity: ");
+//       Serial.print(Sensor1.h);
+//       Serial.print("%\t Temperature: ");
+//       Serial.print(Sensor1.t);
+//       Serial.println("*C");
+//       break;
+//   }
+//    switch(Sensor2.Read()) {
+//     case 2:
+//       Serial.println("CRC failed");
+//       break;
+//     case 1:
+//       Serial.println("Sensor1 offline");
+//       break;
+//     case 0:
+//       Serial.print("Humidity: ");
+//       Serial.print(Sensor2.h);
+//       Serial.print("2%\t Temperature: ");
+//       Serial.print(Sensor2.t);
+//       Serial.println("*C 2");
+//       break;
+//   }
+//   delay(300);
     } 
 
 void AIGB::Get_Temp(){

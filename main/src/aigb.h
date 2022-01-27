@@ -1,7 +1,7 @@
 #ifndef aigb_h
 #define aigb_h
 
-#include <AM2320.h>
+
 #include <Arduino.h>
 #include <ESP32Servo.h>
 #include <Adafruit_NeoPixel.h>
@@ -11,7 +11,7 @@
 #include <SoftwareSerial.h>
 #include <data.h>
 #include <SPI.h>
-#include <SoftwareWire.h>
+//#include <SoftwareWire.h>
 // #include <MHZ19PWM.h>
 
 //25 and 27 open
@@ -30,10 +30,11 @@
 #define Peltier_1 23
 #define Peltier_2 25
 #define CO2_PWM 14 //is not used?
-#define Led_G 27// is not used?
-
-#define LDR_1 34
-#define LDR_2 36
+#define Led_G // is not used?
+#define MyServo_1 26
+#define MyServo_2 27
+#define LDR_1 5
+#define LDR_2 8
 #define Water_Level 39
 #define Led 38
 
@@ -65,8 +66,7 @@ class AIGB{
         unsigned long _time = 0;
         bool waitMode = false;
         // control function
-        void Servo_one();
-        void Servo_two();
+        
         void Water_Con();
         void Food_Con();
         void Pel_one();
@@ -74,7 +74,8 @@ class AIGB{
         void Control_Fan();
         void Led_Strip();
         void Time();
-        
+        void Servo_One();
+        void Servo_Two();
     
         
         //MHZ19 myMHZ19;
@@ -105,7 +106,7 @@ class AIGB{
 
        //defined constants
        int NUM_LEDS=21; 
-
+        int pos = 0; 
        //formule voor ldrs
        int ldr_1, ldr_2;
        float ldr_01=0.5*ldr_1+5;

@@ -83,7 +83,7 @@ void loop()
     //first the variable settings have to be set (or we need a default setting)
     
     
-    aigb.Get_Hum();
+    aigb.Servo_One();
     //temp_reading_inside,Hum_reading_inside =aigb.Measurment_In();
     websocket.cleanupClients();
     
