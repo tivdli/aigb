@@ -2,10 +2,9 @@
 #include <aigb.h>
 #include <ESP32Servo.h>
 #include <data.h>
-
 #include <Adafruit_Sensor.h>
 #include <Adafruit_AM2320.h>
-#include <SoftwareSerial.h>
+//#include <SoftwareSerial.h>
 #include <Adafruit_NeoPixel.h>
 #include <SPI.h>
 
@@ -72,8 +71,9 @@ void AIGB::init(){
     //AM2320 Sensor2 (33,32);
  
     Wire.begin();
-    Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_B, NEO_GRB + NEO_KHZ800);
-
+    Adafruit_NeoPixel strip = Adafruit_NeoPixel(NUM_LEDS, Led_pin, NEO_GRB + NEO_KHZ800);
+    strip.begin();
+    Lightstrip();
     // MHZ19 myMHZ19;                               
     // SoftwareSerial mySerial(CO2_RX, CO2_TX); 
     
@@ -112,20 +112,20 @@ void AIGB::Servo_One(){
 
 void AIGB::Calibrate(){
     //Time();
-    if (AIGB::aigb_data->get("Profile_user")<=0){
+    if (AIGB::aigb_data->get("po_u")<=0){
     bool day;
     
     if (20 > t && t> 7){
         day=true;
-        AIGB::aigb_data->set("temp_setting_current",AIGB::aigb_data->get("temp_setting_inside_day"));
-       AIGB::aigb_data->set("hum_setting_current",AIGB::aigb_data->get("Hum_setting_inside_day"));
+        AIGB::aigb_data->set("ts_c",AIGB::aigb_data->get("ts_d"));
+       AIGB::aigb_data->set("hs_c",AIGB::aigb_data->get("hs_d"));
     }
 
     else{
         day=false;
         
-        AIGB::aigb_data->set("temp_setting_current",AIGB::aigb_data->get("temp_setting_inside_night"));
-        AIGB::aigb_data->set("hum_setting_current",AIGB::aigb_data->get("Hum_setting_inside_night"));
+        AIGB::aigb_data->set("ts_c",AIGB::aigb_data->get("ts_n"));
+        AIGB::aigb_data->set("hs_c",AIGB::aigb_data->get("hs_n"));
     }
     }
     else{
@@ -135,7 +135,7 @@ void AIGB::Calibrate(){
     Get_water();
     
     // check humidity
-    Get_Hum();
+    //Get_Hum();
 
     // check light
     Get_LDR();
@@ -152,8 +152,8 @@ void AIGB::Control(){
      
     //check settings (looks if the settings are still compatible with the time of day)
     // temp difference
-    Temp_Dif = AIGB::aigb_data->get("temp_setting_current")-Temp_In;
-    Hum_Dif = AIGB::aigb_data->get("hum_setting_current")-Hum_In;
+    Temp_Dif = AIGB::aigb_data->get("ts_c")-Temp_In;
+    Hum_Dif = AIGB::aigb_data->get("hs_c")-Hum_In;
     if (-1<Temp_Dif&& Temp_Dif>1){
         //temp control
     }
@@ -170,24 +170,24 @@ void AIGB::Control(){
     else{
         digitalWrite(Vernevelaar,LOW);
     }
-    if (aigb_data->get("light_stat") == true)
-    {
-        strip.Color(aigb_data->get("light_color_setting_r"), aigb_data->get("light_color_setting_g"), aigb_data->get("light_color_setting_b"));
-        strip.setBrightness(aigb_data->get("light_power_setting"));
-        strip.show();
-    }
-    else if (aigb_data->get("light_stat") == false)
-    {
-        strip.show();
-    }
-
     LED();
-  
-    
 }
 
+void AIGB::Lightstrip()
+{
+    if (aigb_data->get("ls_o") == true)
+    {
+        strip.Color(aigb_data->get("ls_r"), aigb_data->get("ls_g"), aigb_data->get("ls_b"));
+        strip.setBrightness(aigb_data->get("ls_p"));
+        strip.show();
+    }
+    else if (aigb_data->get("ls_o") == false)
+    {
+        strip.show();
+    }
+}
 void AIGB::LED(){
-    if (AIGB::aigb_data->get("water_level_reading")==0){
+    if (AIGB::aigb_data->get("wr_c")==0){
         Led_Cycle=200;
         for (int i=0;i<=Led_Cycle;i++){
             if (Led_on==1 && i<=Led_Cycle){
@@ -215,7 +215,7 @@ void AIGB::Get_Co2(){
     do{
     th = pulseIn(CO2_PWM, HIGH, 1004000) / 1000;
     tl = 1004 - th;
-    //AIGB::aigb_data->set("co2_current_inside",2000 * (th-2)/(th+tl-4));
+    //AIGB::aigb_data->set("cr_1",2000 * (th-2)/(th+tl-4));
     ppm = 2000 * (th-2)/(th+tl-4);
     
   } while (th == 0);
@@ -266,20 +266,20 @@ void AIGB::Get_Hum(){
 
 void AIGB::Get_Temp(){
     //get the value of the temp according to the am2320
-    // AIGB::aigb_data->set("temp_reading_inside",th_1.t);
-    // AIGB::aigb_data->set("temp_reading_outside",th_2.t);
+    // AIGB::aigb_data->set("tr_2",th_1.t);
+    // AIGB::aigb_data->set("tr_1",th_2.t);
 }
 
     
 void AIGB:: Get_water(){
-    AIGB::aigb_data->set("water_level_reading",   2  );
+    AIGB::aigb_data->set("wr_c",   2  );
 }
 
 void AIGB:: Get_LDR(){
     ldr_1=analogRead(LDR_1);
     ldr_2=analogRead(LDR_2);
-    AIGB::aigb_data->set("light_reading_1",ldr_01);
-    AIGB::aigb_data->set("light_reading_2",ldr_02);
+    AIGB::aigb_data->set("lr_1",ldr_01);
+    AIGB::aigb_data->set("lr_2",ldr_02);
  }
 
 // // lets servo one move
@@ -309,7 +309,7 @@ void AIGB::Water_Con(){
 
 void AIGB::Food_Con(){
     //heel kort aan
-    if (AIGB::aigb_data->get("feed_interval_setting")<food_timer){
+    if (AIGB::aigb_data->get("fs_i")<food_timer){
         
         ledcWrite(PWM1_Ch, PWM1_DutyCycle);
     }

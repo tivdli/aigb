@@ -85,7 +85,7 @@ void GBINT::onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEve
                 //check if not profile save button, and (de)activate subsystem accordingly
                 if (switch_id != "b5" && switch_id != "b6")
                 {
-                    GBINT::set_subsystem(switch_id, (bool)obj['d']);
+                    GBINT::set_subsystem(switch_id, (int)obj['d']);
                 }
                 else if (switch_id == "b5")
                 {
@@ -239,31 +239,31 @@ int GBINT::check_profile(int name_number)
 void GBINT::fill_page(int id){
     JSONVar msg;
     msg["key"]="stt";
-    msg["bt0"] = GBINT::aigb_data->get("pump_stat");
-    msg["bt1"] = GBINT::aigb_data->get("light_stat");
-    msg["bt2"] = GBINT::aigb_data->get("feed_stat");
-    msg["bt3"] = GBINT::aigb_data->get("air_stat");
+    msg["bt0"] = GBINT::aigb_data->get("ps_o");
+    msg["bt1"] = GBINT::aigb_data->get("ls_o");
+    msg["bt2"] = GBINT::aigb_data->get("fs_o");
+    msg["bt3"] = GBINT::aigb_data->get("as_o");
     
-    msg["sl0"] = GBINT::aigb_data->get("pump_power_setting");
-    msg["sl1"] = GBINT::aigb_data->get("light_power_setting");
-    msg["sl2"] = GBINT::aigb_data->get("air_power_setting");
+    msg["sl0"] = GBINT::aigb_data->get("ps_p");
+    msg["sl1"] = GBINT::aigb_data->get("ls_p");
+    msg["sl2"] = GBINT::aigb_data->get("as_p");
 
-    msg["ll0"] = GBINT::aigb_data->get("light_reading_1");
-    msg["ll1"] = GBINT::aigb_data->get("light_reading_2");
+    msg["ll0"] = GBINT::aigb_data->get("lr_1");
+    msg["ll1"] = GBINT::aigb_data->get("lr_2");
 
-    msg["clr"] = ((GBINT::aigb_data->get("light_color_setting_r")<<16) + (GBINT::aigb_data->get("light_color_setting_g")<<8) + GBINT::aigb_data->get("light_color_setting_b"));
+    msg["clr"] = ((GBINT::aigb_data->get("ls_r")<<16) + (GBINT::aigb_data->get("ls_g")<<8) + GBINT::aigb_data->get("ls_b"));
 
-    msg["fv0"] = GBINT::aigb_data->get("feed_volume_setting");
-    msg["fv1"] = GBINT::aigb_data->get("feed_interval_setting");
+    msg["fv0"] = GBINT::aigb_data->get("fs_v");
+    msg["fv1"] = GBINT::aigb_data->get("fs_i");
 
-    msg["as0"] = GBINT::aigb_data->get("co2_current_inside");
-    msg["as1"] = GBINT::aigb_data->get("temp_reading_inside");
-    msg["as2"] = GBINT::aigb_data->get("temp_reading_outside");
-    msg["as3"] = GBINT::aigb_data->get("Hum_reading_inside");
-    msg["as4"] = GBINT::aigb_data->get("Hum_reading_outside");
+    msg["as0"] = GBINT::aigb_data->get("cr_1");
+    msg["as1"] = GBINT::aigb_data->get("tr_2");
+    msg["as2"] = GBINT::aigb_data->get("tr_1");
+    msg["as3"] = GBINT::aigb_data->get("hr_1");
+    msg["as4"] = GBINT::aigb_data->get("hr_2");
 
-    msg["ai0"] = GBINT::aigb_data->get("temp_setting_current");
-    msg["ai1"] = GBINT::aigb_data->get("hum_setting_current");
+    msg["ai0"] = GBINT::aigb_data->get("ts_c");
+    msg["ai1"] = GBINT::aigb_data->get("hs_c");
     
     msg["prf"] = GBINT::profileNum;
 
@@ -277,31 +277,31 @@ void GBINT::fill_page(int id){
 void GBINT::handle_direct_input(int id, String input_id, int value)
 {
     if (input_id == "s1"){
-        GBINT::aigb_data->set("pump_power_setting",value);
+        GBINT::aigb_data->set("ps_p",value);
     }
     else if (input_id == "s2"){
-        GBINT::aigb_data->set("light_power_setting",value);
+        GBINT::aigb_data->set("ls_p",value);
     }
     else if (input_id == "s3"){
-        GBINT::aigb_data->set("air_power_setting",value);
+        GBINT::aigb_data->set("as_p",value);
     }
     else if (input_id == "c1"){
-        GBINT::aigb_data->set("light_color_setting_r",(value & 0xFF0000)>>16);
-        GBINT::aigb_data->set("light_color_setting_g",(value & 0x00FF00)>>8);
-        GBINT::aigb_data->set("light_color_setting_b",(value & 0x0000FF));
+        GBINT::aigb_data->set("ls_r",((value & 0xFF0000)>>16));
+        GBINT::aigb_data->set("ls_g",((value & 0x00FF00)>>8));
+        GBINT::aigb_data->set("ls_b",(value & 0x0000FF));
 
     }
     else if (input_id == "f1"){
-        GBINT::aigb_data->set("feed_interval_setting",value);
+        GBINT::aigb_data->set("fs_i",value);
     }
     else if (input_id == "f2"){
-        GBINT::aigb_data->set("feed_volume_setting",value);
+        GBINT::aigb_data->set("fs_v",value);
     }
     else if (input_id == "a1"){
-        GBINT::aigb_data->set("temp_setting_current",value);
+        GBINT::aigb_data->set("ts_c",value);
     }
     else if (input_id == "a2"){
-        GBINT::aigb_data->set("hum_setting_current",value);
+        GBINT::aigb_data->set("hs_c",value);
     }
 }
 
@@ -318,46 +318,46 @@ void GBINT::activate_profile(int number)
             val = EEPROM.read(address +i);
             switch (i-1){
                 case 0:
-                GBINT::aigb_data->set("light_color_setting_r",val);
+                GBINT::aigb_data->set("ls_r",val);
                 break;
                 case 1:
-                GBINT::aigb_data->set("light_color_setting_g",val);
+                GBINT::aigb_data->set("ls_g",val);
                 break;
                 case 2:
-                GBINT::aigb_data->set("light_color_setting_b",val);
+                GBINT::aigb_data->set("ls_b",val);
                 break;
                 case 3:
-                GBINT::aigb_data->set("h_morning",val);
+                GBINT::aigb_data->set("tm_h",val);
                 break;
                 case 4:
-                GBINT::aigb_data->set("m_morning",val);
+                GBINT::aigb_data->set("tm_m",val);
                 break;
                 case 5:
-                GBINT::aigb_data->set("h_night",val);
+                GBINT::aigb_data->set("tn_h",val);
                 break;
                 case 6:
-                GBINT::aigb_data->set("m_night",val);
+                GBINT::aigb_data->set("tn_m",val);
                 break;
                 case 7:
-                GBINT::aigb_data->set("pump_power_setting",val);
+                GBINT::aigb_data->set("ps_p",val);
                 break;
                 case 8:
-                GBINT::aigb_data->set("feed_volume_setting",val);
+                GBINT::aigb_data->set("fs_v",val);
                 break;
                 case 9:
-                GBINT::aigb_data->set("feed_interval_setting",val);
+                GBINT::aigb_data->set("fs_i",val);
                 break;
                 case 10:
-                GBINT::aigb_data->set("temp_setting_inside_day",val);
+                GBINT::aigb_data->set("ts_d",val);
                 break;
                 case 11:
-                GBINT::aigb_data->set("temp_setting_inside_night",val);
+                GBINT::aigb_data->set("ts_n",val);
                 break;
                 case 12:
-                GBINT::aigb_data->set("Hum_setting_inside_day",val);
+                GBINT::aigb_data->set("hs_d",val);
                 break;
                 case 13:
-                GBINT::aigb_data->set("Hum_setting_inside_night",val);
+                GBINT::aigb_data->set("hs_n",val);
                 break;
                 default:
                 Serial.println("something went wrong while writing in activate_profile, unknown index");
@@ -372,32 +372,26 @@ void GBINT::activate_profile(int number)
     Serial.println("Profile activated");
 }
 
-void GBINT::set_subsystem(String btn, bool set_state)
+void GBINT::set_subsystem(String btn, int set_state)
 {
-    bool * ptr;
     if (btn == "b1")
     {
-        GBINT::aigb_data->set("pump_stat", 0 ? GBINT::aigb_data->get("pump_stat") == 1 : 1);
+        //GBINT::aigb_data->set("ps_o", 0 ? GBINT::aigb_data->get("ps_o") == 1 : 1);
     }
     else if ( btn == "b2")
     {
-        GBINT::aigb_data->set("light_stat", 0 ? GBINT::aigb_data->get("light_stat") == 1 : 1);
+        //GBINT::aigb_data->set("ls_o", 0 ? GBINT::aigb_data->get("ls_o") == 1 : 1);
     }
     else if ( btn == "b3")
     {
-        GBINT::aigb_data->set("feed_stat", 0 ? GBINT::aigb_data->get("feed_stat") == 1 : 1);
+        //GBINT::aigb_data->set("fs_o", 0 ? GBINT::aigb_data->get("fs_o") == 1 : 1);
     }
     else if ( btn == "b4")
     {
-        GBINT::aigb_data->set("air_stat", 0 ? GBINT::aigb_data->get("air_stat") == 1 : 1);
+        //GBINT::aigb_data->set("as_o", 0 ? GBINT::aigb_data->get("as_o") == 1 : 1);
     }
     else {
         Serial.println("Unknown index in set_subsystem");
         return;
-    }
-
-    if (*ptr != set_state)
-    {
-        *ptr = set_state;
     }
 }
